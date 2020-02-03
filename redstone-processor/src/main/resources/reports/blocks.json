@@ -1,0 +1,53 @@
+{
+    "minecraft:chorus_flower": {
+        "properties": {
+            "age": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "age": "0"
+                },
+                "id": 8068,
+                "default": true
+            },
+            {
+                "properties": {
+                    "age": "1"
+                },
+                "id": 8069
+            },
+            {
+                "properties": {
+                    "age": "2"
+                },
+                "id": 8070
+            },
+            {
+                "properties": {
+                    "age": "3"
+                },
+                "id": 8071
+            },
+            {
+                "properties": {
+                    "age": "4"
+                },
+                "id": 8072
+            },
+            {
+                "properties": {
+                    "age": "5"
+                },
+                "id": 8073
+            }
+        ]
+    }
+}
