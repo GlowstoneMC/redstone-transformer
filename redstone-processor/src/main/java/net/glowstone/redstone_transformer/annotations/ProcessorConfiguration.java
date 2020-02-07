@@ -5,8 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.PACKAGE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface StateValueType {
-    Class<?> reportType();
+public @interface ProcessorConfiguration {
+    String blockDataManagerPackage();
+    String blockDataImplPackage();
 }

@@ -1,5 +1,6 @@
 package net.glowstone.block.data.props;
 
+import net.glowstone.block.data.states.reports.IntegerStateReport;
 import net.glowstone.block.data.states.values.IntegerStateValue;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
@@ -7,7 +8,7 @@ import org.bukkit.block.data.Ageable;
 
 @AssociatedWithProp(
     propName = GlowAgeable.Constants.PROP_NAME,
-    valueType = IntegerStateValue.class,
+    reportType = IntegerStateReport.class,
     interfaceName = "Ageable"
 )
 public interface GlowAgeable extends StatefulBlockData, Ageable {
