@@ -1,16 +1,19 @@
 package net.glowstone.redstone_transformer.generation;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
 public class ManagerBlockDataDetails {
     private final String materialName;
     private final String blockDataSimpleName;
+    private final Map<Integer, Map<String, String>> blockIds;
     private final Set<ManagerStateReportDetails> stateReportDetails;
 
-    public ManagerBlockDataDetails(String materialName, String blockDataSimpleName, Set<ManagerStateReportDetails> stateReportDetails) {
+    public ManagerBlockDataDetails(String materialName, String blockDataSimpleName, Map<Integer, Map<String, String>> blockIds, Set<ManagerStateReportDetails> stateReportDetails) {
         this.materialName = materialName;
         this.blockDataSimpleName = blockDataSimpleName;
+        this.blockIds = blockIds;
         this.stateReportDetails = stateReportDetails;
     }
 
@@ -20,6 +23,10 @@ public class ManagerBlockDataDetails {
 
     public String getBlockDataSimpleName() {
         return blockDataSimpleName;
+    }
+
+    public Map<Integer, Map<String, String>> getBlockIds() {
+        return blockIds;
     }
 
     public Set<ManagerStateReportDetails> getStateReportDetails() {

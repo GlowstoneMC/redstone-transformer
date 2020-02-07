@@ -1,9 +1,7 @@
 package net.glowstone.block.data;
 
-import java.util.AbstractMap;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -12,24 +10,24 @@ import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 
 public abstract class AbstractBlockDataManager {
-    @SafeVarargs
-    protected static <K, V> Map<K, V> createMap(Map.Entry<K, V>... entries) {
-        return Collections.unmodifiableMap(Arrays.stream(entries).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
-    }
-
-    protected static <K, V> Map.Entry<K, V> createEntry(K key, V value) {
-        return new AbstractMap.SimpleImmutableEntry<K, V>(key, value);
-    }
-
-    protected static <T> Set<T> createSet(T... values) {
-        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(values)));
-    }
-
     private final Map<Material, BlockDataConstructor> blockDataConstructorsByMaterial;
+    private final Map<Integer, BlockData> blockIdsToBlockData;
+    private final Map<BlockData, Integer> blockDataToBlockIds;
 
     public AbstractBlockDataManager(Set<BlockDataConstructor> blockDataConstructors) {
         this.blockDataConstructorsByMaterial = blockDataConstructors.stream()
             .collect(Collectors.toMap(BlockDataConstructor::getMaterial, Function.identity()));
+
+        final Map<Integer, BlockData> blockIdsToBlockData = new HashMap<>();
+        blockDataConstructors.forEach((blockDataConstructor) -> {
+            blockDataConstructor.getBlockIdsToBlockData().forEach((id, props) -> {});
+        });
+
+        this.blockIdsToBlockData = blockDataConstructors.stream()
+            .flatMap((bdc) -> bdc.getBlockIdsToBlockData().entrySet().stream())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        this.blockDataToBlockIds = this.blockIdsToBlockData.entrySet().stream()
+            .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     }
 
     public BlockData createBlockData(Material material) {
@@ -37,4 +35,11 @@ public abstract class AbstractBlockDataManager {
         return blockDataConstructor.createBlockData(Collections.emptyMap());
     }
 
+    public int convertToBlockId(BlockData blockData) {
+        return blockDataToBlockIds.get(blockData);
+    }
+
+    public BlockData convertToBlockData(int blockId) {
+        return blockIdsToBlockData.get(blockId).clone();
+    }
 }

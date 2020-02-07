@@ -96,4 +96,18 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
         //noinspection unchecked
         return (S) value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractStatefulBlockData)) return false;
+        AbstractStatefulBlockData that = (AbstractStatefulBlockData) o;
+        return material == that.material &&
+            stateValues.equals(that.stateValues);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(material, stateValues);
+    }
 }

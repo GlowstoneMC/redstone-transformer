@@ -1,5 +1,6 @@
 package net.glowstone.redstone_transformer.generation;
 
+import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import javax.lang.model.element.Modifier;
 import net.glowstone.block.data.AbstractBlockDataManager;
 import net.glowstone.block.data.BlockDataConstructor;
 import net.glowstone.block.data.states.AbstractStatefulBlockData;
+import net.glowstone.block.data.states.StateReport;
 import net.glowstone.block.data.states.StateValue;
 import net.glowstone.redstone_transformer.ingestion.IngestionResult;
 import net.glowstone.redstone_transformer.ingestion.PropInterfaceData;
@@ -122,9 +125,13 @@ public class SourceGenerator {
             String materialName = blockName.replace("minecraft:", "").toUpperCase();
             int defaultStateId = blockProps.getDefaultState();
             BlockReportManager.InternalBlockState defaultState = blockReportManager.getBlockIdToBlockState().get(defaultStateId);
+            Map<Integer, Map<String, String>> blockIds = blockReportManager.getBlockIdToBlockState().entrySet().stream()
+                .filter((e) -> e.getValue().getBlockName().equals(blockName))
+                .collect(Collectors.toMap(Map.Entry::getKey, (e) -> e.getValue().getProperties()));
             managerBlockDataDetails.add(new ManagerBlockDataDetails(
                 materialName,
                 blockDataClassName,
+                blockIds,
                 propInterfaces.stream()
                     .map((e) -> new ManagerStateReportDetails(e.getPropName(), defaultState.getProperties().get(e.getPropName()), blockProps.getValidProps().get(e.getPropName()), e.getReportType()))
                     .collect(Collectors.toSet())
@@ -146,29 +153,81 @@ public class SourceGenerator {
         MethodSpec.Builder createBlockDataConstructorsBuilder = MethodSpec.methodBuilder("createBlockDataConstructors")
             .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
             .returns(blockDataConstructorsTypeName)
-            .addStatement("$T blockDataConstructors = new $T<>()", blockDataConstructorsTypeName, HashSet.class);
+            .addStatement("final $T blockDataConstructors = new $T<>()", blockDataConstructorsTypeName, HashSet.class);
+
+        List<MethodSpec> individualBlockConstructors = new ArrayList<>();
 
         managerBlockDataDetails.forEach((detail) -> {
-            StringBuilder statement = new StringBuilder("blockDataConstructors.add(new $T($T.$L, $T::new, createMap(");
-            List<Object> args = new ArrayList<>(Arrays.asList(
+            String methodName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, detail.getMaterialName());
+
+            ParameterizedTypeName propsMapTypeName = ParameterizedTypeName.get(
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ClassName.get(String.class)
+            );
+
+            ParameterizedTypeName blockIdsTypeName = ParameterizedTypeName.get(
+                ClassName.get(Map.class),
+                ClassName.get(Integer.class),
+                propsMapTypeName
+            );
+
+            ParameterizedTypeName stateReportsTypeName = ParameterizedTypeName.get(
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ParameterizedTypeName.get(
+                    ClassName.get(StateReport.class),
+                    WildcardTypeName.subtypeOf(Object.class)
+                )
+            );
+
+            MethodSpec.Builder individualBlockDataConstructorBuilder = MethodSpec.methodBuilder(methodName)
+                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
+                .returns(BlockDataConstructor.class)
+                .addStatement("final $T stateReports = new $T<>($L)", stateReportsTypeName, HashMap.class, Integer.toString(detail.getStateReportDetails().size()))
+                .addStatement("final $T blockIds = new $T<>($L)", blockIdsTypeName, HashMap.class, Integer.toString(detail.getBlockIds().size()))
+                .addStatement("$T blockProps", propsMapTypeName);
+
+            detail.getBlockIds().forEach((id, props) -> {
+                individualBlockDataConstructorBuilder.addStatement("blockProps = new $T<>()", HashMap.class);
+                props.forEach((k, v) -> individualBlockDataConstructorBuilder.addStatement("blockProps.put($S, $S)", k, v));
+                individualBlockDataConstructorBuilder.addStatement("blockIds.put($L, blockProps)", id.toString());
+            });
+
+            detail.getStateReportDetails().forEach((stateReportDetail) -> {
+                String valuesVarName = stateReportDetail.getPropName() + "Values";
+                individualBlockDataConstructorBuilder.addStatement(
+                    "final $T $L = new $T<>($L)",
+                    ParameterizedTypeName.get(ClassName.get(Set.class), ClassName.get(String.class)),
+                    valuesVarName,
+                    HashSet.class,
+                    Integer.toString(stateReportDetail.getValidValues().size())
+                );
+
+                stateReportDetail.getValidValues().forEach((v) -> {
+                    individualBlockDataConstructorBuilder.addStatement("$L.add($S)", valuesVarName, v);
+                });
+                individualBlockDataConstructorBuilder.addStatement(
+                    "stateReports.put($S, new $T($S, $T.unmodifiableSet($L)))",
+                    stateReportDetail.getPropName(),
+                    stateReportDetail.getStateReportType(),
+                    stateReportDetail.getDefaultValue(),
+                    Collections.class,
+                    valuesVarName
+                );
+            });
+
+            individualBlockDataConstructorBuilder.addStatement(
+                "return new $T($T.$L, $T::new, stateReports, blockIds)",
                 BlockDataConstructor.class,
                 Material.class,
                 detail.getMaterialName(),
-                ClassName.get(blockDataImplPackage, detail.getBlockDataSimpleName())));
-            detail.getStateReportDetails().forEach((stateReportDetail) -> {
-                args.addAll(Arrays.asList(
-                    stateReportDetail.getPropName(),
-                    stateReportDetail.getStateReportType(),
-                    stateReportDetail.getDefaultValue()
-                ));
-                statement.append("createEntry($S, new $T($S, createSet(");
-                args.addAll(stateReportDetail.getValidValues());
-                statement.append(stateReportDetail.getValidValues().stream().map(x -> "$S").collect(Collectors.joining(", ")));
-                statement.append(")))");
-            });
-            statement.append(")))");
+                ClassName.get(blockDataImplPackage, detail.getBlockDataSimpleName())
+            );
 
-            createBlockDataConstructorsBuilder.addStatement(statement.toString(), args.toArray(new Object[]{}));
+            MethodSpec individualBlockDataConstructor = individualBlockDataConstructorBuilder.build();
+            createBlockDataConstructorsBuilder.addStatement("blockDataConstructors.add($N())", individualBlockDataConstructor);
+            individualBlockConstructors.add(individualBlockDataConstructor);
         });
 
         MethodSpec createBlockDataConstructors = createBlockDataConstructorsBuilder
@@ -183,6 +242,7 @@ public class SourceGenerator {
         TypeSpec blockDataManagerTypeSpec =  TypeSpec.classBuilder("BlockDataManager")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(AbstractBlockDataManager.class)
+            .addMethods(individualBlockConstructors)
             .addMethod(createBlockDataConstructors)
             .addMethod(constructor)
             .build();
