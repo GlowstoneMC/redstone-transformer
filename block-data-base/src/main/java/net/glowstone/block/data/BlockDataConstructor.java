@@ -1,8 +1,13 @@
 package net.glowstone.block.data;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import net.glowstone.block.data.states.StateReport;
@@ -16,7 +21,7 @@ public class BlockDataConstructor {
     private final Map<String, StateReport<?>> stateReports;
     private final Map<Integer, BlockData> blockIdsToBlockData;
 
-    public BlockDataConstructor(
+    private BlockDataConstructor(
         Material material,
         BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor,
         Map<String, StateReport<?>> stateReports,
@@ -59,5 +64,65 @@ public class BlockDataConstructor {
                 Map.Entry::getKey,
                 (entry) -> entry.getValue().createStateValue(Optional.ofNullable(explicitValues.get(entry.getKey())))
             ));
+    }
+
+    public static Builder builder(Material material, BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor) {
+        return new Builder(material, blockDataConstructor);
+    }
+
+    public static class Builder {
+        private final Material material;
+        private final BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor;
+        private final Map<String, StateReport<?>> stateReports;
+        private final Map<Integer, BlockIdPropsMapper> blockIdPropsMappers;
+
+        private Builder(Material material, BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor) {
+            this.material = material;
+            this.blockDataConstructor = blockDataConstructor;
+            this.stateReports = new HashMap<>();
+            this.blockIdPropsMappers = new HashMap<>();
+        }
+
+        public Builder associatePropWithReport(String prop, StateReport<?> report) {
+            stateReports.put(prop, report);
+            return this;
+        }
+
+        public BlockIdPropsMapper associateId(int id) {
+            return blockIdPropsMappers.put(id, new BlockIdPropsMapper(this));
+        }
+
+        public BlockDataConstructor build() {
+            Map<Integer, Map<String, String>> blockIds = blockIdPropsMappers.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, (e) -> Collections.unmodifiableMap(e.getValue().props)));
+            return new BlockDataConstructor(material, blockDataConstructor, Collections.unmodifiableMap(stateReports), Collections.unmodifiableMap(blockIds));
+        }
+    }
+
+    public static class BlockIdPropsMapper {
+        private final Builder builder;
+        private final Map<String, String> props;
+
+        public BlockIdPropsMapper(Builder builder) {
+            this.builder = builder;
+            this.props = new HashMap<>();
+        }
+
+        public BlockIdPropsMapper withProp(String key, String value) {
+            props.put(key, value);
+            return this;
+        }
+
+        public BlockIdPropsMapper associateId(int id) {
+            return builder.associateId(id);
+        }
+
+        public Builder associatePropWithReport(String prop, StateReport<?> report) {
+            return builder.associatePropWithReport(prop, report);
+        }
+
+        public BlockDataConstructor build() {
+            return builder.build();
+        }
     }
 }
