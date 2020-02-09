@@ -29,7 +29,7 @@ import javax.lang.model.element.Modifier;
 import net.glowstone.block.data.AbstractBlockDataManager;
 import net.glowstone.block.data.BlockDataConstructor;
 import net.glowstone.block.data.states.AbstractStatefulBlockData;
-import net.glowstone.block.data.states.StateValue;
+import net.glowstone.block.data.states.values.StateValue;
 import net.glowstone.redstone_transformer.ingestion.IngestionResult;
 import net.glowstone.redstone_transformer.ingestion.PropInterfaceData;
 import net.glowstone.redstone_transformer.report.BlockReportManager;

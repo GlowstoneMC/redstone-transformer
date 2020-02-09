@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import net.glowstone.block.data.states.values.StateValue;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 
@@ -18,17 +19,17 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     }
 
     @Override
-    public <T, S extends StateValue<T>> T getValue(String propName, Class<S> propType) {
+    public <T> T getValue(String propName, Class<T> propType) {
         return getStateValue(propName, propType).getValue();
     }
 
     @Override
-    public <T, S extends StateValue<T>> void setValue(String propName, Class<S> propType, T propValue) {
+    public <T> void setValue(String propName, Class<T> propType, T propValue) {
         getStateValue(propName, propType).setValue(propValue);
     }
 
     @Override
-    public <T, S extends StateValue<T>> Set<T> getValidValues(String propName, Class<S> propType) {
+    public <T> Set<T> getValidValues(String propName, Class<T> propType) {
         return getStateValue(propName, propType).getReport().getValidValues();
     }
 
@@ -63,7 +64,7 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     }
 
     @Override
-    public <T, S extends StateValue<T>> T getMaxValue(String propName, Class<S> propType) {
+    public <T> T getMaxValue(String propName, Class<T> propType) {
         return getStateValue(propName, propType).getReport().getMaxValue();
     }
 
@@ -86,18 +87,6 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     }
 
     @Override
-    public abstract AbstractStatefulBlockData clone();
-
-    private <S extends StateValue<?>> S getStateValue(String propName, Class<S> stateType) {
-        StateValue<?> value = stateValues.get(propName);
-        if (!value.getClass().isAssignableFrom(stateType)) {
-            throw new IllegalStateException("Value for property '" + value + "' not of state type '" + stateType.getSimpleName() + "'.");
-        }
-        //noinspection unchecked
-        return (S) value;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractStatefulBlockData)) return false;
@@ -109,5 +98,17 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     @Override
     public int hashCode() {
         return Objects.hash(material, stateValues);
+    }
+
+    @Override
+    public abstract AbstractStatefulBlockData clone();
+
+    private <T> StateValue<T> getStateValue(String propName, Class<T> stateType) {
+        StateValue<?> value = stateValues.get(propName);
+        if (!value.getReport().getValueType().isAssignableFrom(stateType)) {
+            throw new IllegalStateException("Value for property '" + value + "' not of state type '" + stateType.getSimpleName() + "'.");
+        }
+        //noinspection unchecked
+        return (StateValue<T>) value;
     }
 }

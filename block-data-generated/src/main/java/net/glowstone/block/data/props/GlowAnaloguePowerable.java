@@ -2,19 +2,18 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.IntegerStateReport;
-import net.glowstone.block.data.states.values.IntegerStateValue;
 import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
 import org.bukkit.block.data.AnaloguePowerable;
 
 @AssociatedWithProp(
-    propName = GlowPowerable.Constants.PROP_NAME,
+    propName = GlowAnaloguePowerable.Constants.PROP_NAME,
     reportType = IntegerStateReport.class,
-    interfaceName = "Powerable"
+    interfaceName = "AnaloguePowerable"
 )
-public interface GlowPowerable extends StatefulBlockData, AnaloguePowerable {
+public interface GlowAnaloguePowerable extends StatefulBlockData, AnaloguePowerable {
     class Constants {
         public static final String PROP_NAME = "power";
-        public static final Class<IntegerStateValue> STATE_TYPE = IntegerStateValue.class;
+        public static final Class<Integer> STATE_TYPE = Integer.class;
     }
 
     @Override

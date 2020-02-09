@@ -2,7 +2,7 @@ package net.glowstone.redstone_transformer.generation;
 
 import java.util.Objects;
 import java.util.Set;
-import net.glowstone.block.data.states.StateReport;
+import net.glowstone.block.data.states.reports.StateReport;
 
 public class ManagerStateReportDetails {
     private final String propName;

@@ -1,8 +1,7 @@
 package net.glowstone.redstone_transformer.ingestion;
 
 import javax.lang.model.type.TypeMirror;
-import net.glowstone.block.data.states.StateReport;
-import net.glowstone.block.data.states.StateValue;
+import net.glowstone.block.data.states.reports.StateReport;
 
 public class PropInterfaceData {
     private final String propName;

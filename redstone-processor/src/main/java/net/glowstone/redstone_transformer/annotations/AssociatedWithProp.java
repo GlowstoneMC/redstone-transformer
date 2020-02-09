@@ -4,7 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import net.glowstone.block.data.states.StateReport;
+import net.glowstone.block.data.states.reports.StateReport;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)

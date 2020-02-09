@@ -13,7 +13,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.MirroredTypeException;
-import net.glowstone.block.data.states.StateReport;
+import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
 import net.glowstone.redstone_transformer.annotations.ProcessorConfiguration;
 

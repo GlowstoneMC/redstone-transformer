@@ -178,5 +178,1399 @@
                 "id": 5619
             }
         ]
+    },
+    "minecraft:tripwire_hook": {
+        "properties": {
+            "attached": [
+                "true",
+                "false"
+            ],
+            "facing": [
+                "north",
+                "south",
+                "west",
+                "east"
+            ],
+            "powered": [
+                "true",
+                "false"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "north",
+                    "powered": "true"
+                },
+                "id": 4740
+            },
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "north",
+                    "powered": "false"
+                },
+                "id": 4741
+            },
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "south",
+                    "powered": "true"
+                },
+                "id": 4742
+            },
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "south",
+                    "powered": "false"
+                },
+                "id": 4743
+            },
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "west",
+                    "powered": "true"
+                },
+                "id": 4744
+            },
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "west",
+                    "powered": "false"
+                },
+                "id": 4745
+            },
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "east",
+                    "powered": "true"
+                },
+                "id": 4746
+            },
+            {
+                "properties": {
+                    "attached": "true",
+                    "facing": "east",
+                    "powered": "false"
+                },
+                "id": 4747
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "north",
+                    "powered": "true"
+                },
+                "id": 4748
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "north",
+                    "powered": "false"
+                },
+                "id": 4749,
+                "default": true
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "south",
+                    "powered": "true"
+                },
+                "id": 4750
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "south",
+                    "powered": "false"
+                },
+                "id": 4751
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "west",
+                    "powered": "true"
+                },
+                "id": 4752
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "west",
+                    "powered": "false"
+                },
+                "id": 4753
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "east",
+                    "powered": "true"
+                },
+                "id": 4754
+            },
+            {
+                "properties": {
+                    "attached": "false",
+                    "facing": "east",
+                    "powered": "false"
+                },
+                "id": 4755
+            }
+        ]
+    },
+    "minecraft:tall_seagrass": {
+        "properties": {
+            "half": [
+                "upper",
+                "lower"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "half": "upper"
+                },
+                "id": 1045
+            },
+            {
+                "properties": {
+                    "half": "lower"
+                },
+                "id": 1046,
+                "default": true
+            }
+        ]
+    },
+    "minecraft:water": {
+        "properties": {
+            "level": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "level": "0"
+                },
+                "id": 34,
+                "default": true
+            },
+            {
+                "properties": {
+                    "level": "1"
+                },
+                "id": 35
+            },
+            {
+                "properties": {
+                    "level": "2"
+                },
+                "id": 36
+            },
+            {
+                "properties": {
+                    "level": "3"
+                },
+                "id": 37
+            },
+            {
+                "properties": {
+                    "level": "4"
+                },
+                "id": 38
+            },
+            {
+                "properties": {
+                    "level": "5"
+                },
+                "id": 39
+            },
+            {
+                "properties": {
+                    "level": "6"
+                },
+                "id": 40
+            },
+            {
+                "properties": {
+                    "level": "7"
+                },
+                "id": 41
+            },
+            {
+                "properties": {
+                    "level": "8"
+                },
+                "id": 42
+            },
+            {
+                "properties": {
+                    "level": "9"
+                },
+                "id": 43
+            },
+            {
+                "properties": {
+                    "level": "10"
+                },
+                "id": 44
+            },
+            {
+                "properties": {
+                    "level": "11"
+                },
+                "id": 45
+            },
+            {
+                "properties": {
+                    "level": "12"
+                },
+                "id": 46
+            },
+            {
+                "properties": {
+                    "level": "13"
+                },
+                "id": 47
+            },
+            {
+                "properties": {
+                    "level": "14"
+                },
+                "id": 48
+            },
+            {
+                "properties": {
+                    "level": "15"
+                },
+                "id": 49
+            }
+        ]
+    },
+    "minecraft:redstone_ore": {
+        "properties": {
+            "lit": [
+                "true",
+                "false"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "lit": "true"
+                },
+                "id": 3380
+            },
+            {
+                "properties": {
+                    "lit": "false"
+                },
+                "id": 3381,
+                "default": true
+            }
+        ]
+    },
+    "minecraft:oak_trapdoor": {
+        "properties": {
+            "facing": [
+                "north",
+                "south",
+                "west",
+                "east"
+            ],
+            "half": [
+                "top",
+                "bottom"
+            ],
+            "open": [
+                "true",
+                "false"
+            ],
+            "powered": [
+                "true",
+                "false"
+            ],
+            "waterlogged": [
+                "true",
+                "false"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3594
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3595
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3596
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3597
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3598
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3599
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3600
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3601
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3602
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3603
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3604
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3605
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3606
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3607
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3608
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3609,
+                "default": true
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3610
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3611
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3612
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3613
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3614
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3615
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3616
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3617
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3618
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3619
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3620
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3621
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3622
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3623
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3624
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3625
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3626
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3627
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3628
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3629
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3630
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3631
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3632
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3633
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3634
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3635
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3636
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3637
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3638
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3639
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3640
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3641
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3642
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3643
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3644
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3645
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3646
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3647
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3648
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "top",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3649
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3650
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3651
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3652
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "true",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3653
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "true"
+                },
+                "id": 3654
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "true",
+                    "waterlogged": "false"
+                },
+                "id": 3655
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "true"
+                },
+                "id": 3656
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "bottom",
+                    "open": "false",
+                    "powered": "false",
+                    "waterlogged": "false"
+                },
+                "id": 3657
+            }
+        ]
+    },
+    "minecraft:oak_log": {
+        "properties": {
+            "axis": [
+                "x",
+                "y",
+                "z"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "axis": "x"
+                },
+                "id": 72
+            },
+            {
+                "properties": {
+                    "axis": "y"
+                },
+                "id": 73,
+                "default": true
+            },
+            {
+                "properties": {
+                    "axis": "z"
+                },
+                "id": 74
+            }
+        ]
+    },
+    "minecraft:powered_rail": {
+        "properties": {
+            "powered": [
+                "true",
+                "false"
+            ],
+            "shape": [
+                "north_south",
+                "east_west",
+                "ascending_east",
+                "ascending_west",
+                "ascending_north",
+                "ascending_south"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "powered": "true",
+                    "shape": "north_south"
+                },
+                "id": 1004
+            },
+            {
+                "properties": {
+                    "powered": "true",
+                    "shape": "east_west"
+                },
+                "id": 1005
+            },
+            {
+                "properties": {
+                    "powered": "true",
+                    "shape": "ascending_east"
+                },
+                "id": 1006
+            },
+            {
+                "properties": {
+                    "powered": "true",
+                    "shape": "ascending_west"
+                },
+                "id": 1007
+            },
+            {
+                "properties": {
+                    "powered": "true",
+                    "shape": "ascending_north"
+                },
+                "id": 1008
+            },
+            {
+                "properties": {
+                    "powered": "true",
+                    "shape": "ascending_south"
+                },
+                "id": 1009
+            },
+            {
+                "properties": {
+                    "powered": "false",
+                    "shape": "north_south"
+                },
+                "id": 1010,
+                "default": true
+            },
+            {
+                "properties": {
+                    "powered": "false",
+                    "shape": "east_west"
+                },
+                "id": 1011
+            },
+            {
+                "properties": {
+                    "powered": "false",
+                    "shape": "ascending_east"
+                },
+                "id": 1012
+            },
+            {
+                "properties": {
+                    "powered": "false",
+                    "shape": "ascending_west"
+                },
+                "id": 1013
+            },
+            {
+                "properties": {
+                    "powered": "false",
+                    "shape": "ascending_north"
+                },
+                "id": 1014
+            },
+            {
+                "properties": {
+                    "powered": "false",
+                    "shape": "ascending_south"
+                },
+                "id": 1015
+            }
+        ]
+    },
+    "minecraft:sign": {
+        "properties": {
+            "rotation": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15"
+            ],
+            "waterlogged": [
+                "true",
+                "false"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "rotation": "0",
+                    "waterlogged": "true"
+                },
+                "id": 3076
+            },
+            {
+                "properties": {
+                    "rotation": "0",
+                    "waterlogged": "false"
+                },
+                "id": 3077,
+                "default": true
+            },
+            {
+                "properties": {
+                    "rotation": "1",
+                    "waterlogged": "true"
+                },
+                "id": 3078
+            },
+            {
+                "properties": {
+                    "rotation": "1",
+                    "waterlogged": "false"
+                },
+                "id": 3079
+            },
+            {
+                "properties": {
+                    "rotation": "2",
+                    "waterlogged": "true"
+                },
+                "id": 3080
+            },
+            {
+                "properties": {
+                    "rotation": "2",
+                    "waterlogged": "false"
+                },
+                "id": 3081
+            },
+            {
+                "properties": {
+                    "rotation": "3",
+                    "waterlogged": "true"
+                },
+                "id": 3082
+            },
+            {
+                "properties": {
+                    "rotation": "3",
+                    "waterlogged": "false"
+                },
+                "id": 3083
+            },
+            {
+                "properties": {
+                    "rotation": "4",
+                    "waterlogged": "true"
+                },
+                "id": 3084
+            },
+            {
+                "properties": {
+                    "rotation": "4",
+                    "waterlogged": "false"
+                },
+                "id": 3085
+            },
+            {
+                "properties": {
+                    "rotation": "5",
+                    "waterlogged": "true"
+                },
+                "id": 3086
+            },
+            {
+                "properties": {
+                    "rotation": "5",
+                    "waterlogged": "false"
+                },
+                "id": 3087
+            },
+            {
+                "properties": {
+                    "rotation": "6",
+                    "waterlogged": "true"
+                },
+                "id": 3088
+            },
+            {
+                "properties": {
+                    "rotation": "6",
+                    "waterlogged": "false"
+                },
+                "id": 3089
+            },
+            {
+                "properties": {
+                    "rotation": "7",
+                    "waterlogged": "true"
+                },
+                "id": 3090
+            },
+            {
+                "properties": {
+                    "rotation": "7",
+                    "waterlogged": "false"
+                },
+                "id": 3091
+            },
+            {
+                "properties": {
+                    "rotation": "8",
+                    "waterlogged": "true"
+                },
+                "id": 3092
+            },
+            {
+                "properties": {
+                    "rotation": "8",
+                    "waterlogged": "false"
+                },
+                "id": 3093
+            },
+            {
+                "properties": {
+                    "rotation": "9",
+                    "waterlogged": "true"
+                },
+                "id": 3094
+            },
+            {
+                "properties": {
+                    "rotation": "9",
+                    "waterlogged": "false"
+                },
+                "id": 3095
+            },
+            {
+                "properties": {
+                    "rotation": "10",
+                    "waterlogged": "true"
+                },
+                "id": 3096
+            },
+            {
+                "properties": {
+                    "rotation": "10",
+                    "waterlogged": "false"
+                },
+                "id": 3097
+            },
+            {
+                "properties": {
+                    "rotation": "11",
+                    "waterlogged": "true"
+                },
+                "id": 3098
+            },
+            {
+                "properties": {
+                    "rotation": "11",
+                    "waterlogged": "false"
+                },
+                "id": 3099
+            },
+            {
+                "properties": {
+                    "rotation": "12",
+                    "waterlogged": "true"
+                },
+                "id": 3100
+            },
+            {
+                "properties": {
+                    "rotation": "12",
+                    "waterlogged": "false"
+                },
+                "id": 3101
+            },
+            {
+                "properties": {
+                    "rotation": "13",
+                    "waterlogged": "true"
+                },
+                "id": 3102
+            },
+            {
+                "properties": {
+                    "rotation": "13",
+                    "waterlogged": "false"
+                },
+                "id": 3103
+            },
+            {
+                "properties": {
+                    "rotation": "14",
+                    "waterlogged": "true"
+                },
+                "id": 3104
+            },
+            {
+                "properties": {
+                    "rotation": "14",
+                    "waterlogged": "false"
+                },
+                "id": 3105
+            },
+            {
+                "properties": {
+                    "rotation": "15",
+                    "waterlogged": "true"
+                },
+                "id": 3106
+            },
+            {
+                "properties": {
+                    "rotation": "15",
+                    "waterlogged": "false"
+                },
+                "id": 3107
+            }
+        ]
+    },
+    "minecraft:grass_block": {
+        "properties": {
+            "snowy": [
+                "true",
+                "false"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "snowy": "true"
+                },
+                "id": 8
+            },
+            {
+                "properties": {
+                    "snowy": "false"
+                },
+                "id": 9,
+                "default": true
+            }
+        ]
     }
 }

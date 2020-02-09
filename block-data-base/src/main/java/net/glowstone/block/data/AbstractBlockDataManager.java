@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 
-public abstract class AbstractBlockDataManager {
+public abstract class AbstractBlockDataManager  {
     private final Map<Material, BlockDataConstructor> blockDataConstructorsByMaterial;
     private final Map<Integer, BlockData> blockIdsToBlockData;
     private final Map<BlockData, Integer> blockDataToBlockIds;
@@ -17,11 +17,6 @@ public abstract class AbstractBlockDataManager {
     public AbstractBlockDataManager(Set<BlockDataConstructor> blockDataConstructors) {
         this.blockDataConstructorsByMaterial = blockDataConstructors.stream()
             .collect(Collectors.toMap(BlockDataConstructor::getMaterial, Function.identity()));
-
-        final Map<Integer, BlockData> blockIdsToBlockData = new HashMap<>();
-        blockDataConstructors.forEach((blockDataConstructor) -> {
-            blockDataConstructor.getBlockIdsToBlockData().forEach((id, props) -> {});
-        });
 
         this.blockIdsToBlockData = blockDataConstructors.stream()
             .flatMap((bdc) -> bdc.getBlockIdsToBlockData().entrySet().stream())
