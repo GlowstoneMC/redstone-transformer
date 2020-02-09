@@ -1572,5 +1572,674 @@
                 "default": true
             }
         ]
+    },
+    "minecraft:oak_door": {
+        "properties": {
+            "facing": [
+                "north",
+                "south",
+                "west",
+                "east"
+            ],
+            "half": [
+                "upper",
+                "lower"
+            ],
+            "hinge": [
+                "left",
+                "right"
+            ],
+            "open": [
+                "true",
+                "false"
+            ],
+            "powered": [
+                "true",
+                "false"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3108
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3109
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3110
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3111
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3112
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3113
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3114
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3115
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3116
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3117
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3118
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3119,
+                "default": true
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3120
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3121
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3122
+            },
+            {
+                "properties": {
+                    "facing": "north",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3123
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3124
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3125
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3126
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3127
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3128
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3129
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3130
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3131
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3132
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3133
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3134
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3135
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3136
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3137
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3138
+            },
+            {
+                "properties": {
+                    "facing": "south",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3139
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3140
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3141
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3142
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3143
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3144
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3145
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3146
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3147
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3148
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3149
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3150
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3151
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3152
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3153
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3154
+            },
+            {
+                "properties": {
+                    "facing": "west",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3155
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3156
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3157
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3158
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3159
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3160
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3161
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3162
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "upper",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3163
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3164
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3165
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3166
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "left",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3167
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "true"
+                },
+                "id": 3168
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "true",
+                    "powered": "false"
+                },
+                "id": 3169
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "true"
+                },
+                "id": 3170
+            },
+            {
+                "properties": {
+                    "facing": "east",
+                    "half": "lower",
+                    "hinge": "right",
+                    "open": "false",
+                    "powered": "false"
+                },
+                "id": 3171
+            }
+        ]
     }
 }

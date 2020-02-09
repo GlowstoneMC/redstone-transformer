@@ -34,6 +34,8 @@ import net.glowstone.redstone_transformer.ingestion.IngestionResult;
 import net.glowstone.redstone_transformer.ingestion.PropInterfaceData;
 import net.glowstone.redstone_transformer.report.BlockReportManager;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.data.BlockData;
 
 public class SourceGenerator {
     private final Filer filer;
@@ -61,23 +63,31 @@ public class SourceGenerator {
                 .map(propInterfacesByPropName::get)
                 .collect(Collectors.toList());
 
-            List<String> interfaceNames = propInterfaces.stream()
-                .map(PropInterfaceData::getInterfaceName)
-                .sorted()
-                .collect(Collectors.toList());
+            String[] splitBlockName = blockName.split(":");
+            Material material = Material.getMaterial(new NamespacedKey(splitBlockName[0], splitBlockName[1]));
 
-            if (interfaceNames.isEmpty()) {
-                interfaceNames.add("Stateless");
+            String blockDataClassName;
+            if (BlockData.class.isAssignableFrom(material.data)) {
+                blockDataClassName = "Glow" + material.data.getSimpleName() + "BlockData";
+            } else {
+                List<String> interfaceNames = propInterfaces.stream()
+                    .map(PropInterfaceData::getInterfaceName)
+                    .sorted()
+                    .collect(Collectors.toList());
+
+                if (interfaceNames.isEmpty()) {
+                    interfaceNames.add("Stateless");
+                }
+
+                blockDataClassName = interfaceNames.stream()
+                    .collect(Collectors.joining("", "Glow", "BlockData"));
             }
-
-            String blockDataClassName = interfaceNames.stream()
-                .collect(Collectors.joining("", "Glow", "BlockData"));
 
             if (!createdBlockDataClasses.contains(blockDataClassName)) {
                 List<TypeName> extendedInterfaces = propInterfaces.stream()
                     .map((propInterfaceData) -> TypeName.get(propInterfaceData.getPropInterface()))
                     .sorted(Comparator.comparing(TypeName::toString))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toCollection(ArrayList::new));
 
                 ClassName generatedClassName = ClassName.get(blockDataImplPackage, blockDataClassName);
                 ParameterizedTypeName mapStringStateValueTypeName = ParameterizedTypeName.get(
@@ -131,14 +141,13 @@ public class SourceGenerator {
                 createdBlockDataClasses.add(blockDataClassName);
             }
 
-            String materialName = blockName.replace("minecraft:", "").toUpperCase();
             int defaultStateId = blockProps.getDefaultState();
             BlockReportManager.InternalBlockState defaultState = blockReportManager.getBlockIdToBlockState().get(defaultStateId);
             Map<Integer, Map<String, String>> blockIds = blockReportManager.getBlockIdToBlockState().entrySet().stream()
                 .filter((e) -> e.getValue().getBlockName().equals(blockName))
                 .collect(Collectors.toMap(Map.Entry::getKey, (e) -> e.getValue().getProperties()));
             managerBlockDataDetails.add(new ManagerBlockDataDetails(
-                materialName,
+                material,
                 blockDataClassName,
                 blockIds,
                 propInterfaces.stream()
@@ -162,7 +171,7 @@ public class SourceGenerator {
                 CodeBlock.of(
                     "return BlockDataConstructor.builder($T.$L, $T::new)",
                     Material.class,
-                    detail.getMaterialName(),
+                    detail.getMaterial(),
                     ClassName.get(blockDataImplPackage, detail.getBlockDataSimpleName())
                 )
             );
@@ -196,7 +205,7 @@ public class SourceGenerator {
             );
 
             individualBlockConstructors.add(
-                MethodSpec.methodBuilder(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, detail.getMaterialName()))
+                MethodSpec.methodBuilder(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, detail.getMaterial().toString()))
                     .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                     .returns(BlockDataConstructor.class)
                     .addStatement(CodeBlock.join(individualBlockDataConstructorBlocks, "\n"))

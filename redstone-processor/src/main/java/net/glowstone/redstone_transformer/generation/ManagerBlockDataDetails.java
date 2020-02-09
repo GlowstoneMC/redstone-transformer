@@ -3,22 +3,23 @@ package net.glowstone.redstone_transformer.generation;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import org.bukkit.Material;
 
 public class ManagerBlockDataDetails {
-    private final String materialName;
+    private final Material material;
     private final String blockDataSimpleName;
     private final Map<Integer, Map<String, String>> blockIds;
     private final Set<ManagerStateReportDetails> stateReportDetails;
 
-    public ManagerBlockDataDetails(String materialName, String blockDataSimpleName, Map<Integer, Map<String, String>> blockIds, Set<ManagerStateReportDetails> stateReportDetails) {
-        this.materialName = materialName;
+    public ManagerBlockDataDetails(Material material, String blockDataSimpleName, Map<Integer, Map<String, String>> blockIds, Set<ManagerStateReportDetails> stateReportDetails) {
+        this.material = material;
         this.blockDataSimpleName = blockDataSimpleName;
         this.blockIds = blockIds;
         this.stateReportDetails = stateReportDetails;
     }
 
-    public String getMaterialName() {
-        return materialName;
+    public Material getMaterial() {
+        return material;
     }
 
     public String getBlockDataSimpleName() {
@@ -38,11 +39,11 @@ public class ManagerBlockDataDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ManagerBlockDataDetails that = (ManagerBlockDataDetails) o;
-        return Objects.equals(materialName, that.materialName);
+        return Objects.equals(material, that.material);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(materialName);
+        return Objects.hash(material);
     }
 }
