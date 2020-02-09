@@ -2,12 +2,17 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.BisectedHalfStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.block.data.Bisected;
 
-@AssociatedWithProp(
-    propName = GlowBisected.Constants.PROP_NAME,
-    reportType = BisectedHalfStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowBisected.Constants.PROP_NAME,
+            reportType = BisectedHalfStateReport.class
+        )
+    },
     interfaceName = "Bisected"
 )
 public interface GlowBisected extends StatefulBlockData, Bisected {

@@ -69,6 +69,11 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     }
 
     @Override
+    public boolean hasValue(String propName) {
+        return stateValues.containsKey(propName);
+    }
+
+    @Override
     public BlockData merge(BlockData data) {
         AbstractStatefulBlockData newData = this.clone();
         ((StatefulBlockData)data).getSerializedStateProps().forEach((propName, propValue) -> {

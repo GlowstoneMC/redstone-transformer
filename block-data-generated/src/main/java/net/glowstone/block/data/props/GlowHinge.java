@@ -2,12 +2,17 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.HingeStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.block.data.type.Door;
 
-@AssociatedWithProp(
-    propName = GlowHinge.Constants.PROP_NAME,
-    reportType = HingeStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowHinge.Constants.PROP_NAME,
+            reportType = HingeStateReport.class
+        )
+    },
     interfaceName = "Hinge"
 )
 public interface GlowHinge extends StatefulBlockData, Door {

@@ -1,8 +1,9 @@
 package net.glowstone.redstone_transformer.ingestion;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -14,7 +15,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.MirroredTypeException;
 import net.glowstone.block.data.states.reports.StateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
 import net.glowstone.redstone_transformer.annotations.ProcessorConfiguration;
 
 public class AnnotatedElementIngester {
@@ -31,32 +32,28 @@ public class AnnotatedElementIngester {
     }
 
     public IngestionResult ingestElements() {
-        final Map<String, PropInterfaceData> propInterfaces = new HashMap<>();
+        final List<PropInterfaceData> propInterfaces = new ArrayList<>();
         Optional<ProcessorConfiguration> processorConfiguration = Optional.empty();
 
         for (Element e : annotatedElements) {
-            AssociatedWithProp propAnnotation = e.getAnnotation(AssociatedWithProp.class);
+            AssociatedWithProps propsAnnotation = e.getAnnotation(AssociatedWithProps.class);
             ProcessorConfiguration processorConfigAnnotation = e.getAnnotation(ProcessorConfiguration.class);
 
-            if (propAnnotation != null) {
+            if (propsAnnotation != null) {
                 if (e.getKind() == ElementKind.INTERFACE) {
                     TypeElement type = (TypeElement) e;
                     String typeName = type.getQualifiedName().toString();
 
-                    DeclaredType stateReportDeclared = getDeclaredTypeFrom(propAnnotation::reportType)
-                        .orElseThrow(() -> new IllegalStateException("No state value type found for " + typeName));
-                    TypeElement stateReportTypeElement = (TypeElement) stateReportDeclared.asElement();
-                    String stateReportTypeName = stateReportTypeElement.getQualifiedName().toString();
-
-                    Class<? extends StateReport<?>> stateReportClass = getClassOfType(stateReportTypeName);
+                    Set<PropReportMapping> propReportMappings = Arrays.stream(propsAnnotation.props())
+                        .map((prop) -> new PropReportMapping(prop.propName(), getClassFrom(prop::reportType), prop.required()))
+                        .collect(Collectors.toSet());
 
                     PropInterfaceData data = new PropInterfaceData(
-                        propAnnotation.propName(),
+                        propReportMappings,
                         type.asType(),
-                        stateReportClass,
-                        propAnnotation.interfaceName()
+                        propsAnnotation.interfaceName()
                     );
-                    propInterfaces.put(data.getPropName(), data);
+                    propInterfaces.add(data);
                 }
             } else if (processorConfigAnnotation != null) {
                 if (processorConfiguration.isPresent()) {
@@ -72,7 +69,7 @@ public class AnnotatedElementIngester {
         }
 
         return new IngestionResult(
-            Collections.unmodifiableMap(propInterfaces),
+            Collections.unmodifiableList(propInterfaces),
             processorConfiguration.get().blockDataManagerPackage(),
             processorConfiguration.get().blockDataImplPackage()
         );
@@ -94,5 +91,13 @@ public class AnnotatedElementIngester {
         } catch (ClassNotFoundException ex) {
             throw new IllegalStateException("Could not find class " + className);
         }
+    }
+
+    private Class<? extends StateReport<?>> getClassFrom(Supplier<Class<?>> classSupplier) {
+        DeclaredType declaredType = getDeclaredTypeFrom(classSupplier)
+            .orElseThrow(() -> new IllegalStateException("No state value type found."));
+        TypeElement typeElement = (TypeElement) declaredType.asElement();
+        String qualifiedName = typeElement.getQualifiedName().toString();
+        return getClassOfType(qualifiedName);
     }
 }

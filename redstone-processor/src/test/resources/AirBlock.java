@@ -1,6 +1,6 @@
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 
-@AssociatedWithProp("test")
+@PropertyAssociation("test")
 public class AirBlock {
 
 }

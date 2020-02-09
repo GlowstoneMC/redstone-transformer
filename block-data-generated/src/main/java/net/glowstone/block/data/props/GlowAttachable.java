@@ -2,12 +2,17 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.BooleanStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
 import org.bukkit.block.data.Attachable;
 
-@AssociatedWithProp(
-    propName = GlowAttachable.Constants.PROP_NAME,
-    reportType = BooleanStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowAttachable.Constants.PROP_NAME,
+            reportType = BooleanStateReport.class
+        )
+    },
     interfaceName = "Attachable"
 )
 public interface GlowAttachable extends StatefulBlockData, Attachable {

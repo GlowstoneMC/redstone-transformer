@@ -3,13 +3,18 @@ package net.glowstone.block.data.props;
 import java.util.Set;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.AxisStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.Axis;
 import org.bukkit.block.data.Orientable;
 
-@AssociatedWithProp(
-    propName = GlowOrientable.Constants.PROP_NAME,
-    reportType = AxisStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowOrientable.Constants.PROP_NAME,
+            reportType = AxisStateReport.class
+        )
+    },
     interfaceName = "Orientable"
 )
 public interface GlowOrientable extends StatefulBlockData, Orientable {

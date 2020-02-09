@@ -1,31 +1,25 @@
 package net.glowstone.redstone_transformer.ingestion;
 
+import java.util.Set;
 import javax.lang.model.type.TypeMirror;
-import net.glowstone.block.data.states.reports.StateReport;
 
 public class PropInterfaceData {
-    private final String propName;
-    private final TypeMirror propInterface;
-    private final Class<? extends StateReport<?>> reportType;
+    private final Set<PropReportMapping> propReportMappings;
+    private final TypeMirror associatedInterface;
     private final String interfaceName;
 
-    public PropInterfaceData(String propName, TypeMirror propInterface, Class<? extends StateReport<?>> reportType, String interfaceName) {
-        this.propName = propName;
-        this.propInterface = propInterface;
-        this.reportType = reportType;
+    public PropInterfaceData(Set<PropReportMapping> propReportMappings, TypeMirror associatedInterface, String interfaceName) {
+        this.propReportMappings = propReportMappings;
+        this.associatedInterface = associatedInterface;
         this.interfaceName = interfaceName;
     }
 
-    public String getPropName() {
-        return propName;
+    public Set<PropReportMapping> getPropReportMappings() {
+        return propReportMappings;
     }
 
-    public TypeMirror getPropInterface() {
-        return propInterface;
-    }
-
-    public Class<? extends StateReport<?>> getReportType() {
-        return reportType;
+    public TypeMirror getAssociatedInterface() {
+        return associatedInterface;
     }
 
     public String getInterfaceName() {

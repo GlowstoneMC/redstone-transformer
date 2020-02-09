@@ -26,7 +26,7 @@ import net.glowstone.redstone_transformer.report.BlockReportManager;
 import net.glowstone.redstone_transformer.report.BlockReportModel;
 
 @SupportedAnnotationTypes({
-    "net.glowstone.redstone_transformer.annotations.AssociatedWithProp",
+    "net.glowstone.redstone_transformer.annotations.AssociatedWithProps",
     "net.glowstone.redstone_transformer.annotations.ProcessorConfiguration"
 })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)

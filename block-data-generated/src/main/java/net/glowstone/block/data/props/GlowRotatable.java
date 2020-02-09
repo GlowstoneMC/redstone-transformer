@@ -2,13 +2,18 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.BlockFaceIdStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Rotatable;
 
-@AssociatedWithProp(
-    propName = GlowRotatable.Constants.PROP_NAME,
-    reportType = BlockFaceIdStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowRotatable.Constants.PROP_NAME,
+            reportType = BlockFaceIdStateReport.class
+        )
+    },
     interfaceName = "Rotatable"
 )
 public interface GlowRotatable extends StatefulBlockData, Rotatable {

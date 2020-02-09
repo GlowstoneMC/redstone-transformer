@@ -10,5 +10,6 @@ public interface StatefulBlockData extends BlockData {
     <T> void setValue(String propName, Class<T> propType, T propValue);
     <T> Set<T> getValidValues(String propName, Class<T> propType);
     <T> T getMaxValue(String propName, Class<T> propType);
+    boolean hasValue(String propName);
     Map<String, String> getSerializedStateProps();
 }

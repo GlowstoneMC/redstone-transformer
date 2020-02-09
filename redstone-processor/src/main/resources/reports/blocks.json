@@ -2241,5 +2241,5682 @@
                 "id": 3171
             }
         ]
+    },
+    "minecraft:fire": {
+        "properties": {
+            "age": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15"
+            ],
+            "east": [
+                "true",
+                "false"
+            ],
+            "north": [
+                "true",
+                "false"
+            ],
+            "south": [
+                "true",
+                "false"
+            ],
+            "up": [
+                "true",
+                "false"
+            ],
+            "west": [
+                "true",
+                "false"
+            ]
+        },
+        "states": [
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1136
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1137
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1138
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1139
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1140
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1141
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1142
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1143
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1144
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1145
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1146
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1147
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1148
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1149
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1150
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1151
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1152
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1153
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1154
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1155
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1156
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1157
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1158
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1159
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1160
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1161
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1162
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1163
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1164
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1165
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1166
+            },
+            {
+                "properties": {
+                    "age": "0",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1167,
+                "default": true
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1168
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1169
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1170
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1171
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1172
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1173
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1174
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1175
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1176
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1177
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1178
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1179
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1180
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1181
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1182
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1183
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1184
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1185
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1186
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1187
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1188
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1189
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1190
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1191
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1192
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1193
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1194
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1195
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1196
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1197
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1198
+            },
+            {
+                "properties": {
+                    "age": "1",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1199
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1200
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1201
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1202
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1203
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1204
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1205
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1206
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1207
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1208
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1209
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1210
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1211
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1212
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1213
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1214
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1215
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1216
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1217
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1218
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1219
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1220
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1221
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1222
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1223
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1224
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1225
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1226
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1227
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1228
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1229
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1230
+            },
+            {
+                "properties": {
+                    "age": "2",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1231
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1232
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1233
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1234
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1235
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1236
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1237
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1238
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1239
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1240
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1241
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1242
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1243
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1244
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1245
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1246
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1247
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1248
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1249
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1250
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1251
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1252
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1253
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1254
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1255
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1256
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1257
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1258
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1259
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1260
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1261
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1262
+            },
+            {
+                "properties": {
+                    "age": "3",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1263
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1264
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1265
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1266
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1267
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1268
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1269
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1270
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1271
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1272
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1273
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1274
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1275
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1276
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1277
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1278
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1279
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1280
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1281
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1282
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1283
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1284
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1285
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1286
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1287
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1288
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1289
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1290
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1291
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1292
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1293
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1294
+            },
+            {
+                "properties": {
+                    "age": "4",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1295
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1296
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1297
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1298
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1299
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1300
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1301
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1302
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1303
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1304
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1305
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1306
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1307
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1308
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1309
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1310
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1311
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1312
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1313
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1314
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1315
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1316
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1317
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1318
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1319
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1320
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1321
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1322
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1323
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1324
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1325
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1326
+            },
+            {
+                "properties": {
+                    "age": "5",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1327
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1328
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1329
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1330
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1331
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1332
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1333
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1334
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1335
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1336
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1337
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1338
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1339
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1340
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1341
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1342
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1343
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1344
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1345
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1346
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1347
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1348
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1349
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1350
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1351
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1352
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1353
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1354
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1355
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1356
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1357
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1358
+            },
+            {
+                "properties": {
+                    "age": "6",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1359
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1360
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1361
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1362
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1363
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1364
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1365
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1366
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1367
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1368
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1369
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1370
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1371
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1372
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1373
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1374
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1375
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1376
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1377
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1378
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1379
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1380
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1381
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1382
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1383
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1384
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1385
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1386
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1387
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1388
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1389
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1390
+            },
+            {
+                "properties": {
+                    "age": "7",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1391
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1392
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1393
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1394
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1395
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1396
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1397
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1398
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1399
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1400
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1401
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1402
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1403
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1404
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1405
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1406
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1407
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1408
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1409
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1410
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1411
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1412
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1413
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1414
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1415
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1416
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1417
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1418
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1419
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1420
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1421
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1422
+            },
+            {
+                "properties": {
+                    "age": "8",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1423
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1424
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1425
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1426
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1427
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1428
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1429
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1430
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1431
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1432
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1433
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1434
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1435
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1436
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1437
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1438
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1439
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1440
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1441
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1442
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1443
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1444
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1445
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1446
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1447
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1448
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1449
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1450
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1451
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1452
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1453
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1454
+            },
+            {
+                "properties": {
+                    "age": "9",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1455
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1456
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1457
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1458
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1459
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1460
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1461
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1462
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1463
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1464
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1465
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1466
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1467
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1468
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1469
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1470
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1471
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1472
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1473
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1474
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1475
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1476
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1477
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1478
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1479
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1480
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1481
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1482
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1483
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1484
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1485
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1486
+            },
+            {
+                "properties": {
+                    "age": "10",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1487
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1488
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1489
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1490
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1491
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1492
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1493
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1494
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1495
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1496
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1497
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1498
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1499
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1500
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1501
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1502
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1503
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1504
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1505
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1506
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1507
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1508
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1509
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1510
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1511
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1512
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1513
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1514
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1515
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1516
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1517
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1518
+            },
+            {
+                "properties": {
+                    "age": "11",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1519
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1520
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1521
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1522
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1523
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1524
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1525
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1526
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1527
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1528
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1529
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1530
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1531
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1532
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1533
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1534
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1535
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1536
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1537
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1538
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1539
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1540
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1541
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1542
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1543
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1544
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1545
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1546
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1547
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1548
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1549
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1550
+            },
+            {
+                "properties": {
+                    "age": "12",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1551
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1552
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1553
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1554
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1555
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1556
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1557
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1558
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1559
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1560
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1561
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1562
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1563
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1564
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1565
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1566
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1567
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1568
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1569
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1570
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1571
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1572
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1573
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1574
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1575
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1576
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1577
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1578
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1579
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1580
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1581
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1582
+            },
+            {
+                "properties": {
+                    "age": "13",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1583
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1584
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1585
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1586
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1587
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1588
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1589
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1590
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1591
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1592
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1593
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1594
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1595
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1596
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1597
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1598
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1599
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1600
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1601
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1602
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1603
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1604
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1605
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1606
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1607
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1608
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1609
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1610
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1611
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1612
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1613
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1614
+            },
+            {
+                "properties": {
+                    "age": "14",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1615
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1616
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1617
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1618
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1619
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1620
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1621
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1622
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1623
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1624
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1625
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1626
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1627
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1628
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1629
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1630
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "true",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1631
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1632
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1633
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1634
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1635
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1636
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1637
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1638
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "true",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1639
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1640
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1641
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1642
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "true",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1643
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "true"
+                },
+                "id": 1644
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "true",
+                    "west": "false"
+                },
+                "id": 1645
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "true"
+                },
+                "id": 1646
+            },
+            {
+                "properties": {
+                    "age": "15",
+                    "east": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
+                },
+                "id": 1647
+            }
+        ]
     }
 }

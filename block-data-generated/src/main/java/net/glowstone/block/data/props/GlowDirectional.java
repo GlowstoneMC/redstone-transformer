@@ -3,13 +3,18 @@ package net.glowstone.block.data.props;
 import java.util.Set;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.BlockFaceStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 
-@AssociatedWithProp(
-    propName = GlowDirectional.Constants.PROP_NAME,
-    reportType = BlockFaceStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowDirectional.Constants.PROP_NAME,
+            reportType = BlockFaceStateReport.class
+        )
+    },
     interfaceName = "Directional"
 )
 public interface GlowDirectional extends StatefulBlockData, Directional {

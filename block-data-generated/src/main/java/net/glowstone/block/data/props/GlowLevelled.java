@@ -2,12 +2,17 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.IntegerStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.block.data.Levelled;
 
-@AssociatedWithProp(
-    propName = GlowLevelled.Constants.PROP_NAME,
-    reportType = IntegerStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowLevelled.Constants.PROP_NAME,
+            reportType = IntegerStateReport.class
+        )
+    },
     interfaceName = "Levelled"
 )
 public interface GlowLevelled extends StatefulBlockData, Levelled {

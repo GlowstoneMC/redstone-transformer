@@ -32,6 +32,7 @@ import net.glowstone.block.data.states.AbstractStatefulBlockData;
 import net.glowstone.block.data.states.values.StateValue;
 import net.glowstone.redstone_transformer.ingestion.IngestionResult;
 import net.glowstone.redstone_transformer.ingestion.PropInterfaceData;
+import net.glowstone.redstone_transformer.ingestion.PropReportMapping;
 import net.glowstone.redstone_transformer.report.BlockReportManager;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -52,16 +53,26 @@ public class SourceGenerator {
     private Set<ManagerBlockDataDetails> implementInterfaces(IngestionResult ingestionResult, BlockReportManager blockReportManager) {
         Set<String> createdBlockDataClasses = new HashSet<>();
         Set<ManagerBlockDataDetails> managerBlockDataDetails = new HashSet<>();
-        Map<String, PropInterfaceData> propInterfacesByPropName = ingestionResult.getPropInterfaces();
+        List<PropInterfaceData> allPropInterfaces = ingestionResult.getPropInterfaces();
         String blockDataImplPackage = ingestionResult.getBlockDataImplPackage();
 
         blockReportManager.getBlockNameToProps().forEach((blockName, blockProps) -> {
 
-            Set<String> propNames = blockProps.getValidProps().keySet();
+            Set<String> propNames = new HashSet<>(blockProps.getValidProps().keySet());
+            List<PropInterfaceData> propInterfaces = new ArrayList<>();
 
-            List<PropInterfaceData> propInterfaces = propNames.stream()
-                .map(propInterfacesByPropName::get)
-                .collect(Collectors.toList());
+            allPropInterfaces.forEach((propInterface) -> {
+                Map<Boolean, Set<String>> propNamesByRequired = propInterface.getPropReportMappings().stream()
+                    .collect(Collectors.groupingBy(PropReportMapping::isRequired, Collectors.mapping(PropReportMapping::getPropName, Collectors.toSet())));
+                if (propNames.containsAll(propNamesByRequired.get(true))) {
+                    propNames.removeAll(propNamesByRequired.values().stream().flatMap(Set::stream).collect(Collectors.toSet()));
+                    propInterfaces.add(propInterface);
+                }
+            });
+
+            if (!propNames.isEmpty()) {
+                throw new IllegalStateException("Unmapped properties found for " + blockName + ": " + String.join(", ", propNames));
+            }
 
             String[] splitBlockName = blockName.split(":");
             Material material = Material.getMaterial(new NamespacedKey(splitBlockName[0], splitBlockName[1]));
@@ -85,7 +96,7 @@ public class SourceGenerator {
 
             if (!createdBlockDataClasses.contains(blockDataClassName)) {
                 List<TypeName> extendedInterfaces = propInterfaces.stream()
-                    .map((propInterfaceData) -> TypeName.get(propInterfaceData.getPropInterface()))
+                    .map((propInterfaceData) -> TypeName.get(propInterfaceData.getAssociatedInterface()))
                     .sorted(Comparator.comparing(TypeName::toString))
                     .collect(Collectors.toCollection(ArrayList::new));
 
@@ -151,7 +162,17 @@ public class SourceGenerator {
                 blockDataClassName,
                 blockIds,
                 propInterfaces.stream()
-                    .map((e) -> new ManagerStateReportDetails(e.getPropName(), defaultState.getProperties().get(e.getPropName()), blockProps.getValidProps().get(e.getPropName()), e.getReportType()))
+                    .flatMap((propInterface) -> propInterface.getPropReportMappings().stream()
+                        .filter((mapping) -> blockProps.getValidProps().containsKey(mapping.getPropName()))
+                        .map((mapping) ->
+                            new ManagerStateReportDetails(
+                                mapping.getPropName(),
+                                defaultState.getProperties().get(mapping.getPropName()),
+                                blockProps.getValidProps().get(mapping.getPropName()),
+                                mapping.getReportType()
+                            )
+                        )
+                    )
                     .collect(Collectors.toSet())
             ));
         });
@@ -169,7 +190,7 @@ public class SourceGenerator {
             List<CodeBlock> individualBlockDataConstructorBlocks = new ArrayList<>();
             individualBlockDataConstructorBlocks.add(
                 CodeBlock.of(
-                    "return BlockDataConstructor.builder($T.$L, $T::new)",
+                    "BlockDataConstructor.Builder builder= BlockDataConstructor.builder($T.$L, $T::new)",
                     Material.class,
                     detail.getMaterial(),
                     ClassName.get(blockDataImplPackage, detail.getBlockDataSimpleName())
@@ -179,7 +200,7 @@ public class SourceGenerator {
             detail.getStateReportDetails().forEach((stateReportDetail) -> {
                 individualBlockDataConstructorBlocks.add(
                     CodeBlock.of(
-                        ".associatePropWithReport($S, new $T($S, $L))",
+                        "builder.associatePropWithReport($S, new $T($S, $L))",
                         stateReportDetail.getPropName(),
                         stateReportDetail.getStateReportType(),
                         stateReportDetail.getDefaultValue(),
@@ -193,7 +214,7 @@ public class SourceGenerator {
             detail.getBlockIds().forEach((id, props) -> {
                 individualBlockDataConstructorBlocks.add(
                     Stream.concat(
-                        Stream.of(CodeBlock.of(".associateId($L)", Integer.toString(id))),
+                        Stream.of(CodeBlock.of("builder.associateId($L)", Integer.toString(id))),
                         props.entrySet().stream()
                             .map((e) -> CodeBlock.of(".withProp($S, $S)", e.getKey(), e.getValue()))
                     ).collect(CodeBlock.joining(""))
@@ -201,14 +222,14 @@ public class SourceGenerator {
             });
 
             individualBlockDataConstructorBlocks.add(
-                CodeBlock.of(".build()")
+                CodeBlock.of("return builder.build()")
             );
 
             individualBlockConstructors.add(
                 MethodSpec.methodBuilder(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, detail.getMaterial().toString()))
                     .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                     .returns(BlockDataConstructor.class)
-                    .addStatement(CodeBlock.join(individualBlockDataConstructorBlocks, "\n"))
+                    .addCode(individualBlockDataConstructorBlocks.stream().collect(CodeBlockStatementCollector.collect()))
                     .build()
             );
         });
@@ -217,9 +238,6 @@ public class SourceGenerator {
             ClassName.get(Set.class),
             ClassName.get(BlockDataConstructor.class)
         );
-
-        CodeBlock.Builder individualBlockConstructorCalls = CodeBlock.builder();
-        individualBlockConstructors.forEach((method) -> individualBlockConstructorCalls.addStatement("blockDataConstructors.add($N())", method));
 
         MethodSpec createBlockDataConstructors = MethodSpec.methodBuilder("createBlockDataConstructors")
             .addModifiers(Modifier.PRIVATE, Modifier.STATIC)

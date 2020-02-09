@@ -3,12 +3,17 @@ package net.glowstone.block.data.props;
 import java.util.Set;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.RailShapeStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.block.data.Rail;
 
-@AssociatedWithProp(
-    propName = GlowRail.Constants.PROP_NAME,
-    reportType = RailShapeStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowRail.Constants.PROP_NAME,
+            reportType = RailShapeStateReport.class
+        )
+    },
     interfaceName = "Rail"
 )
 public interface GlowRail extends StatefulBlockData, Rail {

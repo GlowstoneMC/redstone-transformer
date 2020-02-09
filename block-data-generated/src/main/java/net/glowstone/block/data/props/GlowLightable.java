@@ -2,12 +2,17 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.BooleanStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProp;
+import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
+import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
 import org.bukkit.block.data.Lightable;
 
-@AssociatedWithProp(
-    propName = GlowLightable.Constants.PROP_NAME,
-    reportType = BooleanStateReport.class,
+@AssociatedWithProps(
+    props = {
+        @PropertyAssociation(
+            propName = GlowLightable.Constants.PROP_NAME,
+            reportType = BooleanStateReport.class
+        )
+    },
     interfaceName = "Lightable"
 )
 public interface GlowLightable extends StatefulBlockData, Lightable {
