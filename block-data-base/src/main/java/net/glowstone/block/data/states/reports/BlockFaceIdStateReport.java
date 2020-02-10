@@ -31,8 +31,7 @@ public class BlockFaceIdStateReport extends StateReport<BlockFace> {
         super(
             BlockFace.class,
             BLOCK_FACES.get(defaultValue),
-            Arrays.stream(validValues).map(BLOCK_FACES::get).collect(Collectors.toSet()),
-            Optional.empty()
+            Arrays.stream(validValues).map(BLOCK_FACES::get).collect(Collectors.toSet())
         );
     }
 

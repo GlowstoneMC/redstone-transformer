@@ -5,8 +5,22 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BooleanStateReport extends StateReport<Boolean> {
+    private static boolean parseBooleanStrict(String value) {
+        if (value.equals("true")) {
+            return true;
+        } else if (value.equals("false")) {
+            return false;
+        } else {
+            throw new IllegalArgumentException("Not a boolean: " + value);
+        }
+    }
+
     public BooleanStateReport(String defaultValue, String... validValues) {
-        super(Boolean.class, Boolean.parseBoolean(defaultValue), Arrays.stream(validValues).map(Boolean::parseBoolean).collect(Collectors.toSet()), Optional.empty());
+        super(
+            Boolean.class,
+            parseBooleanStrict(defaultValue),
+            Arrays.stream(validValues).map(BooleanStateReport::parseBooleanStrict).collect(Collectors.toSet())
+        );
     }
 
     @Override

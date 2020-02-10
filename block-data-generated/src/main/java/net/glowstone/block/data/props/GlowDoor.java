@@ -9,13 +9,13 @@ import org.bukkit.block.data.type.Door;
 @AssociatedWithProps(
     props = {
         @PropertyAssociation(
-            propName = GlowHinge.Constants.PROP_NAME,
+            propName = GlowDoor.Constants.PROP_NAME,
             reportType = HingeStateReport.class
         )
     },
-    interfaceName = "Hinge"
+    interfaceName = "Door"
 )
-public interface GlowHinge extends StatefulBlockData, Door {
+public interface GlowDoor extends StatefulBlockData, Door {
     class Constants {
         public static final String PROP_NAME = "hinge";
         public static final Class<Hinge> STATE_TYPE = Hinge.class;

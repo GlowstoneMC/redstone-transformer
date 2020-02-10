@@ -5,16 +5,13 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class IntegerStateReport extends StateReport<Integer> {
+public class IntegerStateReport extends ComparableStateReport<Integer> {
     public IntegerStateReport(String defaultValue, String... validValues) {
-        this(
+        super(
+            Integer.class,
             Integer.parseInt(defaultValue),
             Collections.unmodifiableSet(Arrays.stream(validValues).map(Integer::parseInt).collect(Collectors.toSet()))
         );
-    }
-
-    private IntegerStateReport(int defaultValue, Set<Integer> validValues) {
-        super(Integer.class, defaultValue, validValues, validValues.stream().max(Integer::compareTo));
     }
 
     @Override

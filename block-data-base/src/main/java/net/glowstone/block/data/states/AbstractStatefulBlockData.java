@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import net.glowstone.block.data.states.reports.ComparableStateReport;
+import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.block.data.states.values.StateValue;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -64,8 +66,13 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     }
 
     @Override
-    public <T> T getMaxValue(String propName, Class<T> propType) {
-        return getStateValue(propName, propType).getReport().getMaxValue();
+    public <T extends Comparable<T>> T getMinValue(String propName, Class<T> propType) {
+        return getComparableReport(propName, propType).getMaxValue();
+    }
+
+    @Override
+    public <T extends Comparable<T>> T getMaxValue(String propName, Class<T> propType) {
+        return getComparableReport(propName, propType).getMaxValue();
     }
 
     @Override
@@ -115,5 +122,13 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
         }
         //noinspection unchecked
         return (StateValue<T>) value;
+    }
+
+    private <T extends Comparable<T>> ComparableStateReport<T> getComparableReport(String propName, Class<T> propType) {
+        StateReport<T> stateReport = getStateValue(propName, propType).getReport();
+        if (!(stateReport instanceof ComparableStateReport)) {
+            throw new IllegalStateException("State report for " + propName + " is not comparable!");
+        }
+        return (ComparableStateReport<T>) stateReport;
     }
 }

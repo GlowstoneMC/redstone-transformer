@@ -31,11 +31,12 @@ public class PropReportMapping {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PropReportMapping that = (PropReportMapping) o;
-        return propName.equals(that.propName);
+        return propName.equals(that.propName) &&
+            reportType.equals(that.reportType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(propName);
+        return Objects.hash(propName, reportType);
     }
 }

@@ -1,6 +1,7 @@
 package net.glowstone.redstone_transformer.generation;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.Iterables;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -12,6 +13,8 @@ import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,6 +32,7 @@ import javax.lang.model.element.Modifier;
 import net.glowstone.block.data.AbstractBlockDataManager;
 import net.glowstone.block.data.BlockDataConstructor;
 import net.glowstone.block.data.states.AbstractStatefulBlockData;
+import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.block.data.states.values.StateValue;
 import net.glowstone.redstone_transformer.ingestion.IngestionResult;
 import net.glowstone.redstone_transformer.ingestion.PropInterfaceData;
@@ -57,6 +61,11 @@ public class SourceGenerator {
         String blockDataImplPackage = ingestionResult.getBlockDataImplPackage();
 
         blockReportManager.getBlockNameToProps().forEach((blockName, blockProps) -> {
+            int defaultStateId = blockProps.getDefaultState();
+            BlockReportManager.InternalBlockState defaultState = blockReportManager.getBlockIdToBlockState().get(defaultStateId);
+            Map<Integer, Map<String, String>> blockIds = blockReportManager.getBlockIdToBlockState().entrySet().stream()
+                .filter((e) -> e.getValue().getBlockName().equals(blockName))
+                .collect(Collectors.toMap(Map.Entry::getKey, (e) -> e.getValue().getProperties()));
 
             Set<String> propNames = new HashSet<>(blockProps.getValidProps().keySet());
             List<PropInterfaceData> propInterfaces = new ArrayList<>();
@@ -65,8 +74,24 @@ public class SourceGenerator {
                 Map<Boolean, Set<String>> propNamesByRequired = propInterface.getPropReportMappings().stream()
                     .collect(Collectors.groupingBy(PropReportMapping::isRequired, Collectors.mapping(PropReportMapping::getPropName, Collectors.toSet())));
                 if (propNames.containsAll(propNamesByRequired.get(true))) {
-                    propNames.removeAll(propNamesByRequired.values().stream().flatMap(Set::stream).collect(Collectors.toSet()));
-                    propInterfaces.add(propInterface);
+                    Set<String> allPropNames = propNamesByRequired.values().stream().flatMap(Set::stream).collect(Collectors.toSet());
+                    boolean valid = propInterface.getPropReportMappings().stream()
+                        .allMatch((mapping) -> {
+                            try {
+                                if (!mapping.isRequired() && !blockProps.getValidProps().containsKey(mapping.getPropName())) {
+                                    return true;
+                                }
+                                String defaultStateValue = blockIds.get(defaultStateId).get(mapping.getPropName());
+                                String[] validValues = Iterables.toArray(blockProps.getValidProps().get(mapping.getPropName()), String.class);
+                                return canInstantiateReport(mapping.getReportType(), defaultStateValue, validValues);
+                            } catch (Exception e) {
+                                throw new RuntimeException("Could not map prop " + mapping.getPropName() + " for block " + blockName, e);
+                            }
+                        });
+                    if (valid) {
+                        propNames.removeAll(allPropNames);
+                        propInterfaces.add(propInterface);
+                    }
                 }
             });
 
@@ -152,11 +177,6 @@ public class SourceGenerator {
                 createdBlockDataClasses.add(blockDataClassName);
             }
 
-            int defaultStateId = blockProps.getDefaultState();
-            BlockReportManager.InternalBlockState defaultState = blockReportManager.getBlockIdToBlockState().get(defaultStateId);
-            Map<Integer, Map<String, String>> blockIds = blockReportManager.getBlockIdToBlockState().entrySet().stream()
-                .filter((e) -> e.getValue().getBlockName().equals(blockName))
-                .collect(Collectors.toMap(Map.Entry::getKey, (e) -> e.getValue().getProperties()));
             managerBlockDataDetails.add(new ManagerBlockDataDetails(
                 material,
                 blockDataClassName,
@@ -272,6 +292,23 @@ public class SourceGenerator {
             blockDataManagerJavaFile.writeTo(filer);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    private static boolean canInstantiateReport(Class<? extends StateReport<?>> stateReportType, String defaultValue, String[] validValues) {
+        Constructor<? extends StateReport<?>> constructor;
+        try {
+            constructor = stateReportType.getConstructor(String.class, String[].class);
+        } catch(NoSuchMethodException e) {
+            throw new IllegalStateException("StateReport " + stateReportType + " does not have a valid constructor", e);
+        }
+        try {
+            constructor.newInstance(defaultValue, validValues);
+            return true;
+        } catch (IllegalAccessException|InstantiationException e) {
+            throw new IllegalStateException("Could not instantiate report", e);
+        } catch (InvocationTargetException e) {
+            return false;
         }
     }
 

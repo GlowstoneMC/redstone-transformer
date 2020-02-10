@@ -22,8 +22,7 @@ public class BisectedHalfStateReport extends StateReport<Bisected.Half> {
         super(
             Bisected.Half.class,
             halfEnums.get(defaultValue),
-            Arrays.stream(validValues).map(halfEnums::get).collect(Collectors.toSet()),
-            Optional.empty()
+            Arrays.stream(validValues).map(halfEnums::get).collect(Collectors.toSet())
         );
         List<String> validValuesList = Arrays.asList(validValues);
         halfStrings = halfEnums.entrySet().stream()

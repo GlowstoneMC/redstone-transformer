@@ -14,8 +14,7 @@ public abstract class EnumStateReport<T extends Enum<T>> extends StateReport<T> 
         super(
             enumClass,
             parseValue(enumClass, defaultValue),
-            Arrays.stream(validValues).map((v) -> parseValue(enumClass, v)).collect(Collectors.toSet()),
-            Optional.empty()
+            Arrays.stream(validValues).map((v) -> parseValue(enumClass, v)).collect(Collectors.toSet())
         );
     }
 
