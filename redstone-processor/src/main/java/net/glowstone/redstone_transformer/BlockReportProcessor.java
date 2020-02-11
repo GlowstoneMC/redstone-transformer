@@ -35,7 +35,7 @@ public class BlockReportProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         AnnotatedElementIngester ingester = new AnnotatedElementIngester(annotations, roundEnv);
-        BlockReportLoader loader = new BlockReportLoader();
+        BlockReportLoader loader = new BlockReportLoader(processingEnv);
         SourceGenerator generator = new SourceGenerator(processingEnv);
         if (ingester.hasElementsToIngest()) {
             IngestionResult ingestionResult = ingester.ingestElements();

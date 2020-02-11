@@ -7,13 +7,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+import javax.annotation.processing.ProcessingEnvironment;
 import net.glowstone.redstone_transformer.report.BlockReportManager;
 import net.glowstone.redstone_transformer.report.BlockReportModel;
 
 public class BlockReportLoader {
+    private final Path blocksReportsPath;
+
+    public BlockReportLoader(ProcessingEnvironment processingEnv) {
+        this.blocksReportsPath = Paths.get(processingEnv.getOptions().get("reports.blocks.path"));
+    }
+
     public BlockReportManager loadBlockReports() {
-        InputStream blocksReportStream = getClass().getResourceAsStream("/reports/blocks.json");
+        InputStream blocksReportStream;
+        try {
+            blocksReportStream = Files.newInputStream(blocksReportsPath);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
         TypeReference<Map<String, BlockReportModel>> blockReportType = new TypeReference<Map<String, BlockReportModel>>() {};
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new Jdk8Module());

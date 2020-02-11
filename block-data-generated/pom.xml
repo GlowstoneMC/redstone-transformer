@@ -8,6 +8,10 @@
     <artifactId>block-data-generated</artifactId>
     <version>1.13.2-SNAPSHOT</version>
 
+    <properties>
+        <minecraft.version>1.13.2</minecraft.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>net.glowstone</groupId>
@@ -39,6 +43,57 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <!--
+                                To get the URL for the minecraft server, perform the following steps:
+
+                                1. Get the URL of the specific version's manifest JSON by finding the appropriate
+                                   version in the versions array at: https://launchermeta.mojang.com/mc/game/version_manifest.json
+
+                                2. Within the specific version's manifest JSON, copy the URL from downloads.server.url
+                                   and use that as the URL below.
+                            -->
+                            <url>https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar</url>
+                            <outputDirectory>${project.build.directory}/server</outputDirectory>
+                            <outputFileName>minecraft-server-${minecraft.version}.jar</outputFileName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${project.build.directory}/server</workingDirectory>
+                            <arguments>
+                                <argument>-cp</argument>
+                                <argument>minecraft-server-${minecraft.version}.jar</argument>
+                                <argument>net.minecraft.data.Main</argument>
+                                <argument>--server</argument>
+                                <argument>--reports</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
@@ -48,6 +103,9 @@
                     <annotationProcessors>
                         net.glowstone.redstone_transformer.BlockReportProcessor
                     </annotationProcessors>
+                    <compilerArgs>
+                        <compilerArg>-Areports.blocks.path=${project.build.directory}/server/generated/reports/blocks.json</compilerArg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
