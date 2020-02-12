@@ -4,4 +4,4 @@
 )
 package net.glowstone.block.data.props;
 
-import net.glowstone.redstone_transformer.annotations.ProcessorConfiguration;
+import net.glowstone.processor.block.data.annotations.ProcessorConfiguration;

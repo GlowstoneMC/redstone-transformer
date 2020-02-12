@@ -6,8 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.BooleanStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
-import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
+import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
+import net.glowstone.processor.block.data.annotations.PropertyAssociation;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.MultipleFacing;
 

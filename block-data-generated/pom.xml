@@ -4,9 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.glowstone</groupId>
+    <parent>
+        <groupId>net.glowstone</groupId>
+        <artifactId>redstone-transformer-parent</artifactId>
+        <version>1.13.2-SNAPSHOT</version>
+    </parent>
+
     <artifactId>block-data-generated</artifactId>
-    <version>1.13.2-SNAPSHOT</version>
+    <name>Redstone Transformer - Block Data - Generated</name>
+    <url>https://www.glowstone.net</url>
+    <description>Annotated interfaces and generated interfaces for Bukkit's BlockData.</description>
 
     <properties>
         <minecraft.version>1.13.2</minecraft.version>
@@ -14,14 +21,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.glowstone</groupId>
-            <artifactId>redstone-processor</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>block-data-base</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.glowstone</groupId>
-            <artifactId>block-data-base</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>block-data-annotations</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -100,12 +106,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <annotationProcessors>
-                        net.glowstone.redstone_transformer.BlockReportProcessor
-                    </annotationProcessors>
                     <compilerArgs>
                         <compilerArg>-Areports.blocks.path=${project.build.directory}/server/generated/reports/blocks.json</compilerArg>
                     </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>block-data-processor</artifactId>
+                            <version>${project.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>

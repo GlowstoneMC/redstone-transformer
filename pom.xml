@@ -5,9 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.glowstone</groupId>
-    <artifactId>redstone-transformer-parent</artifactId>
+    <artifactId>redstone-transformer</artifactId>
     <version>1.13.2-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>Redstone Transformer - Parent POM</name>
+    <url>https://www.glowstone.net</url>
+    <description>A collection of libraries to generate Bukkit BlockData implementations from block reports.</description>
     
     <dependencyManagement>
         <dependencies>
@@ -20,8 +24,9 @@
     </dependencyManagement>
     
     <modules>
-        <module>redstone-processor</module>
+        <module>block-data-processor</module>
         <module>block-data-base</module>
         <module>block-data-generated</module>
+        <module>block-data-annotations</module>
     </modules>
 </project>

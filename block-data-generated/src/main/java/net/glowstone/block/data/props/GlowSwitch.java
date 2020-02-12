@@ -3,8 +3,8 @@ package net.glowstone.block.data.props;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.StructureBlockModeStateReport;
 import net.glowstone.block.data.states.reports.SwitchFaceStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
-import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
+import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
+import net.glowstone.processor.block.data.annotations.PropertyAssociation;
 import org.bukkit.block.data.type.StructureBlock;
 import org.bukkit.block.data.type.Switch;
 

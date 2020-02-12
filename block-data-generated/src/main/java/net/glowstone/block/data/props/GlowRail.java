@@ -3,8 +3,8 @@ package net.glowstone.block.data.props;
 import java.util.Set;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.RailShapeStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
-import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
+import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
+import net.glowstone.processor.block.data.annotations.PropertyAssociation;
 import org.bukkit.block.data.Rail;
 
 @AssociatedWithProps(

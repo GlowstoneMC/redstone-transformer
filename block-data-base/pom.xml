@@ -4,9 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.glowstone</groupId>
+    <parent>
+        <artifactId>redstone-transformer-parent</artifactId>
+        <groupId>net.glowstone</groupId>
+        <version>1.13.2-SNAPSHOT</version>
+    </parent>
+
     <artifactId>block-data-base</artifactId>
-    <version>1.13.2-SNAPSHOT</version>
+    <name>Redstone Transformer - Block Data - Base</name>
+    <url>https://www.glowstone.net</url>
+    <description>Abstract classes and interfaces for the processor to extend.</description>
 
     <dependencies>
         <dependency>

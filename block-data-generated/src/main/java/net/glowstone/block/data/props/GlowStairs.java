@@ -3,8 +3,8 @@ package net.glowstone.block.data.props;
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.SlabTypeStateReport;
 import net.glowstone.block.data.states.reports.StairsShapeStateReport;
-import net.glowstone.redstone_transformer.annotations.AssociatedWithProps;
-import net.glowstone.redstone_transformer.annotations.PropertyAssociation;
+import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
+import net.glowstone.processor.block.data.annotations.PropertyAssociation;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Stairs;
 
