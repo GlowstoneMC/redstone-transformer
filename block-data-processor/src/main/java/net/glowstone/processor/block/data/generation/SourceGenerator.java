@@ -99,8 +99,7 @@ public class SourceGenerator {
                 throw new IllegalStateException("Unmapped properties found for " + blockName + ": " + String.join(", ", propNames));
             }
 
-            String[] splitBlockName = blockName.split(":");
-            Material material = Material.getMaterial(new NamespacedKey(splitBlockName[0], splitBlockName[1]));
+            Material material = Material.matchMaterial(blockName);
 
             String blockDataClassName;
             if (BlockData.class.isAssignableFrom(material.data)) {
