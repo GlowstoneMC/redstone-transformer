@@ -31,7 +31,7 @@ public abstract class AbstractBlockDataManager  {
 
     public BlockData createBlockData(Material material) {
         BlockDataConstructor blockDataConstructor = blockDataConstructorsByMaterial.get(material);
-        return blockDataConstructor.createBlockData(Collections.emptyMap());
+        return blockDataConstructor.createBlockData(Collections.emptyMap(), false);
     }
 
     public BlockData createBlockData(Material material, Consumer<BlockData> consumer) {
@@ -50,10 +50,10 @@ public abstract class AbstractBlockDataManager  {
     }
 
     public BlockData createBlockData(Material material, String data) {
-        Map<String, String> stateMAp = Arrays.stream(data.split(","))
+        Map<String, String> stateMap = Arrays.stream(data.split(","))
             .map((s) -> s.trim().split("=", 2))
             .collect(Collectors.toMap((split) -> split[0], (split) -> split[1]));
-        return blockDataConstructorsByMaterial.get(material).createBlockData(stateMAp);
+        return blockDataConstructorsByMaterial.get(material).createBlockData(stateMap, true);
     }
 
     public int convertToBlockId(BlockData blockData) {

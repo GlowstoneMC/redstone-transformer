@@ -14,10 +14,12 @@ import org.bukkit.block.data.BlockData;
 public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     protected final Material material;
     protected final Map<String, StateValue<?>> stateValues;
+    protected boolean explicit;
 
-    protected AbstractStatefulBlockData(Material material, Map<String, StateValue<?>> stateValues) {
+    protected AbstractStatefulBlockData(Material material, Map<String, StateValue<?>> stateValues, boolean explicit) {
         this.material = material;
         this.stateValues = stateValues;
+        this.explicit = explicit;
     }
 
     @Override
@@ -28,6 +30,7 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     @Override
     public <T> void setValue(String propName, Class<T> propType, T propValue) {
         getStateValue(propName, propType).setValue(propValue);
+        this.explicit = false;
     }
 
     @Override
@@ -49,7 +52,7 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
 
     @Override
     public String getAsString() {
-        String materialName = "minecraft:" + material.name().toLowerCase();
+        String materialName = material.getKey().toString();
         if (stateValues.isEmpty()) {
             return materialName;
         } else {
@@ -83,19 +86,31 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     @Override
     public BlockData merge(BlockData data) {
         AbstractStatefulBlockData newData = this.clone();
-        ((StatefulBlockData)data).getSerializedStateProps().forEach((propName, propValue) -> {
-            if (newData.stateValues.containsKey(propName)) {
-                newData.stateValues.get(propName).setValueFromString(propValue);
-            }
-        });
+        AbstractStatefulBlockData statefulData = (AbstractStatefulBlockData)data;
+        if (statefulData.explicit) {
+            statefulData.stateValues.forEach((propName, propValue) -> {
+                if (propValue.hasValue() && !propValue.hasBeenModified()) {
+                    newData.stateValues.put(propName, propValue);
+                }
+            });
+        }
         return newData;
     }
 
     @Override
     public boolean matches(BlockData data) {
-        // Note: this is not the correct implementation. Currently, there's no way to determine whether data has been
-        // parsed
-        return Objects.equals(data, this);
+        if(data == null){
+            return false;
+        }
+        AbstractStatefulBlockData statefulBlockData = (AbstractStatefulBlockData)data;
+        if (!statefulBlockData.explicit) {
+            return this == statefulBlockData;
+        }
+        Map<String, StateValue<?>> explicitProps = statefulBlockData.stateValues.entrySet().stream()
+            .filter((e) -> e.getValue().hasValue() && !e.getValue().hasBeenModified())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return Objects.equals(this.getMaterial(), data.getMaterial()) && explicitProps.entrySet().stream()
+            .allMatch((e) -> e.getValue().equals(stateValues.get(e.getKey())));
     }
 
     @Override

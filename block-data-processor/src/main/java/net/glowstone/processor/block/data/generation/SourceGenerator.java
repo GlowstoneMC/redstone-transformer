@@ -138,9 +138,10 @@ public class SourceGenerator {
                     .addModifiers(Modifier.PUBLIC)
                     .addParameters(Arrays.asList(
                         ParameterSpec.builder(ClassName.get(Material.class), "material", Modifier.FINAL).build(),
-                        ParameterSpec.builder(mapStringStateValueTypeName, "stateValues", Modifier.FINAL).build()
+                        ParameterSpec.builder(mapStringStateValueTypeName, "stateValues", Modifier.FINAL).build(),
+                        ParameterSpec.builder(TypeName.BOOLEAN, "explicit", Modifier.FINAL).build()
                     ))
-                    .addStatement("super(material, stateValues)")
+                    .addStatement("super(material, stateValues, explicit)")
                     .build();
 
                 MethodSpec cloneMethodSpec = MethodSpec.methodBuilder("clone")
@@ -152,7 +153,7 @@ public class SourceGenerator {
                         mapStringStateValueTypeName,
                         ClassName.get(Collectors.class)
                     )
-                    .addStatement("return new $T(material, stateValues)", generatedClassName)
+                    .addStatement("return new $T(material, stateValues, explicit)", generatedClassName)
                     .build();
 
                 TypeSpec blockDataTypeSpec = TypeSpec.classBuilder(blockDataClassName)

@@ -6,10 +6,12 @@ import net.glowstone.block.data.states.reports.StateReport;
 
 public class StateValue<T> implements Cloneable {
     private Optional<T> value;
+    private boolean modified;
     private final StateReport<T> report;
 
     public StateValue(Optional<T> value, StateReport<T> report) {
         this.value = value;
+        this.modified = false;
         this.report = report;
     }
 
@@ -27,6 +29,15 @@ public class StateValue<T> implements Cloneable {
 
     public void setValue(T value) {
         this.value = Optional.of(value);
+        this.modified = true;
+    }
+
+    public boolean hasValue() {
+        return value.isPresent();
+    }
+
+    public boolean hasBeenModified() {
+        return modified;
     }
 
     public StateReport<T> getReport() {

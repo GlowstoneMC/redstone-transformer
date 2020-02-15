@@ -14,24 +14,24 @@ import org.bukkit.block.data.BlockData;
 
 public class BlockDataConstructor {
     private final Material material;
-    private final BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor;
+    private final ConstructorFunction blockDataConstructor;
     private final Map<String, StateReport<?>> stateReports;
     private final Map<Integer, BlockData> blockIdsToBlockData;
 
     private BlockDataConstructor(
         Material material,
-        BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor,
+        ConstructorFunction blockDataConstructor,
         Map<String, StateReport<?>> stateReports,
         Map<Integer, Map<String, String>> blockIds) {
         this.material = material;
         this.blockDataConstructor = blockDataConstructor;
         this.stateReports = stateReports;
         this.blockIdsToBlockData = blockIds.entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, (e) -> blockDataConstructor.apply(material, generateStateValues(e.getValue()))));
+            .collect(Collectors.toMap(Map.Entry::getKey, (e) -> blockDataConstructor.construct(material, generateStateValues(e.getValue()), false)));
     }
 
-    public BlockData createBlockData(Map<String, String> explicitValues) {
-        return blockDataConstructor.apply(material, generateStateValues(explicitValues));
+    public BlockData createBlockData(Map<String, String> explicitValues, boolean explicit) {
+        return blockDataConstructor.construct(material, generateStateValues(explicitValues), explicit);
     }
 
     public Material getMaterial() {
@@ -63,17 +63,17 @@ public class BlockDataConstructor {
             ));
     }
 
-    public static Builder builder(Material material, BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor) {
+    public static Builder builder(Material material, ConstructorFunction blockDataConstructor) {
         return new Builder(material, blockDataConstructor);
     }
 
     public static class Builder {
         private final Material material;
-        private final BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor;
+        private final ConstructorFunction blockDataConstructor;
         private final Map<String, StateReport<?>> stateReports;
         private final Map<Integer, BlockIdPropsMapper> blockIdPropsMappers;
 
-        private Builder(Material material, BiFunction<Material, Map<String, StateValue<?>>, ? extends BlockData> blockDataConstructor) {
+        private Builder(Material material, ConstructorFunction blockDataConstructor) {
             this.material = material;
             this.blockDataConstructor = blockDataConstructor;
             this.stateReports = new HashMap<>();
@@ -121,5 +121,10 @@ public class BlockDataConstructor {
         public BlockDataConstructor build() {
             return builder.build();
         }
+    }
+
+    @FunctionalInterface
+    public interface ConstructorFunction {
+        BlockData construct(Material material, Map<String, StateValue<?>> stateValues, boolean explicit);
     }
 }
