@@ -15,6 +15,17 @@
     <url>https://www.glowstone.net</url>
     <description>Abstract classes and interfaces for the processor to extend.</description>
 
+    <repositories>
+        <repository>
+            <id>glowstone-internal</id>
+            <url>https://repo.glowstone.net/repository/internal/</url>
+        </repository>
+        <repository>
+            <id>glowstone-snapshots</id>
+            <url>https://repo.glowstone.net/repository/snapshots/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>net.glowstone</groupId>
