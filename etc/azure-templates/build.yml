@@ -1,0 +1,18 @@
+steps:
+- task: Maven@3
+  displayName: "Maven: Build"
+
+  inputs:
+    mavenPomFile: "pom.xml"
+
+    javaHomeOption: "JDKVersion"
+    jdkVersionOption: "$(jdk_version)"
+    jdkArchitectureOption: "x64"
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
+    classFileDirectories: "block-data-annotations/target/classes,block-data-annotations/target/test-classes,block-data-base/target/classes,block-data-base/target/test-classes,block-data-processor/target/classes,block-data-processor/target/test-classes,block-data-generated/target/classes,block-data-generated/target/test-classes"
+    srcDirectories: "block-data-annotations/src/main/java,block-data-annotations/src/test/java,block-data-base/src/main/java,block-data-base/src/test/java,block-data-processor/src/main/java,block-data-processor/src/test/java,block-data-generated/src/main/java,block-data-generated/src/test/java"
+
+    goals: "package source:jar javadoc:jar"
+    options: "--batch-mode"

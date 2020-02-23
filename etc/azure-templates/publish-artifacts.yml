@@ -1,0 +1,56 @@
+steps:
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-base"
+
+  inputs:
+    artifactName: 'block-data-base$(artifact_suffix)'
+    pathtoPublish: 'block-data-base/target/block-data-base.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-base Sources JAR"
+
+  inputs:
+    artifactName: 'block-data-base Sources JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-base/target/block-data-base-sources.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-annotations"
+
+  inputs:
+    artifactName: 'block-data-annotations$(artifact_suffix)'
+    pathtoPublish: 'block-data-annotations/target/block-data-annotations.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-annotations Sources JAR"
+
+  inputs:
+    artifactName: 'block-data-annotations Sources JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-annotations/target/block-data-annotations-sources.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-processor"
+
+  inputs:
+    artifactName: 'block-data-processor$(artifact_suffix)'
+    pathtoPublish: 'block-data-processor/target/block-data-processor.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-processor Sources JAR"
+
+  inputs:
+    artifactName: 'block-data-processor Sources JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-processor/target/block-data-processor-sources.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-generated"
+
+  inputs:
+    artifactName: 'block-data-generated$(artifact_suffix)'
+    pathtoPublish: 'block-data-generated/target/block-data-generated.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-generated Sources JAR"
+
+  inputs:
+    artifactName: 'block-data-generated Sources JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-generated/target/block-data-generated-sources.jar'
