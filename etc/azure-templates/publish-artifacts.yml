@@ -7,6 +7,13 @@ steps:
     pathtoPublish: 'block-data-base/target/block-data-base.jar'
 
 - task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-base JavaDoc JAR"
+
+  inputs:
+    artifactName: 'block-data-base JavaDoc JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-base/target/block-data-base-javadoc.jar'
+
+- task: PublishBuildArtifacts@1
   displayName: "Artifact: block-data-base Sources JAR"
 
   inputs:
@@ -19,6 +26,13 @@ steps:
   inputs:
     artifactName: 'block-data-annotations$(artifact_suffix)'
     pathtoPublish: 'block-data-annotations/target/block-data-annotations.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-annotations JavaDoc JAR"
+
+  inputs:
+    artifactName: 'block-data-annotations JavaDoc JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-annotations/target/block-data-annotations$-javadoc.jar'
 
 - task: PublishBuildArtifacts@1
   displayName: "Artifact: block-data-annotations Sources JAR"
@@ -35,6 +49,13 @@ steps:
     pathtoPublish: 'block-data-processor/target/block-data-processor.jar'
 
 - task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-processor JavaDoc JAR"
+
+  inputs:
+    artifactName: 'block-data-processor JavaDoc JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-processor/target/block-data-processor-javadoc.jar'
+
+- task: PublishBuildArtifacts@1
   displayName: "Artifact: block-data-processor Sources JAR"
 
   inputs:
@@ -47,6 +68,13 @@ steps:
   inputs:
     artifactName: 'block-data-generated$(artifact_suffix)'
     pathtoPublish: 'block-data-generated/target/block-data-generated.jar'
+
+- task: PublishBuildArtifacts@1
+  displayName: "Artifact: block-data-generated JavaDoc JAR"
+
+  inputs:
+    artifactName: 'block-data-generated JavaDoc JAR$(artifact_suffix)'
+    pathtoPublish: 'block-data-generated/target/block-data-generated-javadoc.jar'
 
 - task: PublishBuildArtifacts@1
   displayName: "Artifact: block-data-generated Sources JAR"
