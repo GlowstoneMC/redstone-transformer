@@ -15,40 +15,18 @@ jobs:
     vmImage: ubuntu-16.04
   variables:
     jdk_version: 1.8
-    artifact_suffix: ' (Java 8)'
+    artifact_suffix: ''
 
   steps:
   - template: etc/azure-templates/build.yml
   - task: PublishCodeCoverageResults@1
-      displayName: "Publish Coverage Results"
+    displayName: "Publish Coverage Results"
 
-      inputs:
-        codeCoverageTool: "jaCoCo"
-        summaryFileLocation: "$(System.DefaultWorkingDirectory)/target/site/jacoco/jacoco.xml"
-        reportDirectory: "$(System.DefaultWorkingDirectory)/target/site/jacoco"
-        additionalCodeCoverageFiles: "$(System.DefaultWorkingDirectory)/**/jacoco.exec"
-        failIfCoverageEmpty: false
+    inputs:
+      codeCoverageTool: "jaCoCo"
+      summaryFileLocation: "$(System.DefaultWorkingDirectory)/target/site/jacoco/jacoco.xml"
+      reportDirectory: "$(System.DefaultWorkingDirectory)/target/site/jacoco"
+      additionalCodeCoverageFiles: "$(System.DefaultWorkingDirectory)/**/jacoco.exec"
+      failIfCoverageEmpty: false
+
   - template: etc/azure-templates/publish-artifacts.yml
-
-#- job: build11
-#  displayName: "Build (Java 11)"
-#  pool:
-#    vmImage: ubuntu-16.04
-#  variables:
-#    jdk_version: 1.11
-#    artifact_suffix: ''
-#
-#  steps:
-#  - template: etc/azure-templates/build.yml
-#  - task: PublishCodeCoverageResults@1
-#    displayName: "Publish Coverage Results"
-#
-#    inputs:
-#      codeCoverageTool: "jaCoCo"
-#      summaryFileLocation: "$(System.DefaultWorkingDirectory)/target/site/jacoco/jacoco.xml"
-#      reportDirectory: "$(System.DefaultWorkingDirectory)/target/site/jacoco"
-#      additionalCodeCoverageFiles: "$(System.DefaultWorkingDirectory)/**/jacoco.exec"
-#      failIfCoverageEmpty: false
-#
-#  - template: etc/azure-templates/publish-artifacts.yml
-  
