@@ -32,7 +32,7 @@ steps:
 
   inputs:
     artifactName: 'block-data-annotations JavaDoc JAR$(artifact_suffix)'
-    pathtoPublish: 'block-data-annotations/target/block-data-annotations$-javadoc.jar'
+    pathtoPublish: 'block-data-annotations/target/block-data-annotations-javadoc.jar'
 
 - task: PublishBuildArtifacts@1
   displayName: "Artifact: block-data-annotations Sources JAR"
