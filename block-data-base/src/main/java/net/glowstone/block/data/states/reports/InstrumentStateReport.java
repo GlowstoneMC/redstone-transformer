@@ -19,6 +19,12 @@ public class InstrumentStateReport extends StateReport<Instrument> {
         .put("guitar", Instrument.GUITAR)
         .put("chime", Instrument.CHIME)
         .put("xylophone", Instrument.XYLOPHONE)
+        .put("iron_xylophone", Instrument.IRON_XYLOPHONE)
+        .put("cow_bell", Instrument.COW_BELL)
+        .put("didgeridoo", Instrument.DIDGERIDOO)
+        .put("bit", Instrument.BIT)
+        .put("banjo", Instrument.BANJO)
+        .put("pling", Instrument.PLING)
         .build();
 
     private static Instrument parseValueImpl(String value) {
