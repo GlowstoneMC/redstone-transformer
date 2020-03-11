@@ -13,11 +13,21 @@
     <url>https://www.glowstone.net</url>
     <description>A collection of libraries to generate Bukkit implementations from vanilla server-generated files.</description>
 
-
     <properties>
         <minecraft.version>1.15.2</minecraft.version>
         <glowkit.version>-R0.1-SNAPSHOT</glowkit.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>glowstone-internal</id>
+            <url>https://repo.glowstone.net/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>glowstone-snapshots</id>
+            <url>https://repo.glowstone.net/repository/snapshots/</url>
+        </repository>
+    </repositories>
     
     <dependencyManagement>
         <dependencies>
