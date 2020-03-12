@@ -6,7 +6,7 @@
     <parent>
         <artifactId>redstone-transformer</artifactId>
         <groupId>net.glowstone</groupId>
-        <version>1.15.2.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -15,17 +15,6 @@
     <name>Redstone Transformer - Block Data - Annotations</name>
     <url>https://www.glowstone.net</url>
     <description>Annotations for the processor, binding interfaces to block report properties.</description>
-
-    <repositories>
-        <repository>
-            <id>glowstone-internal</id>
-            <url>https://repo.glowstone.net/repository/internal/</url>
-        </repository>
-        <repository>
-            <id>glowstone-snapshots</id>
-            <url>https://repo.glowstone.net/repository/snapshots/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
