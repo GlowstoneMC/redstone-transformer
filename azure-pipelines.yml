@@ -23,9 +23,9 @@ jobs:
   - template: etc/azure-templates/publish-artifacts.yml
 
 - job: build11
-  displayName: "Build (Java 11)"
+  displayName: "Build (Java 14)"
   pool:
-    vmImage: ubuntu-16.04
+    vmImage: macOS-10.15
   variables:
     jdk_version: 1.14
     artifact_suffix: ''
