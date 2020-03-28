@@ -15,6 +15,19 @@ jobs:
     vmImage: ubuntu-16.04
   variables:
     jdk_version: 1.8
+    artifact_suffix: ' (Java 8)'
+
+  steps:
+  - template: etc/azure-templates/build.yml
+  # No coverage reports needed on Java 8
+  - template: etc/azure-templates/publish-artifacts.yml
+
+- job: build11
+  displayName: "Build (Java 11)"
+  pool:
+    vmImage: ubuntu-16.04
+  variables:
+    jdk_version: 1.14
     artifact_suffix: ''
 
   steps:
