@@ -30,6 +30,17 @@
             <url>https://repo.glowstone.net/repository/snapshots/</url>
         </repository>
     </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>glowstone-releases</id>
+            <url>https://repo.glowstone.net/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>glowstone-snapshots</id>
+            <url>https://repo.glowstone.net/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     
     <dependencyManagement>
         <dependencies>
