@@ -10,7 +10,7 @@ public class StateValue<T> implements Cloneable {
     private final StateReport<T> report;
 
     public StateValue(Optional<T> value, StateReport<T> report) {
-        this.value = value;
+        this.value = value.filter((v) -> !v.equals(report.getDefaultValue()));
         this.modified = false;
         this.report = report;
     }
@@ -27,9 +27,22 @@ public class StateValue<T> implements Cloneable {
         setValue(report.parseValue(stringValue));
     }
 
+    public void setRawValue(Object rawValue) {
+        if (!report.getValueType().isAssignableFrom(rawValue.getClass())) {
+            throw new IllegalArgumentException("Illegal type for value. Expected: '" + report.getValueType() +"', Found: '" + rawValue.getClass());
+        }
+        @SuppressWarnings("unchecked") T value = (T) rawValue;
+        setValue(value);
+    }
+
     public void setValue(T value) {
-        this.value = Optional.of(value);
-        this.modified = true;
+        if (this.value.isPresent() && !this.value.get().equals(value)) {
+            if (!report.getValidValues().contains(value)) {
+                throw new IllegalArgumentException("Invalid value: '" + value + "'");
+            }
+            this.value = Optional.of(value);
+            this.modified = true;
+        }
     }
 
     public boolean hasValue() {

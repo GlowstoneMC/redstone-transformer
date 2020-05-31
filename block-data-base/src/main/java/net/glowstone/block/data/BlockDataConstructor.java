@@ -2,11 +2,18 @@ package net.glowstone.block.data;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.function.Function;
+
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Streams;
+import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.block.data.states.values.StateValue;
 import org.bukkit.Material;
@@ -16,7 +23,8 @@ public class BlockDataConstructor {
     private final Material material;
     private final ConstructorFunction blockDataConstructor;
     private final Map<String, StateReport<?>> stateReports;
-    private final Map<Integer, BlockData> blockIdsToBlockData;
+    private final Map<Integer, StatefulBlockData> blockIdsToBlockData;
+    private final Map<Map<String, String>, StatefulBlockData> blockPropsToBlockData;
 
     private BlockDataConstructor(
         Material material,
@@ -26,8 +34,19 @@ public class BlockDataConstructor {
         this.material = material;
         this.blockDataConstructor = blockDataConstructor;
         this.stateReports = stateReports;
-        this.blockIdsToBlockData = blockIds.entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, (e) -> blockDataConstructor.construct(material, generateStateValues(e.getValue()), false)));
+
+        ImmutableMap.Builder<Integer, StatefulBlockData> blockIdsToBlockData = ImmutableMap.builder();
+        ImmutableMap.Builder<Map<String, String>, StatefulBlockData> blockPropsToBlockData = ImmutableMap.builder();
+        Map<String, String> defaultProps = blockDataConstructor.construct(material, generateStateValues(Collections.emptyMap()), false).getSerializedStateProps();
+
+        blockIds.forEach((key, value) -> {
+            StatefulBlockData instance = blockDataConstructor.construct(material, generateStateValues(value), false);
+            blockIdsToBlockData.put(key, instance);
+            blockPropsToBlockData.putAll(generateDefaultPermutations(defaultProps, value, instance));
+        });
+
+        this.blockIdsToBlockData = blockIdsToBlockData.build();
+        this.blockPropsToBlockData = blockPropsToBlockData.build();
     }
 
     public BlockData createBlockData(Map<String, String> explicitValues, boolean explicit) {
@@ -38,8 +57,12 @@ public class BlockDataConstructor {
         return material;
     }
 
-    public Map<Integer, BlockData> getBlockIdsToBlockData() {
+    public Map<Integer, StatefulBlockData> getBlockIdsToBlockData() {
         return blockIdsToBlockData;
+    }
+
+    public Map<Map<String, String>, StatefulBlockData> getBlockPropsToBlockData() {
+        return blockPropsToBlockData;
     }
 
     @Override
@@ -57,10 +80,26 @@ public class BlockDataConstructor {
 
     private Map<String, StateValue<?>> generateStateValues(Map<String, String> explicitValues) {
         return stateReports.entrySet().stream()
-            .collect(Collectors.toMap(
-                Map.Entry::getKey,
+            .collect(ImmutableMap.toImmutableMap(
+                Entry::getKey,
                 (entry) -> entry.getValue().createStateValue(Optional.ofNullable(explicitValues.get(entry.getKey())))
             ));
+    }
+
+    private Map<Map<String, String>, StatefulBlockData> generateDefaultPermutations(Map<String, String> defaultProps, Map<String, String> props, StatefulBlockData instance) {
+        Set<Entry<String, String>> defaultValues = new HashSet<>(props.entrySet());
+        Set<Entry<String, String>> nonDefaultValues = new HashSet<>(props.entrySet());
+
+        defaultValues.retainAll(defaultProps.entrySet());
+        nonDefaultValues.removeAll(defaultProps.entrySet());
+
+        return Collections2.permutations(defaultValues).stream()
+            .map((permutatedProps) -> {
+                return Streams.concat(permutatedProps.stream(), nonDefaultValues.stream())
+                    .collect(ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue));
+            })
+            .distinct()
+            .collect(ImmutableMap.toImmutableMap(Function.identity(), (e) -> instance));
     }
 
     public static Builder builder(Material material, ConstructorFunction blockDataConstructor) {
@@ -91,8 +130,8 @@ public class BlockDataConstructor {
 
         public BlockDataConstructor build() {
             Map<Integer, Map<String, String>> blockIds = blockIdPropsMappers.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, (e) -> Collections.unmodifiableMap(e.getValue().props)));
-            return new BlockDataConstructor(material, blockDataConstructor, Collections.unmodifiableMap(stateReports), Collections.unmodifiableMap(blockIds));
+                .collect(ImmutableMap.toImmutableMap(Entry::getKey, (e) -> ImmutableMap.copyOf(e.getValue().props)));
+            return new BlockDataConstructor(material, blockDataConstructor, ImmutableMap.copyOf(stateReports), blockIds);
         }
     }
 
@@ -125,6 +164,6 @@ public class BlockDataConstructor {
 
     @FunctionalInterface
     public interface ConstructorFunction {
-        BlockData construct(Material material, Map<String, StateValue<?>> stateValues, boolean explicit);
+        StatefulBlockData construct(Material material, Map<String, StateValue<?>> stateValues, boolean explicit);
     }
 }

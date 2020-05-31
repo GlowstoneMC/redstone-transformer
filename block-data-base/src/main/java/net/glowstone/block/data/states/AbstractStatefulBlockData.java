@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.google.common.collect.ImmutableMap;
 import net.glowstone.block.data.states.reports.ComparableStateReport;
 import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.block.data.states.values.StateValue;
@@ -18,7 +20,7 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
 
     protected AbstractStatefulBlockData(Material material, Map<String, StateValue<?>> stateValues, boolean explicit) {
         this.material = material;
-        this.stateValues = stateValues;
+        this.stateValues = ImmutableMap.copyOf(stateValues);
         this.explicit = explicit;
     }
 
@@ -90,7 +92,7 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
         if (statefulData.explicit) {
             statefulData.stateValues.forEach((propName, propValue) -> {
                 if (propValue.hasValue() && !propValue.hasBeenModified()) {
-                    newData.stateValues.put(propName, propValue);
+                    newData.stateValues.get(propName).setRawValue(propValue.getValue());
                 }
             });
         }
