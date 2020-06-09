@@ -10,37 +10,42 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
+import net.glowstone.block.data.states.StatefulBlockData;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 
 public abstract class AbstractBlockDataManager  {
-    private final Map<Material, BlockDataConstructor> blockDataConstructorsByMaterial;
-    private final Map<Integer, BlockData> blockIdsToBlockData;
-    private final Map<BlockData, Integer> blockDataToBlockIds;
+    private final BiMap<Integer, StatefulBlockData> blockIdsToBlockData;
+    private final Map<Material, Map<Map<String, String>, StatefulBlockData>> blockPropsToBlockData;
 
     public AbstractBlockDataManager(Set<BlockDataConstructor> blockDataConstructors) {
-        this.blockDataConstructorsByMaterial = blockDataConstructors.stream()
-            .collect(Collectors.toMap(BlockDataConstructor::getMaterial, Function.identity()));
+        ImmutableBiMap.Builder<Integer, StatefulBlockData> blockIdsToBlockData = ImmutableBiMap.builder();
+        ImmutableMap.Builder<Material, Map<Map<String, String>, StatefulBlockData>> blockPropsToBlockData = ImmutableMap.builder();
 
-        this.blockIdsToBlockData = blockDataConstructors.stream()
-            .flatMap((bdc) -> bdc.getBlockIdsToBlockData().entrySet().stream())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        this.blockDataToBlockIds = this.blockIdsToBlockData.entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        blockDataConstructors.forEach((bdc) -> {
+            blockIdsToBlockData.putAll(bdc.getBlockIdsToBlockData());
+            blockPropsToBlockData.put(bdc.getMaterial(), bdc.getBlockPropsToBlockData());
+        });
+
+        this.blockIdsToBlockData = blockIdsToBlockData.build();
+        this.blockPropsToBlockData = blockPropsToBlockData.build();
     }
 
-    public BlockData createBlockData(Material material) {
-        BlockDataConstructor blockDataConstructor = blockDataConstructorsByMaterial.get(material);
-        return blockDataConstructor.createBlockData(Collections.emptyMap(), false);
+    public StatefulBlockData createBlockData(Material material) {
+        return createBlockData(material, Collections.emptyMap());
     }
 
-    public BlockData createBlockData(Material material, Consumer<BlockData> consumer) {
-        BlockData blockData = this.createBlockData(material);
+    public StatefulBlockData createBlockData(Material material, Consumer<BlockData> consumer) {
+        StatefulBlockData blockData = this.createBlockData(material);
         consumer.accept(blockData);
         return blockData;
     }
 
-    public BlockData createBlockData(String data) throws IllegalArgumentException {
+    public StatefulBlockData createBlockData(String data) throws IllegalArgumentException {
         if (data.endsWith("]")) {
             int stateStart = data.indexOf("[");
             String materialName = data.substring(0, stateStart);
@@ -49,15 +54,19 @@ public abstract class AbstractBlockDataManager  {
         throw new IllegalArgumentException("Illegal format for data: " + data);
     }
 
-    public BlockData createBlockData(Material material, String data) {
+    public StatefulBlockData createBlockData(Material material, String data) {
         Map<String, String> stateMap = Arrays.stream(data.split(","))
             .map((s) -> s.trim().split("=", 2))
             .collect(Collectors.toMap((split) -> split[0], (split) -> split[1]));
-        return blockDataConstructorsByMaterial.get(material).createBlockData(stateMap, true);
+        return createBlockData(material, stateMap);
     }
 
-    public int convertToBlockId(BlockData blockData) {
-        return blockDataToBlockIds.get(blockData);
+    private StatefulBlockData createBlockData(Material material, Map<String, String> props) {
+        return blockPropsToBlockData.get(material).get(props).clone();
+    }
+
+    public int convertToBlockId(StatefulBlockData blockData) {
+        return blockIdsToBlockData.inverse().get(blockData);
     }
 
     public BlockData convertToBlockData(int blockId) {
