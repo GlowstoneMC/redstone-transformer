@@ -2,39 +2,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <artifactId>redstone-transformer</artifactId>
         <groupId>net.glowstone</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>block-data-generated</artifactId>
-    <name>Redstone Transformer - Block Data - Generated</name>
+    <artifactId>data-pack-generated</artifactId>
+    <name>Redstone Transformer - Data Pack - Generated</name>
     <url>https://www.glowstone.net</url>
-    <description>Annotated interfaces and generated interfaces for Bukkit's BlockData.</description>
+    <description>Genereated Bukkit models from the vanilla data packs.</description>
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>block-data-base</artifactId>
+            <groupId>net.glowstone</groupId>
+            <artifactId>glowkit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.glowstone</groupId>
+            <artifactId>data-pack-base</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>block-data-annotations</artifactId>
+            <groupId>net.glowstone</groupId>
+            <artifactId>data-pack-processor</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -49,12 +43,20 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.glowstone</groupId>
+                        <artifactId>data-pack-processor</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
+                        <id>generate-data-pack</id>
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                        <phase>generate-resources</phase>
+                        <phase>generate-sources</phase>
                         <configuration>
                             <executable>java</executable>
                             <workingDirectory>${project.build.directory}/server</workingDirectory>
@@ -67,23 +69,28 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-sources</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <mainClass>net.glowstone.datapack.processor.DataPackProcessorRunner</mainClass>
+                            <includePluginDependencies>true</includePluginDependencies>
+                            <sourceRoot>${project.build.directory}/generated-sources/datapack</sourceRoot>
+                            <arguments>
+                                <argument>${project.build.directory}/server/generated</argument>
+                                <argument>${project.build.directory}/generated-sources/datapack</argument>
+                                <argument>com.glowstone.datapack.minecraft</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArgs>
-                        <compilerArg>-Areports.blocks.path=${project.build.directory}/server/generated/reports/blocks.json</compilerArg>
-                    </compilerArgs>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>block-data-processor</artifactId>
-                            <version>${project.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -99,5 +106,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

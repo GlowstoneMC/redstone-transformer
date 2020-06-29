@@ -13,4 +13,12 @@ public class Tag {
         this.replace = replace;
         this.values = values;
     }
+
+    public boolean isReplace() {
+        return replace;
+    }
+
+    public List<String> getValues() {
+        return values;
+    }
 }
