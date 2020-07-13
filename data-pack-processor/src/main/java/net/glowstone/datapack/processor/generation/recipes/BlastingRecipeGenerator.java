@@ -1,18 +1,14 @@
 package net.glowstone.datapack.processor.generation.recipes;
 
 import com.google.common.base.CaseFormat;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
-import net.glowstone.datapack.loader.model.external.recipe.Item;
-import net.glowstone.datapack.loader.model.external.recipe.ShapelessRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.BlastingRecipe;
 import net.glowstone.datapack.processor.generation.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 
 import javax.lang.model.element.Modifier;
 import java.util.ArrayList;
@@ -20,25 +16,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class ShapelessRecipeGenerator implements RecipeGenerator<ShapelessRecipe> {
+public class BlastingRecipeGenerator implements RecipeGenerator<BlastingRecipe> {
     @Override
-    public Class<ShapelessRecipe> getAssociatedClass() {
-        return ShapelessRecipe.class;
+    public Class<BlastingRecipe> getAssociatedClass() {
+        return BlastingRecipe.class;
     }
 
     @Override
     public String getDefaultMethodName() {
-        return "defaultShapelessRecipes";
+        return "defaultBlastingRecipes";
     }
 
     @Override
     public MethodSpec generateMethodImpl(String namespaceName,
                                          String itemName,
                                          Map<String, Map<String, Set<String>>> namespacedTaggedItems,
-                                         ShapelessRecipe shapelessRecipe) {
-        Material material = Material.matchMaterial(shapelessRecipe.getResult().getItem());
+                                         BlastingRecipe blastingRecipe) {
+        Material material = Material.matchMaterial(blastingRecipe.getResult());
 
         CodeBlock.Builder methodBlock = CodeBlock.builder()
             .addStatement(
@@ -54,43 +49,38 @@ public class ShapelessRecipeGenerator implements RecipeGenerator<ShapelessRecipe
                 ItemStack.class,
                 Material.class,
                 material,
-                shapelessRecipe.getResult().getCount()
+                1
             )
             .addStatement(
                 "String group = $S",
-                shapelessRecipe.getGroup().orElse("")
+                blastingRecipe.getGroup().orElse("")
             )
             .addStatement(
                 "$T recipes = new $T<>()",
                 ParameterizedTypeName.get(
                     List.class,
-                    org.bukkit.inventory.ShapelessRecipe.class
+                    org.bukkit.inventory.BlastingRecipe.class
                 ),
                 ArrayList.class
             )
-            .addStatement("$T recipe", org.bukkit.inventory.ShapelessRecipe.class);
+            .addStatement("$T recipe", org.bukkit.inventory.BlastingRecipe.class);
 
-        List<Set<String>> untaggedIngredientOptions = shapelessRecipe.getIngredients()
+        Set<String> untaggedIngredientOptions = blastingRecipe.getIngredient()
             .stream()
             .flatMap(
-                (ingredientStack) -> ingredientStack.stream()
-                    .map((item) -> ItemUtils.untagItem(namespacedTaggedItems, namespaceName, item).collect(Collectors.toSet()))
+                (item) -> ItemUtils.untagItem(namespacedTaggedItems, namespaceName, item)
             )
-            .collect(Collectors.toList());
-        Set<List<String>> untaggedIngredientStacks = Sets.cartesianProduct(untaggedIngredientOptions);
+            .collect(Collectors.toSet());
 
-        for (List<String> ingredientsStack : untaggedIngredientStacks) {
+        for (String ingredient : untaggedIngredientOptions) {
             methodBlock.addStatement(
-                "recipe = new $T(key, results)",
-                org.bukkit.inventory.ShapelessRecipe.class
+                "recipe = new $T(key, results, $T.$L, $Lf, $L)",
+                org.bukkit.inventory.BlastingRecipe.class,
+                Material.class,
+                Material.matchMaterial(ingredient),
+                blastingRecipe.getExperience(),
+                blastingRecipe.getCookingTime()
             );
-            for (String ingredient : ingredientsStack) {
-                methodBlock.addStatement(
-                    "recipe.addIngredient($T.$L)",
-                    Material.class,
-                    Material.matchMaterial(ingredient)
-                );
-            }
             methodBlock.addStatement(
                 "recipe.setGroup(group)"
             );
@@ -105,7 +95,7 @@ public class ShapelessRecipeGenerator implements RecipeGenerator<ShapelessRecipe
             .addModifiers(Modifier.PRIVATE)
             .returns(ParameterizedTypeName.get(
                 List.class,
-                org.bukkit.inventory.ShapelessRecipe.class
+                org.bukkit.inventory.BlastingRecipe.class
             ))
             .addCode(methodBlock.build())
             .build();

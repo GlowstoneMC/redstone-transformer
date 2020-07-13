@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     private static final Map<Class<? extends Recipe>, RecipeGenerator<?>> RECIPE_GENERATORS =
         Stream.<RecipeGenerator<?>>of(
+            new BlastingRecipeGenerator(),
             new ShapelessRecipeGenerator(),
             new ShapedRecipeGenerator()
         )
