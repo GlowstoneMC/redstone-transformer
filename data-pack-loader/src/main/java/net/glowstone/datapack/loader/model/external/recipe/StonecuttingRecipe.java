@@ -5,17 +5,18 @@ import com.fasterxml.jackson.annotation.JsonFormat.Feature;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Optional;
 
 public class StonecuttingRecipe implements GroupableRecipe {
     public static final String TYPE_ID = "minecraft:stonecutting";
 
-    private final String group;
+    private final Optional<String> group;
     private final List<Item> ingredient;
     private final String result;
     private final int count;
 
     public StonecuttingRecipe(
-        @JsonProperty("group") String group,
+        @JsonProperty("group") Optional<String> group,
         @JsonProperty("ingredient") @JsonFormat(with = Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) List<Item> ingredient,
         @JsonProperty("result") String result,
         @JsonProperty("count") int count) {
@@ -26,7 +27,7 @@ public class StonecuttingRecipe implements GroupableRecipe {
     }
 
     @Override
-    public String getGroup() {
+    public Optional<String> getGroup() {
         return group;
     }
 

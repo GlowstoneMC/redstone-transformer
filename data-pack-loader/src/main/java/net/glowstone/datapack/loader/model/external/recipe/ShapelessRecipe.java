@@ -5,16 +5,17 @@ import com.fasterxml.jackson.annotation.JsonFormat.Feature;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ShapelessRecipe implements GroupableRecipe {
     public static final String TYPE_ID = "minecraft:crafting_shapeless";
 
-    private final String group;
+    private final Optional<String> group;
     private final List<List<Item>> ingredients;
     private final CraftingResult result;
 
     public ShapelessRecipe(
-        @JsonProperty("group") String group,
+        @JsonProperty("group") Optional<String> group,
         @JsonProperty("ingredients") @JsonFormat(with = Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) List<List<Item>> ingredients,
         @JsonProperty("result") CraftingResult result) {
         this.group = group;
@@ -22,7 +23,7 @@ public class ShapelessRecipe implements GroupableRecipe {
         this.result = result;
     }
 
-    public String getGroup() {
+    public Optional<String> getGroup() {
         return group;
     }
 

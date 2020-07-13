@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +27,8 @@ import java.util.stream.Stream;
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     private static final Map<Class<? extends Recipe>, RecipeGenerator<?>> RECIPE_GENERATORS =
         Stream.<RecipeGenerator<?>>of(
-            new ShapelessRecipeGenerator()
+            new ShapelessRecipeGenerator(),
+            new ShapedRecipeGenerator()
         )
         .collect(
             Collectors.toMap(
@@ -38,7 +40,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     private final Map<String, List<MethodSpec>> recipeMethods = new HashMap<>();
 
     @Override
-    public void addItems(Map<String, Map<String, List<String>>> namespacedTaggedItems,
+    public void addItems(Map<String, Map<String, Set<String>>> namespacedTaggedItems,
                          String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
@@ -61,8 +63,8 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             .stream()
             .map((entry) -> MethodSpec.methodBuilder(entry.getKey())
                 .addModifiers(Modifier.PRIVATE)
-                .returns(ParameterizedTypeName.get(List.class, org.bukkit.inventory.ShapelessRecipe.class))
-                .addStatement("$T<$T> recipes = new $T<>()", List.class, org.bukkit.inventory.ShapelessRecipe.class, ArrayList.class)
+                .returns(ParameterizedTypeName.get(List.class, org.bukkit.inventory.Recipe.class))
+                .addStatement("$T<$T> recipes = new $T<>()", List.class, org.bukkit.inventory.Recipe.class, ArrayList.class)
                 .addCode(
                     entry.getValue()
                         .stream()

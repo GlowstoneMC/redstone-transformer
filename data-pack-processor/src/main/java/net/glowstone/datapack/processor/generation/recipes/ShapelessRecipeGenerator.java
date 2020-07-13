@@ -7,14 +7,17 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import net.glowstone.datapack.loader.model.external.recipe.Item;
 import net.glowstone.datapack.loader.model.external.recipe.ShapelessRecipe;
+import net.glowstone.datapack.processor.generation.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 
 import javax.lang.model.element.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,23 +35,29 @@ public class ShapelessRecipeGenerator implements RecipeGenerator<ShapelessRecipe
     @Override
     public MethodSpec generateMethodImpl(String namespaceName,
                                          String itemName,
-                                         Map<String, Map<String, List<String>>> namespacedTaggedItems,
+                                         Map<String, Map<String, Set<String>>> namespacedTaggedItems,
                                          ShapelessRecipe shapelessRecipe) {
+        Material material = Material.matchMaterial(shapelessRecipe.getResult().getItem());
+
         CodeBlock.Builder methodBlock = CodeBlock.builder()
             .addStatement(
                 "$T key = new $T($S, $S)",
                 NamespacedKey.class,
                 NamespacedKey.class,
                 namespaceName,
-                shapelessRecipe.getGroup()
+                itemName
             )
             .addStatement(
                 "$T results = new $T($T.$L, $L)",
                 ItemStack.class,
                 ItemStack.class,
                 Material.class,
-                Material.matchMaterial(shapelessRecipe.getResult().getItem()),
+                material,
                 shapelessRecipe.getResult().getCount()
+            )
+            .addStatement(
+                "String group = $S",
+                shapelessRecipe.getGroup().orElse("")
             )
             .addStatement(
                 "$T recipes = new $T<>()",
@@ -63,44 +72,12 @@ public class ShapelessRecipeGenerator implements RecipeGenerator<ShapelessRecipe
         List<List<String>> untaggedIngredientsStacks = shapelessRecipe.getIngredients()
             .stream()
             .flatMap(
-                (ingredientsStack) -> {
-                    boolean hasTaggedItems = ingredientsStack.stream()
-                        .anyMatch((ingredient) -> ingredient.getTag().isPresent());
-                    if (hasTaggedItems) {
-                        List<List<String>> taggedIngredients = new ArrayList<>();
-                        List<String> untaggedIngredients = new ArrayList<>();
+                (ingredientStack) -> {
+                    List<List<String>> untaggedItemNames = ingredientStack.stream()
+                        .map((item) -> ItemUtils.untagItem(namespacedTaggedItems, namespaceName, item).collect(Collectors.toList()))
+                        .collect(Collectors.toList());
 
-                        for (Item ingredient : ingredientsStack) {
-                            if (ingredient.getItem().isPresent()) {
-                                untaggedIngredients.add(ingredient.getItem().get());
-                            } else {
-                                String tag = ingredient.getTag().get();
-                                String[] namespacedKey = tag.split(":", 2);
-                                if (namespacedKey.length == 1) {
-                                    namespacedKey = new String[] {namespaceName, namespacedKey[0]};
-                                }
-                                taggedIngredients.add(
-                                    namespacedTaggedItems.get(namespacedKey[0])
-                                        .get(namespacedKey[1])
-                                );
-                            }
-                        }
-
-                        List<List<String>> taggedIngredientCombinations = Lists.cartesianProduct(taggedIngredients);
-                        return taggedIngredientCombinations.stream()
-                            .map((combination) -> {
-                                List<String> retval = new ArrayList<>();
-                                retval.addAll(combination);
-                                retval.addAll(untaggedIngredients);
-                                return retval;
-                            });
-                    } else {
-                        return Stream.of(
-                            ingredientsStack.stream()
-                                .map((ingredient) -> ingredient.getItem().get())
-                                .collect(Collectors.toList())
-                        );
-                    }
+                    return Lists.cartesianProduct(untaggedItemNames).stream();
                 }
             )
             .collect(Collectors.toList());
@@ -124,7 +101,7 @@ public class ShapelessRecipeGenerator implements RecipeGenerator<ShapelessRecipe
 
         methodBlock.addStatement("return recipes");
 
-        MethodSpec methodSpec = MethodSpec.methodBuilder(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, itemName))
+        return MethodSpec.methodBuilder(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, itemName))
             .addModifiers(Modifier.PRIVATE)
             .returns(ParameterizedTypeName.get(
                 List.class,
@@ -132,7 +109,5 @@ public class ShapelessRecipeGenerator implements RecipeGenerator<ShapelessRecipe
             ))
             .addCode(methodBlock.build())
             .build();
-
-        return methodSpec;
     }
 }

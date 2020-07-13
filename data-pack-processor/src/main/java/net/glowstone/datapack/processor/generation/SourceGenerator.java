@@ -1,15 +1,18 @@
 package net.glowstone.datapack.processor.generation;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.DataPack;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.processor.generation.recipes.RecipeManagerGenerator;
 
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,7 +25,8 @@ public class SourceGenerator {
                 new RecipeManagerGenerator()
             );
 
-        Map<String, Map<String, List<String>>> namespacedTaggedItems = createNamespacedTaggedItemsMap(dataPack);
+        Map<String, Map<String, Set<String>>> namespacedTaggedItems = createNamespacedTaggedItemsMap(dataPack);
+        addMissingTags(namespacedTaggedItems);
 
         dataPack.getNamespacedData().forEach(
             (namespaceName, data) ->
@@ -35,7 +39,7 @@ public class SourceGenerator {
         generators.forEach((generator) -> generator.generateManager(generatedClassPath, generatedClassNamespace));
     }
 
-    private Map<String, Map<String, List<String>>> createNamespacedTaggedItemsMap(DataPack dataPack) {
+    private Map<String, Map<String, Set<String>>> createNamespacedTaggedItemsMap(DataPack dataPack) {
         return dataPack.getNamespacedData()
             .entrySet()
             .stream()
@@ -52,8 +56,12 @@ public class SourceGenerator {
                         .stream()
                 ).collect(Collectors.toMap(
                     Entry::getKey,
-                    (tagEntry) -> tagEntry.getValue().getValues()
+                    (tagEntry) -> new HashSet<>(tagEntry.getValue().getValues())
                 ))
             ));
+    }
+
+    private void addMissingTags(Map<String, Map<String, Set<String>>> tags) {
+        tags.get("minecraft").putIfAbsent("coals", Sets.newHashSet("minecraft:coal", "minecraft:charcoal"));
     }
 }
