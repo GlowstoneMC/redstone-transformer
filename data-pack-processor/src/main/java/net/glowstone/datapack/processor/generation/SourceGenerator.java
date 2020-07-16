@@ -1,67 +1,66 @@
 package net.glowstone.datapack.processor.generation;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.DataPack;
-import net.glowstone.datapack.loader.model.external.recipe.Recipe;
+import net.glowstone.datapack.loader.model.external.tag.Tag;
 import net.glowstone.datapack.processor.generation.recipes.RecipeManagerGenerator;
+import net.glowstone.datapack.processor.generation.tags.TagManagerGenerator;
 
 import java.nio.file.Path;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SourceGenerator {
+    private static final Map<String, Data> missingData = ImmutableMap.<String, Data>builder()
+        .put(
+            "minecraft",
+            new Data(
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                ImmutableMap.<String, Tag>builder()
+                    .put("coals", new Tag(false, Lists.newArrayList("minecraft:coal", "minecraft:charcoal")))
+                    .build(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap()
+            )
+        )
+        .build();
+
     public void generateSources(Path generatedClassPath,
                                 String generatedClassNamespace,
                                 DataPack dataPack) {
         List<DataPackItemSourceGenerator> generators =
             ImmutableList.of(
+                new TagManagerGenerator(),
                 new RecipeManagerGenerator()
             );
-
-        Map<String, Map<String, Set<String>>> namespacedTaggedItems = createNamespacedTaggedItemsMap(dataPack);
-        addMissingTags(namespacedTaggedItems);
 
         dataPack.getNamespacedData().forEach(
             (namespaceName, data) ->
                 generators.forEach(
                     (generator) ->
-                        generator.addItems(namespacedTaggedItems, namespaceName, data)
+                        generator.addItems(namespaceName, data)
+                )
+        );
+
+        missingData.forEach(
+            (namespaceName, data) ->
+                generators.forEach(
+                    (generator) ->
+                        generator.addItems(namespaceName, data)
                 )
         );
 
         generators.forEach((generator) -> generator.generateManager(generatedClassPath, generatedClassNamespace));
-    }
-
-    private Map<String, Map<String, Set<String>>> createNamespacedTaggedItemsMap(DataPack dataPack) {
-        return dataPack.getNamespacedData()
-            .entrySet()
-            .stream()
-            .collect(Collectors.toMap(
-                Entry::getKey,
-                (dataEntry) -> Stream.concat(
-                    dataEntry.getValue()
-                        .getItemTags()
-                        .entrySet()
-                        .stream(),
-                    dataEntry.getValue()
-                        .getBlockTags()
-                        .entrySet()
-                        .stream()
-                ).collect(Collectors.toMap(
-                    Entry::getKey,
-                    (tagEntry) -> new HashSet<>(tagEntry.getValue().getValues())
-                ))
-            ));
-    }
-
-    private void addMissingTags(Map<String, Map<String, Set<String>>> tags) {
-        tags.get("minecraft").putIfAbsent("coals", Sets.newHashSet("minecraft:coal", "minecraft:charcoal"));
     }
 }

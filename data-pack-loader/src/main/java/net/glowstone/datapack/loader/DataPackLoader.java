@@ -142,10 +142,10 @@ public class DataPackLoader {
                 loadRecipes(namespacePath),
                 loadStructures(namespacePath),
                 loadTags(namespacePath, "blocks"),
+                loadTags(namespacePath, "items"),
                 loadTags(namespacePath, "entity_types"),
                 loadTags(namespacePath, "fluids"),
-                loadTags(namespacePath, "functions"),
-                loadTags(namespacePath, "items")
+                loadTags(namespacePath, "functions")
             );
 
             return new SimpleImmutableEntry<>(namespaceName, data);

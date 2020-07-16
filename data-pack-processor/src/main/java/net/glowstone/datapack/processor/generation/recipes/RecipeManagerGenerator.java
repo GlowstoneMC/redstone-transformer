@@ -6,6 +6,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import net.glowstone.datapack.AbstractRecipeManager;
+import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
@@ -41,8 +42,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     private final Map<String, List<MethodSpec>> recipeMethods = new HashMap<>();
 
     @Override
-    public void addItems(Map<String, Map<String, Set<String>>> namespacedTaggedItems,
-                         String namespaceName,
+    public void addItems(String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
             RecipeGenerator<?> generator = RECIPE_GENERATORS.get(recipe.getClass());
@@ -51,7 +51,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
                 recipeMethods
                     .computeIfAbsent(generator.getDefaultMethodName(), (key) -> new ArrayList<>())
                     .add(
-                        generator.generateMethod(namespaceName, itemName, namespacedTaggedItems, recipe)
+                        generator.generateMethod(namespaceName, itemName, recipe)
                     );
             }
         });
@@ -69,7 +69,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
                 .addCode(
                     entry.getValue()
                         .stream()
-                        .map((method) -> CodeBlock.of("recipes.addAll($N())", method))
+                        .map((method) -> CodeBlock.of("recipes.add($N())", method))
                         .collect(CodeBlockStatementCollector.collect())
                 )
                 .addStatement("return recipes")
@@ -88,9 +88,17 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             .addStatement("return recipes")
             .build();
 
+        MethodSpec constructorMethod = MethodSpec.constructorBuilder()
+            .addModifiers(Modifier.PUBLIC)
+            .addParameter(AbstractTagManager.class, "tagManager")
+            .addStatement("this.tagManager = tagManager")
+            .build();
+
         TypeSpec recipeManagerTypeSpec = TypeSpec.classBuilder("RecipeManager")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(AbstractRecipeManager.class)
+            .addField(AbstractTagManager.class, "tagManager", Modifier.PRIVATE, Modifier.FINAL)
+            .addMethod(constructorMethod)
             .addMethod(defaultRecipesMethod)
             .addMethods(defaultMethods)
             .addMethods(recipeMethods.values().stream().flatMap(List::stream).collect(Collectors.toList()))
