@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Optional;
 
-public class CampfireCookingRecipe implements GroupableRecipe {
+public class CampfireCookingRecipe implements CookingRecipe {
     public static final String TYPE_ID = "minecraft:campfire_cooking";
 
     private final Optional<String> group;
@@ -34,18 +34,22 @@ public class CampfireCookingRecipe implements GroupableRecipe {
         return group;
     }
 
+    @Override
     public List<Item> getIngredient() {
         return ingredient;
     }
 
+    @Override
     public String getResult() {
         return result;
     }
 
+    @Override
     public double getExperience() {
         return experience;
     }
 
+    @Override
     public int getCookingTime() {
         return cookingTime;
     }

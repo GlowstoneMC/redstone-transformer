@@ -8,7 +8,11 @@ import com.squareup.javapoet.TypeSpec;
 import net.glowstone.datapack.AbstractRecipeManager;
 import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.loader.model.external.Data;
+import net.glowstone.datapack.loader.model.external.recipe.BlastingRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.CampfireCookingRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
+import net.glowstone.datapack.loader.model.external.recipe.SmeltingRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.SmokingRecipe;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
 
@@ -20,17 +24,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
-    private static final Map<Class<? extends Recipe>, RecipeGenerator<?>> RECIPE_GENERATORS =
-        Stream.<RecipeGenerator<?>>of(
-            new BlastingRecipeGenerator(),
+    private static final Map<Class<? extends Recipe>, RecipeGenerator<?, ?>> RECIPE_GENERATORS =
+        Stream.<RecipeGenerator<?, ?>>of(
+            new CookingRecipeGenerator<>(BlastingRecipe.class, org.bukkit.inventory.BlastingRecipe.class),
+            new CookingRecipeGenerator<>(CampfireCookingRecipe.class, org.bukkit.inventory.CampfireRecipe.class),
+            new CookingRecipeGenerator<>(SmeltingRecipe.class, org.bukkit.inventory.FurnaceRecipe.class),
+            new CookingRecipeGenerator<>(SmokingRecipe.class, org.bukkit.inventory.SmokingRecipe.class),
             new ShapelessRecipeGenerator(),
-            new ShapedRecipeGenerator()
+            new ShapedRecipeGenerator(),
+            new StonecuttingRecipeGenerator()
         )
         .collect(
             Collectors.toMap(
@@ -45,7 +52,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     public void addItems(String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
-            RecipeGenerator<?> generator = RECIPE_GENERATORS.get(recipe.getClass());
+            RecipeGenerator<?, ?> generator = RECIPE_GENERATORS.get(recipe.getClass());
 
             if (generator != null) {
                 recipeMethods

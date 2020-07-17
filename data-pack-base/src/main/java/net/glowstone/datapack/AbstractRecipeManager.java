@@ -1,6 +1,10 @@
 package net.glowstone.datapack;
 
+import org.bukkit.Keyed;
+import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
@@ -12,6 +16,27 @@ public abstract class AbstractRecipeManager {
     private final List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
 
     protected abstract List<Recipe> defaultRecipes();
+
+    protected RecipeChoice materialChoice(Keyed... keyeds) {
+        List<Material> materials = new ArrayList<>();
+        for (Keyed keyed : keyeds) {
+            if (keyed instanceof Material) {
+                materials.add((Material) keyed);
+            } else if (keyed instanceof Tag) {
+                Tag<?> tag = (Tag<?>) keyed;
+                for (Object tagValue : tag.getValues()) {
+                    if (tagValue instanceof Material) {
+                        materials.add((Material) tagValue);
+                    } else {
+                        throw new IllegalStateException("Tags containing non-Materials aren't supported.");
+                    }
+                }
+            } else {
+                throw new IllegalStateException("Keyed objects must be either Materials or Tags.");
+            }
+        }
+        return new RecipeChoice.MaterialChoice(materials);
+    }
 
     protected boolean addRecipes(List<Recipe> recipes) {
         return recipes.stream()

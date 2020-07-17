@@ -25,12 +25,12 @@ public abstract class AbstractTagManager {
         return new ExpandableTag<>(namespacedKey, tags.get(namespacedKey));
     }
 
-    public <T extends Keyed> Tag<T> getItemTag(NamespacedKey tagKey) {
-        return getTag(Tag.REGISTRY_ITEMS, tagKey);
+    public Tag<Material> getItemTag(String namespaceName, String key) {
+        return getTag(Tag.REGISTRY_ITEMS, new NamespacedKey(namespaceName, key));
     }
 
-    public <T extends Keyed> Tag<T> getBlockTag(NamespacedKey tagKey) {
-        return getTag(Tag.REGISTRY_BLOCKS, tagKey);
+    public Tag<Material> getBlockTag(String namespaceName, String key) {
+        return getTag(Tag.REGISTRY_BLOCKS, new NamespacedKey(namespaceName, key));
     }
 
     public <T extends Keyed> Tag<T> getTag(String registryName, NamespacedKey tagKey) {
