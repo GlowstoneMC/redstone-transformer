@@ -1,15 +1,12 @@
 package net.glowstone.datapack.processor.generation.tags;
 
 import com.google.common.collect.Sets;
-import com.google.common.graph.Graph;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.MutableGraph;
-import com.google.common.graph.Traverser;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 import net.glowstone.datapack.AbstractTagManager;
@@ -17,7 +14,7 @@ import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.tag.Tag;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
 import net.glowstone.datapack.processor.generation.utils.NamespaceUtils;
-import net.glowstone.datapack.tags.ExpandableTag;
+import net.glowstone.datapack.tags.SubTagTrackingTag;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,43 +24,42 @@ import javax.lang.model.element.Modifier;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
-import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TagManagerGenerator implements DataPackItemSourceGenerator {
-    private static final ParameterizedTypeName NAMESPACED_KEYED_SET_MAP = ParameterizedTypeName.get(
-        ClassName.get(Map.class),
-        ClassName.get(NamespacedKey.class),
-        ParameterizedTypeName.get(
-            ClassName.get(Set.class),
-            WildcardTypeName.subtypeOf(Keyed.class)
-        )
-    );
+    private static final ParameterizedTypeName NAMESPACED_KEYED_SET_MAP = createNamespacedSetMap(WildcardTypeName.subtypeOf(Keyed.class));
 
-    private static CodeBlock.Builder createTagCodeBlock() {
+    private static ParameterizedTypeName createNamespacedSetMap(TypeName valueType) {
+        return ParameterizedTypeName.get(
+            ClassName.get(Map.class),
+            ClassName.get(NamespacedKey.class),
+            ParameterizedTypeName.get(
+                ClassName.get(SubTagTrackingTag.class),
+                valueType
+            )
+        );
+    }
+
+    private static CodeBlock.Builder createTagCodeBlock(Class<?> valueClass) {
         return CodeBlock.builder()
             .addStatement(
                 "$T tags = new $T<>()",
-                NAMESPACED_KEYED_SET_MAP,
+                createNamespacedSetMap(ClassName.get(valueClass)),
                 HashMap.class
             );
     }
 
-    private final CodeBlock.Builder blockTagCodeBlocks = createTagCodeBlock();
-    private final CodeBlock.Builder itemTagCodeBlocks = createTagCodeBlock();
-    private final CodeBlock.Builder entityTagCodeBlocks = createTagCodeBlock();
-    private final CodeBlock.Builder fluidTagCodeBlocks = createTagCodeBlock();
+    private final CodeBlock.Builder blockTagCodeBlocks = createTagCodeBlock(Material.class);
+    private final CodeBlock.Builder itemTagCodeBlocks = createTagCodeBlock(Material.class);
+    private final CodeBlock.Builder entityTagCodeBlocks = createTagCodeBlock(EntityType.class);
 
     @Override
     public void addItems(String namespaceName, Data data) {
@@ -77,10 +73,9 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
 
     @Override
     public void generateManager(Path generatedClassPath, String generatedClassNamespace) {
-        MethodSpec defaultBlockTags = createDefaultTagMethod("defaultBlockTags", blockTagCodeBlocks);
-        MethodSpec defaultItemTags = createDefaultTagMethod("defaultItemTags", itemTagCodeBlocks);
-        MethodSpec defaultEntityTags = createDefaultTagMethod("defaultEntityTags", entityTagCodeBlocks);
-        MethodSpec defaultFluidTags = createDefaultTagMethod("defaultFluidTags", fluidTagCodeBlocks);
+        MethodSpec defaultBlockTags = createDefaultTagMethod("defaultBlockTags", Material.class, blockTagCodeBlocks);
+        MethodSpec defaultItemTags = createDefaultTagMethod("defaultItemTags", Material.class, itemTagCodeBlocks);
+        MethodSpec defaultEntityTags = createDefaultTagMethod("defaultEntityTags", EntityType.class, entityTagCodeBlocks);
 
         ParameterizedTypeName returnType = ParameterizedTypeName.get(
             ClassName.get(Map.class),
@@ -98,24 +93,22 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
                 HashMap.class
             )
             .addStatement(
-                "tags.put($S, $N())",
+                "tags.put($S, new $T<>()).putAll($N())",
                 org.bukkit.Tag.REGISTRY_BLOCKS,
+                HashMap.class,
                 defaultBlockTags
             )
             .addStatement(
-                "tags.put($S, $N())",
+                "tags.put($S, new $T<>()).putAll($N())",
                 org.bukkit.Tag.REGISTRY_ITEMS,
+                HashMap.class,
                 defaultItemTags
             )
             .addStatement(
-                "tags.put($S, $N())",
+                "tags.put($S, new $T<>()).putAll($N())",
                 "entityTypes",
+                HashMap.class,
                 defaultEntityTags
-            )
-            .addStatement(
-                "tags.put($S, $N())",
-                "fluids",
-                defaultFluidTags
             )
             .addStatement("return tags")
             .build();
@@ -126,7 +119,6 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
             .addMethod(defaultBlockTags)
             .addMethod(defaultItemTags)
             .addMethod(defaultEntityTags)
-            .addMethod(defaultFluidTags)
             .addMethod(defaultTags)
             .build();
 
@@ -174,12 +166,12 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
             .sorted(Comparator.comparingInt(o -> depthCounts.get(new NamespacedKey(namespaceName, o.getKey()))));
     }
     
-    private MethodSpec createDefaultTagMethod(String methodName, CodeBlock.Builder tagCodeBlock) {
+    private MethodSpec createDefaultTagMethod(String methodName, Class<?> valueType, CodeBlock.Builder tagCodeBlock) {
         tagCodeBlock.addStatement("return tags");
         return MethodSpec
             .methodBuilder(methodName)
             .addModifiers(Modifier.PRIVATE)
-            .returns(NAMESPACED_KEYED_SET_MAP)
+            .returns(createNamespacedSetMap(ClassName.get(valueType)))
             .addCode(tagCodeBlock.build())
             .build();
     }
@@ -201,37 +193,67 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
         public void accept(Entry<String, Tag> entry) {
             String itemName = entry.getKey();
             Tag tag = entry.getValue();
-            CodeBlock.Builder tagsAddBlock = CodeBlock.builder()
-                .add(
-                    "tags.put(new $T($S, $S), $T.newHashSet(",
-                    NamespacedKey.class,
-                    namespaceName,
-                    itemName,
-                    Sets.class
-                );
-            for (int i = 0; i < tag.getValues().size(); i++) {
-                if (i != 0) {
-                    tagsAddBlock.add(", ");
-                }
-                String tagValue = tag.getValues().get(i);
+            Optional<CodeBlock.Builder> directValueBlock = Optional.empty();
+            Optional<CodeBlock.Builder> subTagValueBlock = Optional.empty();
+            for (String tagValue : tag.getValues()) {
                 if (tagValue.startsWith("#")) {
+                    CodeBlock.Builder block;
+                    if (subTagValueBlock.isPresent()) {
+                        block = subTagValueBlock.get().add(", ");
+                    } else {
+                        block = CodeBlock.builder().add(
+                            "$T.newHashSet(",
+                            Sets.class
+                        );
+                        subTagValueBlock = Optional.of(block);
+                    }
                     NamespacedKey namespacedKey = NamespaceUtils.parseNamespace(tagValue.substring(1), namespaceName);
-                    tagsAddBlock.add(
-                        "this.<$T>createSubTag(tags, $S, $S)",
-                        valueType,
+                    block.add(
+                        "getTagFromMap(tags, $S, $S)",
                         namespacedKey.getNamespace(),
                         namespacedKey.getKey()
                     );
                 } else {
-                    tagsAddBlock.add(
+                    CodeBlock.Builder block;
+                    if (directValueBlock.isPresent()) {
+                        block = directValueBlock.get().add(", ");
+                    } else {
+                        block = CodeBlock.builder().add(
+                            "$T.newHashSet(",
+                            Sets.class
+                        );
+                        directValueBlock = Optional.of(block);
+                    }
+                    block.add(
                         "$T.$L",
                         valueType,
                         enumConverter.apply(tagValue)
                     );
                 }
             }
-            tagsAddBlock.add("))");
-            tagBlock.addStatement(tagsAddBlock.build());
+
+            CodeBlock directValues = directValueBlock
+                .map(builder -> builder.add(")").build())
+                .orElseGet(() -> CodeBlock.of(
+                    "$T.emptySet()",
+                    Collections.class
+                ));
+
+            CodeBlock subTagValues = subTagValueBlock
+                .map(builder -> builder.add(")").build())
+                .orElseGet(() -> CodeBlock.of(
+                    "$T.emptySet()",
+                    Collections.class
+                ));
+
+            tagBlock.addStatement(
+                "this.<$T>addTagToMap(tags, $S, $S, $L, $L)",
+                valueType,
+                namespaceName,
+                itemName,
+                directValues,
+                subTagValues
+            );
         }
     }
 }
