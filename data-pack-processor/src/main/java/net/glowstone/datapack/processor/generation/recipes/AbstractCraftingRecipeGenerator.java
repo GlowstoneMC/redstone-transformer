@@ -8,6 +8,7 @@ import net.glowstone.datapack.loader.model.external.recipe.GroupableRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.Item;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.processor.generation.utils.NamespaceUtils;
+import net.glowstone.datapack.recipes.RecipeProvider;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +18,7 @@ import javax.lang.model.element.Modifier;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 extends org.bukkit.inventory.Recipe> implements RecipeGenerator<T1, T2> {
+public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 extends org.bukkit.inventory.Recipe, T3 extends RecipeProvider> implements RecipeGenerator<T1, T2, T3> {
     @Override
     public String getDefaultMethodName() {
         return "default" + getBukkitClass().getSimpleName() + "s";
@@ -57,11 +58,14 @@ public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 exte
 
         extraRecipeCode(namespaceName, itemName, recipeImpl, material).ifPresent(methodBlock::add);
 
-        methodBlock.addStatement("return recipe");
+        methodBlock.addStatement(
+            "return new $T(recipe)",
+            getProviderClass()
+        );
 
         return MethodSpec.methodBuilder(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, itemName))
             .addModifiers(Modifier.PRIVATE)
-            .returns(getBukkitClass())
+            .returns(getProviderClass())
             .addCode(methodBlock.build())
             .build();
     }

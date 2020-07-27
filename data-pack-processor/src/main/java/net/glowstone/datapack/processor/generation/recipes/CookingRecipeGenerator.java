@@ -3,12 +3,13 @@ package net.glowstone.datapack.processor.generation.recipes;
 import com.squareup.javapoet.CodeBlock;
 import net.glowstone.datapack.loader.model.external.recipe.CampfireCookingRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.CookingRecipe;
+import net.glowstone.datapack.recipes.CookingRecipeProvider;
 import org.bukkit.Material;
 import org.bukkit.inventory.CampfireRecipe;
 
 import java.util.Optional;
 
-public class CookingRecipeGenerator<T1 extends CookingRecipe, T2 extends org.bukkit.inventory.CookingRecipe<T2>> extends AbstractCraftingRecipeGenerator<T1, T2> {
+public class CookingRecipeGenerator<T1 extends CookingRecipe, T2 extends org.bukkit.inventory.CookingRecipe<T2>> extends AbstractCraftingRecipeGenerator<T1, T2, CookingRecipeProvider> {
     private final Class<T1> associatedClass;
     private final Class<T2> bukkitClass;
 
@@ -25,6 +26,11 @@ public class CookingRecipeGenerator<T1 extends CookingRecipe, T2 extends org.buk
     @Override
     public Class<T2> getBukkitClass() {
         return bukkitClass;
+    }
+
+    @Override
+    public Class<CookingRecipeProvider> getProviderClass() {
+        return CookingRecipeProvider.class;
     }
 
     @Override

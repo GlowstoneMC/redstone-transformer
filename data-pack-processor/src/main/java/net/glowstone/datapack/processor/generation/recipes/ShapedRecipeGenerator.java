@@ -2,11 +2,12 @@ package net.glowstone.datapack.processor.generation.recipes;
 
 import com.squareup.javapoet.CodeBlock;
 import net.glowstone.datapack.loader.model.external.recipe.ShapedRecipe;
+import net.glowstone.datapack.recipes.ShapedRecipeProvider;
 import org.bukkit.Material;
 
 import java.util.Optional;
 
-public class ShapedRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapedRecipe, org.bukkit.inventory.ShapedRecipe> {
+public class ShapedRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapedRecipe, org.bukkit.inventory.ShapedRecipe, ShapedRecipeProvider> {
     @Override
     public Class<ShapedRecipe> getAssociatedClass() {
         return ShapedRecipe.class;
@@ -15,6 +16,11 @@ public class ShapedRecipeGenerator extends AbstractCraftingRecipeGenerator<Shape
     @Override
     public Class<org.bukkit.inventory.ShapedRecipe> getBukkitClass() {
         return org.bukkit.inventory.ShapedRecipe.class;
+    }
+
+    @Override
+    public Class<ShapedRecipeProvider> getProviderClass() {
+        return ShapedRecipeProvider.class;
     }
 
     @Override

@@ -3,11 +3,12 @@ package net.glowstone.datapack.processor.generation.recipes;
 import com.squareup.javapoet.CodeBlock;
 import net.glowstone.datapack.loader.model.external.recipe.CookingRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.StonecuttingRecipe;
+import net.glowstone.datapack.recipes.StonecuttingRecipeProvider;
 import org.bukkit.Material;
 
 import java.util.Optional;
 
-public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator<StonecuttingRecipe, org.bukkit.inventory.StonecuttingRecipe> {
+public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator<StonecuttingRecipe, org.bukkit.inventory.StonecuttingRecipe, StonecuttingRecipeProvider> {
     @Override
     public Class<StonecuttingRecipe> getAssociatedClass() {
         return StonecuttingRecipe.class;
@@ -16,6 +17,11 @@ public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator
     @Override
     public Class<org.bukkit.inventory.StonecuttingRecipe> getBukkitClass() {
         return org.bukkit.inventory.StonecuttingRecipe.class;
+    }
+
+    @Override
+    public Class<StonecuttingRecipeProvider> getProviderClass() {
+        return StonecuttingRecipeProvider.class;
     }
 
     @Override

@@ -15,6 +15,7 @@ import net.glowstone.datapack.loader.model.external.recipe.SmeltingRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.SmokingRecipe;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
+import net.glowstone.datapack.recipes.RecipeProvider;
 
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
@@ -29,8 +30,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
-    private static final Map<Class<? extends Recipe>, RecipeGenerator<?, ?>> RECIPE_GENERATORS =
-        Stream.<RecipeGenerator<?, ?>>of(
+    private static final Map<Class<? extends Recipe>, RecipeGenerator<?, ?, ?>> RECIPE_GENERATORS =
+        Stream.<RecipeGenerator<?, ?, ?>>of(
             new CookingRecipeGenerator<>(BlastingRecipe.class, org.bukkit.inventory.BlastingRecipe.class),
             new CookingRecipeGenerator<>(CampfireCookingRecipe.class, org.bukkit.inventory.CampfireRecipe.class),
             new CookingRecipeGenerator<>(SmeltingRecipe.class, org.bukkit.inventory.FurnaceRecipe.class),
@@ -52,7 +53,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     public void addItems(String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
-            RecipeGenerator<?, ?> generator = RECIPE_GENERATORS.get(recipe.getClass());
+            RecipeGenerator<?, ?, ? > generator = RECIPE_GENERATORS.get(recipe.getClass());
 
             if (generator != null) {
                 recipeMethods
@@ -71,8 +72,8 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             .stream()
             .map((entry) -> MethodSpec.methodBuilder(entry.getKey())
                 .addModifiers(Modifier.PRIVATE)
-                .returns(ParameterizedTypeName.get(List.class, org.bukkit.inventory.Recipe.class))
-                .addStatement("$T<$T> recipes = new $T<>()", List.class, org.bukkit.inventory.Recipe.class, ArrayList.class)
+                .returns(ParameterizedTypeName.get(List.class, RecipeProvider.class))
+                .addStatement("$T<$T> recipes = new $T<>()", List.class, RecipeProvider.class, ArrayList.class)
                 .addCode(
                     entry.getValue()
                         .stream()
@@ -85,8 +86,8 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
 
         MethodSpec defaultRecipesMethod = MethodSpec.methodBuilder("defaultRecipes")
             .addModifiers(Modifier.PROTECTED)
-            .returns(ParameterizedTypeName.get(List.class, org.bukkit.inventory.Recipe.class))
-            .addStatement("$T<$T> recipes = new $T<>()", List.class, org.bukkit.inventory.Recipe.class, ArrayList.class)
+            .returns(ParameterizedTypeName.get(List.class, RecipeProvider.class))
+            .addStatement("$T<$T> recipes = new $T<>()", List.class, RecipeProvider.class, ArrayList.class)
             .addCode(
                 defaultMethods.stream()
                     .map((method) -> CodeBlock.of("recipes.addAll($N())", method))

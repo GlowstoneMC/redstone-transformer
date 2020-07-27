@@ -1,0 +1,110 @@
+package net.glowstone.datapack.recipes;
+
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+
+import java.util.Map;
+import java.util.Optional;
+
+public class ShapedRecipeProvider extends AbstractRecipeProvider {
+    private final ShapedRecipe recipe;
+
+    public ShapedRecipeProvider(ShapedRecipe recipe) {
+        this.recipe = recipe;
+    }
+
+    @Override
+    public NamespacedKey getKey() {
+        return recipe.getKey();
+    }
+
+    @Override
+    public Optional<Recipe> getRecipeFor(ItemStack... items) {
+        int size = (int) Math.sqrt(items.length);
+        Map<Character, ItemStack> ingredients = recipe.getIngredientMap();
+        String[] shape = recipe.getShape();
+
+        int rows = shape.length;
+        int cols = 0;
+        for (String row : shape) {
+            if (row.length() > cols) {
+                cols = row.length();
+            }
+        }
+
+        if (rows == 0 || cols == 0) {
+            return Optional.empty();
+        }
+
+        // outer loop: try at each possible starting position
+        for (int rowStart = 0; rowStart <= size - rows; ++rowStart) {
+            for (int colStart = 0; colStart <= size - cols; ++colStart) {
+                boolean skip = false;
+                // inner loop: verify recipe against this position
+                for (int row = 0; row < rows; ++row) {
+                    for (int col = 0; col < cols; ++col) {
+                        ItemStack given = items[(rowStart + row) * size + colStart + col];
+                        char ingredientChar =
+                            shape[row].length() > col ? shape[row].charAt(col) : ' ';
+                        ItemStack expected = ingredients.get(ingredientChar);
+
+                        // check for mismatch in presence of an item in that slot at all
+                        if (expected == null) {
+                            if (given != null) {
+                                skip = true;
+                                break;
+                            } else {
+                                continue; // good match
+                            }
+                        } else if (given == null) {
+                            skip = true;
+                            break;
+                        }
+
+                        // check for type and data match
+                        if (!matchesWildcard(expected, given)) {
+                            skip = true;
+                            break;
+                        }
+                    }
+
+                    if (skip) {
+                        break;
+                    }
+                }
+
+                if (skip) {
+                    continue;
+                }
+
+                // also check that no items outside the recipe size are present
+                for (int row = 0; row < size; row++) {
+                    for (int col = 0; col < size; col++) {
+                        // if this position is outside the recipe and non-null, fail
+                        if ((row < rowStart || row >= rowStart + rows || col < colStart
+                            || col >= colStart + cols)
+                            && items[row * size + col] != null) {
+                            skip = true;
+                            break;
+                        }
+                    }
+
+                    if (skip) {
+                        break;
+                    }
+                }
+
+                if (skip) {
+                    continue;
+                }
+
+                // recipe matches and zero items outside the recipe part.
+                return Optional.of(recipe);
+            }
+        } // end position loop
+
+        return Optional.empty();
+    }
+}
