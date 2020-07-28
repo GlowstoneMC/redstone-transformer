@@ -18,7 +18,7 @@ import javax.lang.model.element.Modifier;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 extends org.bukkit.inventory.Recipe, T3 extends RecipeProvider> implements RecipeGenerator<T1, T2, T3> {
+public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 extends RecipeProvider, T3 extends org.bukkit.inventory.Recipe> extends AbstractRecipeGenerator<T1, T2> {
     @Override
     public String getDefaultMethodName() {
         return "default" + getBukkitClass().getSimpleName() + "s";
@@ -26,7 +26,7 @@ public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 exte
 
     @Override
     @SuppressWarnings("unchecked")
-    public MethodSpec generateMethod(String namespaceName, String itemName, Recipe recipe) {
+    public CodeBlock methodBody(String namespaceName, String itemName, Recipe recipe) {
         T1 recipeImpl = (T1) recipe;
 
         Material material = getResultingMaterial(recipeImpl);
@@ -63,11 +63,7 @@ public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 exte
             getProviderClass()
         );
 
-        return MethodSpec.methodBuilder(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, itemName))
-            .addModifiers(Modifier.PRIVATE)
-            .returns(getProviderClass())
-            .addCode(methodBlock.build())
-            .build();
+        return methodBlock.build();
     }
 
     protected Optional<CodeBlock> extraConstructorArgs(String namespaceName, String itemName, T1 recipe) {
@@ -77,6 +73,8 @@ public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 exte
     protected Optional<CodeBlock> extraRecipeCode(String namespaceName, String itemName, T1 recipe, Material resultingMaterial) {
         return Optional.empty();
     }
+
+    public abstract Class<T3> getBukkitClass();
 
     protected abstract Material getResultingMaterial(T1 recipe);
 

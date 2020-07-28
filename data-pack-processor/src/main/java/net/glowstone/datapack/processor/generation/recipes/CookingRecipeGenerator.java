@@ -9,7 +9,7 @@ import org.bukkit.inventory.CampfireRecipe;
 
 import java.util.Optional;
 
-public class CookingRecipeGenerator<T1 extends CookingRecipe, T2 extends org.bukkit.inventory.CookingRecipe<T2>> extends AbstractCraftingRecipeGenerator<T1, T2, CookingRecipeProvider> {
+public class CookingRecipeGenerator<T1 extends CookingRecipe, T2 extends org.bukkit.inventory.CookingRecipe<T2>> extends AbstractCraftingRecipeGenerator<T1, CookingRecipeProvider,  T2> {
     private final Class<T1> associatedClass;
     private final Class<T2> bukkitClass;
 

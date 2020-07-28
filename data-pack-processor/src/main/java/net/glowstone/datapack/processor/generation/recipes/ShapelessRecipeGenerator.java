@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import java.util.List;
 import java.util.Optional;
 
-public class ShapelessRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapelessRecipe, org.bukkit.inventory.ShapelessRecipe, ShapelessRecipeProvider> {
+public class ShapelessRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapelessRecipe, ShapelessRecipeProvider, org.bukkit.inventory.ShapelessRecipe> {
     @Override
     public Class<ShapelessRecipe> getAssociatedClass() {
         return ShapelessRecipe.class;

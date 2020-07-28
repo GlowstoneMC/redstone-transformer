@@ -7,7 +7,7 @@ import org.bukkit.Material;
 
 import java.util.Optional;
 
-public class ShapedRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapedRecipe, org.bukkit.inventory.ShapedRecipe, ShapedRecipeProvider> {
+public class ShapedRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapedRecipe, ShapedRecipeProvider, org.bukkit.inventory.ShapedRecipe> {
     @Override
     public Class<ShapedRecipe> getAssociatedClass() {
         return ShapedRecipe.class;

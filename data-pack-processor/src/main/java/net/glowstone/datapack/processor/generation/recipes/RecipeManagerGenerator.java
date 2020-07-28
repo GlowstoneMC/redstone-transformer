@@ -13,9 +13,14 @@ import net.glowstone.datapack.loader.model.external.recipe.CampfireCookingRecipe
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.loader.model.external.recipe.SmeltingRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.SmokingRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.special.RepairItemRecipe;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
+import net.glowstone.datapack.recipes.ArmorDyeRecipeProvider;
 import net.glowstone.datapack.recipes.RecipeProvider;
+import net.glowstone.datapack.recipes.RepairItemRecipeProvider;
+import org.bukkit.inventory.ItemFactory;
 
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
@@ -30,15 +35,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
-    private static final Map<Class<? extends Recipe>, RecipeGenerator<?, ?, ?>> RECIPE_GENERATORS =
-        Stream.<RecipeGenerator<?, ?, ?>>of(
+    private static final Map<Class<? extends Recipe>, RecipeGenerator<?, ?>> RECIPE_GENERATORS =
+        Stream.<RecipeGenerator<?, ?>>of(
             new CookingRecipeGenerator<>(BlastingRecipe.class, org.bukkit.inventory.BlastingRecipe.class),
             new CookingRecipeGenerator<>(CampfireCookingRecipe.class, org.bukkit.inventory.CampfireRecipe.class),
             new CookingRecipeGenerator<>(SmeltingRecipe.class, org.bukkit.inventory.FurnaceRecipe.class),
             new CookingRecipeGenerator<>(SmokingRecipe.class, org.bukkit.inventory.SmokingRecipe.class),
             new ShapelessRecipeGenerator(),
             new ShapedRecipeGenerator(),
-            new StonecuttingRecipeGenerator()
+            new StonecuttingRecipeGenerator(),
+            new SpecialRecipeGenerator<>(ArmorDyeRecipe.class, ArmorDyeRecipeProvider.class),
+            new SpecialRecipeGenerator<>(RepairItemRecipe.class, RepairItemRecipeProvider.class)
         )
         .collect(
             Collectors.toMap(
@@ -53,7 +60,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     public void addItems(String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
-            RecipeGenerator<?, ?, ? > generator = RECIPE_GENERATORS.get(recipe.getClass());
+            RecipeGenerator<?, ?> generator = RECIPE_GENERATORS.get(recipe.getClass());
 
             if (generator != null) {
                 recipeMethods

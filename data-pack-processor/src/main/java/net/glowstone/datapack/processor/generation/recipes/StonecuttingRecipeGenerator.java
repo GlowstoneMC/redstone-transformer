@@ -8,7 +8,7 @@ import org.bukkit.Material;
 
 import java.util.Optional;
 
-public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator<StonecuttingRecipe, org.bukkit.inventory.StonecuttingRecipe, StonecuttingRecipeProvider> {
+public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator<StonecuttingRecipe, StonecuttingRecipeProvider, org.bukkit.inventory.StonecuttingRecipe> {
     @Override
     public Class<StonecuttingRecipe> getAssociatedClass() {
         return StonecuttingRecipe.class;
