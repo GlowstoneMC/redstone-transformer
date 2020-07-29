@@ -24,10 +24,11 @@ public abstract class AbstractTagManager {
     protected static <T extends Keyed> void addTagToMap(Map<NamespacedKey, SubTagTrackingTag<T>> tags,
                                                         String namespace,
                                                         String key,
+                                                        Class<T> valueClass,
                                                         Set<T> values,
                                                         Set<SubTagTrackingTag<T>> subTags) {
         NamespacedKey namespacedKey = new NamespacedKey(namespace, key);
-        tags.put(namespacedKey, new SubTagTrackingTag<>(namespacedKey, values, subTags));
+        tags.put(namespacedKey, new SubTagTrackingTag<T>(namespacedKey, valueClass, values, subTags));
     }
 
     protected static <T extends Keyed> SubTagTrackingTag<T> getTagFromMap(Map<NamespacedKey, SubTagTrackingTag<T>> tags,
@@ -38,15 +39,15 @@ public abstract class AbstractTagManager {
     }
 
     public SubTagTrackingTag<Material> getItemTag(String namespaceName, String key) {
-        return getTag(Tag.REGISTRY_ITEMS, new NamespacedKey(namespaceName, key));
+        return getTag(Tag.REGISTRY_ITEMS, new NamespacedKey(namespaceName, key), Material.class);
     }
 
     public SubTagTrackingTag<Material> getBlockTag(String namespaceName, String key) {
-        return getTag(Tag.REGISTRY_BLOCKS, new NamespacedKey(namespaceName, key));
+        return getTag(Tag.REGISTRY_BLOCKS, new NamespacedKey(namespaceName, key), Material.class);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Keyed> SubTagTrackingTag<T> getTag(String registryName, NamespacedKey tagKey) {
-        return (SubTagTrackingTag<T>) tagValues.computeIfAbsent(registryName, k -> new HashMap<>()).computeIfAbsent(tagKey, k -> new SubTagTrackingTag<T>(tagKey, Collections.emptySet(), Collections.emptySet()));
+    public <T extends Keyed> SubTagTrackingTag<T> getTag(String registryName, NamespacedKey tagKey, Class<T> valueClass) {
+        return (SubTagTrackingTag<T>) tagValues.computeIfAbsent(registryName, k -> new HashMap<>()).computeIfAbsent(tagKey, k -> new SubTagTrackingTag<T>(tagKey, valueClass, Collections.emptySet(), Collections.emptySet()));
     }
 }

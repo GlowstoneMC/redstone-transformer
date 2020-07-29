@@ -202,8 +202,12 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
                         block = subTagValueBlock.get().add(", ");
                     } else {
                         block = CodeBlock.builder().add(
-                            "$T.newHashSet(",
-                            Sets.class
+                            "$T.<$T>newHashSet(",
+                            Sets.class,
+                            ParameterizedTypeName.get(
+                                SubTagTrackingTag.class,
+                                Material.class
+                            )
                         );
                         subTagValueBlock = Optional.of(block);
                     }
@@ -247,10 +251,10 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
                 ));
 
             tagBlock.addStatement(
-                "this.<$T>addTagToMap(tags, $S, $S, $L, $L)",
-                valueType,
+                "this.addTagToMap(tags, $S, $S, $T.class, $L, $L)",
                 namespaceName,
                 itemName,
+                valueType,
                 directValues,
                 subTagValues
             );

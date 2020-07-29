@@ -18,9 +18,9 @@ import net.glowstone.datapack.loader.model.external.recipe.special.RepairItemRec
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
 import net.glowstone.datapack.recipes.ArmorDyeRecipeProvider;
+import net.glowstone.datapack.recipes.CookingRecipeProvider;
 import net.glowstone.datapack.recipes.RecipeProvider;
 import net.glowstone.datapack.recipes.RepairItemRecipeProvider;
-import org.bukkit.inventory.ItemFactory;
 
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
@@ -37,10 +37,10 @@ import java.util.stream.Stream;
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     private static final Map<Class<? extends Recipe>, RecipeGenerator<?, ?>> RECIPE_GENERATORS =
         Stream.<RecipeGenerator<?, ?>>of(
-            new CookingRecipeGenerator<>(BlastingRecipe.class, org.bukkit.inventory.BlastingRecipe.class),
-            new CookingRecipeGenerator<>(CampfireCookingRecipe.class, org.bukkit.inventory.CampfireRecipe.class),
-            new CookingRecipeGenerator<>(SmeltingRecipe.class, org.bukkit.inventory.FurnaceRecipe.class),
-            new CookingRecipeGenerator<>(SmokingRecipe.class, org.bukkit.inventory.SmokingRecipe.class),
+            new CookingRecipeGenerator<>(BlastingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.BlastingRecipe.class),
+            new CookingRecipeGenerator<>(CampfireCookingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.CampfireRecipe.class),
+            new CookingRecipeGenerator<>(SmeltingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.FurnaceRecipe.class),
+            new CookingRecipeGenerator<>(SmokingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.SmokingRecipe.class),
             new ShapelessRecipeGenerator(),
             new ShapedRecipeGenerator(),
             new StonecuttingRecipeGenerator(),

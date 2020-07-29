@@ -9,20 +9,20 @@ import org.bukkit.Material;
 import java.util.List;
 import java.util.Optional;
 
-public class ShapelessRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapelessRecipe, ShapelessRecipeProvider, org.bukkit.inventory.ShapelessRecipe> {
+public class ShapelessRecipeGenerator extends AbstractCraftingRecipeGenerator<ShapelessRecipe, ShapelessRecipeProvider> {
     @Override
     public Class<ShapelessRecipe> getAssociatedClass() {
         return ShapelessRecipe.class;
     }
 
     @Override
-    public Class<org.bukkit.inventory.ShapelessRecipe> getBukkitClass() {
-        return org.bukkit.inventory.ShapelessRecipe.class;
+    public Class<ShapelessRecipeProvider> getProviderClass() {
+        return ShapelessRecipeProvider.class;
     }
 
     @Override
-    public Class<ShapelessRecipeProvider> getProviderClass() {
-        return ShapelessRecipeProvider.class;
+    public String getDefaultMethodName() {
+        return "defaultShapelessRecipes";
     }
 
     @Override
@@ -36,12 +36,12 @@ public class ShapelessRecipeGenerator extends AbstractCraftingRecipeGenerator<Sh
     }
 
     @Override
-    protected Optional<CodeBlock> extraRecipeCode(String namespaceName, String itemName, ShapelessRecipe shapelessRecipe, Material resultingMaterial) {
+    protected Optional<CodeBlock> extraBuilderCalls(String namespaceName, String itemName, ShapelessRecipe shapelessRecipe) {
         CodeBlock.Builder methodBlock = CodeBlock.builder();
 
         for (List<Item> ingredientsStack : shapelessRecipe.getIngredients()) {
-            methodBlock.addStatement(
-                "recipe.addIngredient($L)",
+            methodBlock.add(
+                ".addIngredient($L)",
                 Helpers.createRecipeChoice(namespaceName, ingredientsStack)
             );
         }

@@ -8,20 +8,20 @@ import org.bukkit.Material;
 
 import java.util.Optional;
 
-public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator<StonecuttingRecipe, StonecuttingRecipeProvider, org.bukkit.inventory.StonecuttingRecipe> {
+public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator<StonecuttingRecipe, StonecuttingRecipeProvider> {
     @Override
     public Class<StonecuttingRecipe> getAssociatedClass() {
         return StonecuttingRecipe.class;
     }
 
     @Override
-    public Class<org.bukkit.inventory.StonecuttingRecipe> getBukkitClass() {
-        return org.bukkit.inventory.StonecuttingRecipe.class;
+    public Class<StonecuttingRecipeProvider> getProviderClass() {
+        return StonecuttingRecipeProvider.class;
     }
 
     @Override
-    public Class<StonecuttingRecipeProvider> getProviderClass() {
-        return StonecuttingRecipeProvider.class;
+    public String getDefaultMethodName() {
+        return "defaultStonecuttingRecipes";
     }
 
     @Override
@@ -35,7 +35,7 @@ public class StonecuttingRecipeGenerator extends AbstractCraftingRecipeGenerator
     }
 
     @Override
-    protected Optional<CodeBlock> extraConstructorArgs(String namespaceName, String itemName, StonecuttingRecipe stonecuttingRecipe) {
+    protected Optional<CodeBlock> extraRecipeConstructorArgs(String namespaceName, String itemName, StonecuttingRecipe stonecuttingRecipe) {
         return Optional.of(Helpers.createRecipeChoice(namespaceName, stonecuttingRecipe.getIngredient()));
     }
 }

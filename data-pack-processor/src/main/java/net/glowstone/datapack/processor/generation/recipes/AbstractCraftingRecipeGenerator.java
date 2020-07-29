@@ -18,63 +18,30 @@ import javax.lang.model.element.Modifier;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 extends RecipeProvider, T3 extends org.bukkit.inventory.Recipe> extends AbstractRecipeGenerator<T1, T2> {
-    @Override
-    public String getDefaultMethodName() {
-        return "default" + getBukkitClass().getSimpleName() + "s";
-    }
-
+public abstract class AbstractCraftingRecipeGenerator<T1 extends Recipe, T2 extends RecipeProvider> extends AbstractRecipeGenerator<T1, T2> {
     @Override
     @SuppressWarnings("unchecked")
-    public CodeBlock methodBody(String namespaceName, String itemName, Recipe recipe) {
+    public Optional<CodeBlock> extraConstructorArgs(String namespaceName, String itemName, Recipe recipe) {
         T1 recipeImpl = (T1) recipe;
 
         Material material = getResultingMaterial(recipeImpl);
 
         CodeBlock.Builder initBlock = CodeBlock.builder()
             .add(
-                "$T recipe = new $T(new $T($S, $S), new $T($T.$L, $L)",
-                getBukkitClass(),
-                getBukkitClass(),
-                NamespacedKey.class,
-                namespaceName,
-                itemName,
-                ItemStack.class,
+                "$T.$L, $L",
                 Material.class,
                 material,
                 getResultCount(recipeImpl)
             );
-        extraConstructorArgs(namespaceName, itemName, recipeImpl)
+        extraRecipeConstructorArgs(namespaceName, itemName, recipeImpl)
             .ifPresent((extra) -> initBlock.add(", $L", extra));
-        initBlock.add(")");
 
-        CodeBlock.Builder methodBlock = CodeBlock.builder()
-            .addStatement(initBlock.build());
-
-        if (recipeImpl instanceof GroupableRecipe) {
-            Optional<String> group = ((GroupableRecipe)recipeImpl).getGroup();
-            group.ifPresent((groupName) -> methodBlock.addStatement("recipe.setGroup($S)", groupName));
-        }
-
-        extraRecipeCode(namespaceName, itemName, recipeImpl, material).ifPresent(methodBlock::add);
-
-        methodBlock.addStatement(
-            "return new $T(recipe)",
-            getProviderClass()
-        );
-
-        return methodBlock.build();
+        return Optional.of(initBlock.build());
     }
 
-    protected Optional<CodeBlock> extraConstructorArgs(String namespaceName, String itemName, T1 recipe) {
+    protected Optional<CodeBlock> extraRecipeConstructorArgs(String namespaceName, String itemName, T1 recipe) {
         return Optional.empty();
     }
-
-    protected Optional<CodeBlock> extraRecipeCode(String namespaceName, String itemName, T1 recipe, Material resultingMaterial) {
-        return Optional.empty();
-    }
-
-    public abstract Class<T3> getBukkitClass();
 
     protected abstract Material getResultingMaterial(T1 recipe);
 

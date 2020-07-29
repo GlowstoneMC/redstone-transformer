@@ -20,12 +20,40 @@ public abstract class AbstractRecipeGenerator<T1 extends Recipe, T2 extends Reci
     @Override
     @SuppressWarnings("unchecked")
     public MethodSpec generateMethod(String namespaceName, String itemName, Recipe recipe) {
+        T1 recipeImpl = (T1) recipe;
+
+        CodeBlock.Builder initBlock = CodeBlock.builder()
+            .add(
+                "return new $T($S, $S",
+                getProviderClass(),
+                namespaceName,
+                itemName
+            );
+
+        extraConstructorArgs(namespaceName, itemName, recipeImpl)
+            .ifPresent((extra) -> initBlock.add(", $L", extra));
+
+        initBlock.add(")");
+
+        if (recipeImpl instanceof GroupableRecipe) {
+            Optional<String> group = ((GroupableRecipe)recipeImpl).getGroup();
+            group.ifPresent((groupName) -> initBlock.add(".setGroup($S)", groupName));
+        }
+
+        extraBuilderCalls(namespaceName, itemName, recipeImpl).ifPresent(initBlock::add);
+
         return MethodSpec.methodBuilder(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, itemName))
             .addModifiers(Modifier.PRIVATE)
             .returns(getProviderClass())
-            .addCode(methodBody(namespaceName, itemName, recipe))
+            .addStatement(initBlock.build())
             .build();
     }
 
-    protected abstract CodeBlock methodBody(String namespaceName, String itemName, Recipe recipe);
+    protected Optional<CodeBlock> extraConstructorArgs(String namespaceName, String itemName, T1 recipe) {
+        return Optional.empty();
+    }
+
+    protected Optional<CodeBlock> extraBuilderCalls(String namespaceName, String itemName, T1 recipe) {
+        return Optional.empty();
+    }
 }

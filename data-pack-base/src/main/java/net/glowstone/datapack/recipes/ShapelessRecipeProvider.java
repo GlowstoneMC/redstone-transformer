@@ -1,5 +1,6 @@
 package net.glowstone.datapack.recipes;
 
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -10,8 +11,18 @@ import java.util.Optional;
 public class ShapelessRecipeProvider extends AbstractRecipeProvider {
     private final ShapelessRecipe recipe;
 
-    public ShapelessRecipeProvider(ShapelessRecipe recipe) {
-        this.recipe = recipe;
+    public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
+        this.recipe = new ShapelessRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
+    }
+
+    public ShapelessRecipeProvider setGroup(String group) {
+        this.recipe.setGroup(group);
+        return this;
+    }
+
+    public ShapelessRecipeProvider addIngredient(MaterialTagRecipeChoice choice) {
+        this.recipe.addIngredient(choice);
+        return this;
     }
 
     @Override

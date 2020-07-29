@@ -1,8 +1,10 @@
 package net.glowstone.datapack.recipes;
 
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.Map;
@@ -11,8 +13,23 @@ import java.util.Optional;
 public class ShapedRecipeProvider extends AbstractRecipeProvider {
     private final ShapedRecipe recipe;
 
-    public ShapedRecipeProvider(ShapedRecipe recipe) {
-        this.recipe = recipe;
+    public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
+        this.recipe = new ShapedRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
+    }
+
+    public ShapedRecipeProvider setGroup(String group) {
+        this.recipe.setGroup(group);
+        return this;
+    }
+
+    public ShapedRecipeProvider setShape(String... shape) {
+        recipe.shape(shape);
+        return this;
+    }
+
+    public ShapedRecipeProvider setIngredient(char key, RecipeChoice ingredient) {
+        recipe.setIngredient(key, ingredient);
+        return this;
     }
 
     @Override

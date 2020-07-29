@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes;
 
 import com.destroystokyo.paper.MaterialTags;
 import com.google.common.collect.ImmutableMap;
+import net.glowstone.datapack.tags.ExtraMaterialTags;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ArmorDyeRecipeProvider implements RecipeProvider {
-    private static Map<Material, DyeColor> DYE_COLORS = ImmutableMap.<Material, DyeColor>builder()
+    private static final Map<Material, DyeColor> DYE_COLORS = ImmutableMap.<Material, DyeColor>builder()
         .put(Material.BLACK_DYE, DyeColor.BLACK)
         .put(Material.BLUE_DYE, DyeColor.BLUE)
         .put(Material.BROWN_DYE, DyeColor.BROWN)
@@ -63,7 +64,7 @@ public class ArmorDyeRecipeProvider implements RecipeProvider {
                 continue;
             }
 
-            if (MaterialTags.DYABLE_ARMOR.isTagged(item.getType())) {
+            if (ExtraMaterialTags.DYABLE_ARMOR.isTagged(item.getType())) {
                 if (armor != null) {
                     return Optional.empty(); // Can't dye more than one item
                 }
