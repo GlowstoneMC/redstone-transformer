@@ -3,13 +3,16 @@ package net.glowstone.datapack.recipes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CookingRecipe;
+import org.bukkit.inventory.FurnaceInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 
 import java.util.Optional;
+import java.util.function.Function;
 
-public class CookingRecipeProvider<T extends CookingRecipe<T>> extends AbstractRecipeProvider {
+public class CookingRecipeProvider<T extends CookingRecipe<T>> extends AbstractRecipeProvider<FurnaceInventory> {
     private final T recipe;
 
     public CookingRecipeProvider(String namespace,
@@ -20,6 +23,7 @@ public class CookingRecipeProvider<T extends CookingRecipe<T>> extends AbstractR
                                  float experience,
                                  int cookingTime,
                                  CookingRecipeConstructor<T> constructor) {
+        super(FurnaceInventory.class);
         this.recipe = constructor.create(
             new NamespacedKey(namespace, key),
             new ItemStack(resultMaterial, resultAmount),
@@ -40,13 +44,13 @@ public class CookingRecipeProvider<T extends CookingRecipe<T>> extends AbstractR
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(ItemStack... items) {
-        if (items.length != 1) {
-            throw new IllegalArgumentException("Cooking recipes only support 1 input.");
-        }
-        if (matchesWildcard(recipe.getInput(), items[0])) {
+    public Optional<Recipe> getRecipeFor(FurnaceInventory inventory) {
+        ItemStack item = inventory.getSmelting();
+
+        if (matchesWildcard(recipe.getInput(), item)) {
             return Optional.of(recipe);
         }
+
         return Optional.empty();
     }
     

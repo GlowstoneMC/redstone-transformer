@@ -4,14 +4,16 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.StonecutterInventory;
 import org.bukkit.inventory.StonecuttingRecipe;
 
 import java.util.Optional;
 
-public class StonecuttingRecipeProvider extends AbstractRecipeProvider {
+public class StonecuttingRecipeProvider extends AbstractRecipeProvider<StonecutterInventory> {
     private final StonecuttingRecipe recipe;
 
     public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, MaterialTagRecipeChoice source) {
+        super(StonecutterInventory.class);
         this.recipe = new StonecuttingRecipe(
             new NamespacedKey(namespace, key),
             new ItemStack(resultMaterial, resultAmount),
@@ -30,11 +32,10 @@ public class StonecuttingRecipeProvider extends AbstractRecipeProvider {
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(ItemStack... items) {
-        if (items.length != 1) {
-            throw new IllegalArgumentException("Cooking recipes only support 1 input.");
-        }
-        if (matchesWildcard(recipe.getInput(), items[0])) {
+    public Optional<Recipe> getRecipeFor(StonecutterInventory inventory) {
+        ItemStack item = inventory.getItem(0);
+
+        if (matchesWildcard(recipe.getInput(), item)) {
             return Optional.of(recipe);
         }
         return Optional.empty();

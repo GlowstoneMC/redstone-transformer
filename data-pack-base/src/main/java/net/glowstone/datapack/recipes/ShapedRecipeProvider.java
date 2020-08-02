@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -10,10 +11,11 @@ import org.bukkit.inventory.ShapedRecipe;
 import java.util.Map;
 import java.util.Optional;
 
-public class ShapedRecipeProvider extends AbstractRecipeProvider {
+public class ShapedRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
     private final ShapedRecipe recipe;
 
     public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
+        super(CraftingInventory.class);
         this.recipe = new ShapedRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
     }
 
@@ -38,8 +40,8 @@ public class ShapedRecipeProvider extends AbstractRecipeProvider {
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(ItemStack... items) {
-        int size = (int) Math.sqrt(items.length);
+    public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
+        int size = (int) Math.sqrt(inventory.getMatrix().length);
         Map<Character, ItemStack> ingredients = recipe.getIngredientMap();
         String[] shape = recipe.getShape();
 
@@ -62,20 +64,20 @@ public class ShapedRecipeProvider extends AbstractRecipeProvider {
                 // inner loop: verify recipe against this position
                 for (int row = 0; row < rows; ++row) {
                     for (int col = 0; col < cols; ++col) {
-                        ItemStack given = items[(rowStart + row) * size + colStart + col];
+                        ItemStack given = inventory.getMatrix()[(rowStart + row) * size + colStart + col];
                         char ingredientChar =
                             shape[row].length() > col ? shape[row].charAt(col) : ' ';
                         ItemStack expected = ingredients.get(ingredientChar);
 
                         // check for mismatch in presence of an item in that slot at all
                         if (expected == null) {
-                            if (given != null) {
+                            if (itemStackIsEmpty(given)) {
                                 skip = true;
                                 break;
                             } else {
                                 continue; // good match
                             }
-                        } else if (given == null) {
+                        } else if (itemStackIsEmpty(given)) {
                             skip = true;
                             break;
                         }
@@ -102,7 +104,7 @@ public class ShapedRecipeProvider extends AbstractRecipeProvider {
                         // if this position is outside the recipe and non-null, fail
                         if ((row < rowStart || row >= rowStart + rows || col < colStart
                             || col >= colStart + cols)
-                            && items[row * size + col] != null) {
+                            && itemStackIsEmpty(inventory.getMatrix()[row * size + col])) {
                             skip = true;
                             break;
                         }

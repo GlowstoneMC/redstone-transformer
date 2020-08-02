@@ -1,10 +1,12 @@
 package net.glowstone.datapack.processor.generation.recipes;
 
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.WildcardTypeName;
 import net.glowstone.datapack.AbstractRecipeManager;
 import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.loader.model.external.Data;
@@ -75,26 +77,42 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     @Override
     public void generateManager(Path generatedClassPath,
                                 String generatedClassNamespace) {
+        ParameterizedTypeName recipeListType = ParameterizedTypeName.get(
+            ClassName.get(List.class),
+            ParameterizedTypeName.get(
+                ClassName.get(RecipeProvider.class),
+                WildcardTypeName.subtypeOf(Object.class)
+            )
+        );
         List<MethodSpec> defaultMethods = recipeMethods.entrySet()
             .stream()
-            .map((entry) -> MethodSpec.methodBuilder(entry.getKey())
-                .addModifiers(Modifier.PRIVATE)
-                .returns(ParameterizedTypeName.get(List.class, RecipeProvider.class))
-                .addStatement("$T<$T> recipes = new $T<>()", List.class, RecipeProvider.class, ArrayList.class)
-                .addCode(
-                    entry.getValue()
-                        .stream()
-                        .map((method) -> CodeBlock.of("recipes.add($N())", method))
-                        .collect(CodeBlockStatementCollector.collect())
-                )
-                .addStatement("return recipes")
-                .build())
+            .map((entry) -> {
+                return MethodSpec.methodBuilder(entry.getKey())
+                    .addModifiers(Modifier.PRIVATE)
+                    .returns(recipeListType)
+                    .addStatement(
+                        "$T recipes = new $T<>()",
+                        recipeListType,
+                        ArrayList.class)
+                    .addCode(
+                        entry.getValue()
+                            .stream()
+                            .map((method) -> CodeBlock.of("recipes.add($N())", method))
+                            .collect(CodeBlockStatementCollector.collect())
+                    )
+                    .addStatement("return recipes")
+                    .build();
+            })
             .collect(Collectors.toList());
 
         MethodSpec defaultRecipesMethod = MethodSpec.methodBuilder("defaultRecipes")
             .addModifiers(Modifier.PROTECTED)
-            .returns(ParameterizedTypeName.get(List.class, RecipeProvider.class))
-            .addStatement("$T<$T> recipes = new $T<>()", List.class, RecipeProvider.class, ArrayList.class)
+            .returns(recipeListType)
+            .addStatement(
+                "$T recipes = new $T<>()",
+                recipeListType,
+                ArrayList.class
+            )
             .addCode(
                 defaultMethods.stream()
                     .map((method) -> CodeBlock.of("recipes.addAll($N())", method))

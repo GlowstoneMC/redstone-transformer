@@ -3,6 +3,7 @@ package net.glowstone.datapack.recipes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.Damageable;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RepairItemRecipeProvider implements RecipeProvider {
+public class RepairItemRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
     private static boolean isRepairable(ItemStack item) {
         return item.getItemMeta() instanceof Damageable;
     }
@@ -20,6 +21,7 @@ public class RepairItemRecipeProvider implements RecipeProvider {
     private final NamespacedKey key;
 
     public RepairItemRecipeProvider(String namespace, String key) {
+        super(CraftingInventory.class);
         this.key = new NamespacedKey(namespace, key);
     }
 
@@ -29,11 +31,11 @@ public class RepairItemRecipeProvider implements RecipeProvider {
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(ItemStack... matrix) {
+    public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
         List<ItemStack> items = new ArrayList<>();
 
-        for (ItemStack item : matrix) {
-            if (item == null) {
+        for (ItemStack item : inventory.getMatrix()) {
+            if (itemStackIsEmpty(item)) {
                 continue;
             }
 

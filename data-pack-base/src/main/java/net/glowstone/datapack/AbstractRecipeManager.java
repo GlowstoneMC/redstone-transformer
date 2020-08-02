@@ -1,34 +1,54 @@
 package net.glowstone.datapack;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.recipes.RecipeProvider;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.Recipe;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public abstract class AbstractRecipeManager {
-    private final Map<NamespacedKey, RecipeProvider> recipes;
+    private final Map<NamespacedKey, RecipeProvider<?>> recipesByKey;
+    private final Multimap<Class<? extends Inventory>, RecipeProvider<?>> recipesByType;
     protected final AbstractTagManager tagManager;
 
     protected AbstractRecipeManager(AbstractTagManager tagManager) {
-        this.recipes = new HashMap<>();
+        this.recipesByKey = new HashMap<>();
+        this.recipesByType = HashMultimap.create();
         this.tagManager = tagManager;
         loadDefaultRecipes();
     }
 
-    private void loadDefaultRecipes() {
-        defaultRecipes()
-            .forEach((provider) -> this.recipes.put(provider.getKey(), provider));
+    public Recipe getRecipe(Inventory inventory) {
+        return recipesByType.get(inventory.getClass())
+            .stream()
+            .map((r) -> r.getRecipeGeneric(inventory))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst()
+            .orElse(null);
     }
 
-    protected abstract List<RecipeProvider> defaultRecipes();
+    private void loadDefaultRecipes() {
+        defaultRecipes()
+            .forEach((provider) -> {
+                this.recipesByKey.put(provider.getKey(), provider);
+                this.recipesByType.put(provider.getInventoryClass(), provider);
+            });
+    }
+
+    protected abstract List<RecipeProvider<?>> defaultRecipes();
 
     protected MaterialTagRecipeChoice materialChoice(Keyed... keyeds) {
         Set<Material> values = new HashSet<>();

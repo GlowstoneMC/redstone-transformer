@@ -8,6 +8,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class ArmorDyeRecipeProvider implements RecipeProvider {
+public class ArmorDyeRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
     private static final Map<Material, DyeColor> DYE_COLORS = ImmutableMap.<Material, DyeColor>builder()
         .put(Material.BLACK_DYE, DyeColor.BLACK)
         .put(Material.BLUE_DYE, DyeColor.BLUE)
@@ -40,6 +41,7 @@ public class ArmorDyeRecipeProvider implements RecipeProvider {
     private final NamespacedKey key;
 
     public ArmorDyeRecipeProvider(String namespace, String key) {
+        super(CraftingInventory.class);
         this.key = new NamespacedKey(namespace, key);
     }
 
@@ -49,12 +51,12 @@ public class ArmorDyeRecipeProvider implements RecipeProvider {
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(ItemStack... matrix) {
+    public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
         ItemStack armor = null;
         List<Color> colors = new ArrayList<>();
 
-        for (ItemStack item : matrix) {
-            if (item == null) {
+        for (ItemStack item : inventory.getMatrix()) {
+            if (itemStackIsEmpty(item)) {
                 continue;
             }
 
