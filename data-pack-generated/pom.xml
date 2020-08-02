@@ -30,6 +30,20 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -82,7 +96,7 @@
                             <arguments>
                                 <argument>${project.build.directory}/server/generated</argument>
                                 <argument>${project.build.directory}/generated-sources/datapack</argument>
-                                <argument>com.glowstone.datapack.minecraft</argument>
+                                <argument>com.glowstone.datapack.vanilla</argument>
                             </arguments>
                         </configuration>
                     </execution>

@@ -106,13 +106,12 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
         MethodSpec constructorMethod = MethodSpec.constructorBuilder()
             .addModifiers(Modifier.PUBLIC)
             .addParameter(AbstractTagManager.class, "tagManager")
-            .addStatement("this.tagManager = tagManager")
+            .addStatement("super(tagManager)")
             .build();
 
         TypeSpec recipeManagerTypeSpec = TypeSpec.classBuilder("RecipeManager")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(AbstractRecipeManager.class)
-            .addField(AbstractTagManager.class, "tagManager", Modifier.PRIVATE, Modifier.FINAL)
             .addMethod(constructorMethod)
             .addMethod(defaultRecipesMethod)
             .addMethods(defaultMethods)

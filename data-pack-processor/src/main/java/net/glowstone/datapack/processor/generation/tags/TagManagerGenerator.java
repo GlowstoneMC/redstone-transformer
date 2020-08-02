@@ -93,19 +93,19 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
                 HashMap.class
             )
             .addStatement(
-                "tags.put($S, new $T<>()).putAll($N())",
+                "tags.computeIfAbsent($S, (k) -> new $T<>()).putAll($N())",
                 org.bukkit.Tag.REGISTRY_BLOCKS,
                 HashMap.class,
                 defaultBlockTags
             )
             .addStatement(
-                "tags.put($S, new $T<>()).putAll($N())",
+                "tags.computeIfAbsent($S, (k) -> new $T<>()).putAll($N())",
                 org.bukkit.Tag.REGISTRY_ITEMS,
                 HashMap.class,
                 defaultItemTags
             )
             .addStatement(
-                "tags.put($S, new $T<>()).putAll($N())",
+                "tags.computeIfAbsent($S, (k) -> new $T<>()).putAll($N())",
                 "entityTypes",
                 HashMap.class,
                 defaultEntityTags

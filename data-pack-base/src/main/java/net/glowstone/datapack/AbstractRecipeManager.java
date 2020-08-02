@@ -15,9 +15,11 @@ import java.util.Set;
 
 public abstract class AbstractRecipeManager {
     private final Map<NamespacedKey, RecipeProvider> recipes;
+    protected final AbstractTagManager tagManager;
 
-    protected AbstractRecipeManager() {
+    protected AbstractRecipeManager(AbstractTagManager tagManager) {
         this.recipes = new HashMap<>();
+        this.tagManager = tagManager;
         loadDefaultRecipes();
     }
 
