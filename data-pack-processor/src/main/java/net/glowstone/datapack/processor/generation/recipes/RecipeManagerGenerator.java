@@ -1,5 +1,6 @@
 package net.glowstone.datapack.processor.generation.recipes;
 
+import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -10,66 +11,53 @@ import com.squareup.javapoet.WildcardTypeName;
 import net.glowstone.datapack.AbstractRecipeManager;
 import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.loader.model.external.Data;
-import net.glowstone.datapack.loader.model.external.recipe.BlastingRecipe;
-import net.glowstone.datapack.loader.model.external.recipe.CampfireCookingRecipe;
-import net.glowstone.datapack.loader.model.external.recipe.Recipe;
-import net.glowstone.datapack.loader.model.external.recipe.SmeltingRecipe;
-import net.glowstone.datapack.loader.model.external.recipe.SmokingRecipe;
-import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
-import net.glowstone.datapack.loader.model.external.recipe.special.RepairItemRecipe;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
-import net.glowstone.datapack.recipes.ArmorDyeRecipeProvider;
-import net.glowstone.datapack.recipes.CookingRecipeProvider;
-import net.glowstone.datapack.recipes.RecipeProvider;
-import net.glowstone.datapack.recipes.RepairItemRecipeProvider;
+import net.glowstone.datapack.processor.generation.MappingArgumentGenerator;
+import net.glowstone.datapack.recipes.providers.RecipeProvider;
+import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMapping;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
-    private static final Map<Class<? extends Recipe>, RecipeGenerator<?, ?>> RECIPE_GENERATORS =
-        Stream.<RecipeGenerator<?, ?>>of(
-            new CookingRecipeGenerator<>(BlastingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.BlastingRecipe.class),
-            new CookingRecipeGenerator<>(CampfireCookingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.CampfireRecipe.class),
-            new CookingRecipeGenerator<>(SmeltingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.FurnaceRecipe.class),
-            new CookingRecipeGenerator<>(SmokingRecipe.class, CookingRecipeProvider.class, org.bukkit.inventory.SmokingRecipe.class),
-            new ShapelessRecipeGenerator(),
-            new ShapedRecipeGenerator(),
-            new StonecuttingRecipeGenerator(),
-            new SpecialRecipeGenerator<>(ArmorDyeRecipe.class, ArmorDyeRecipeProvider.class),
-            new SpecialRecipeGenerator<>(RepairItemRecipe.class, RepairItemRecipeProvider.class)
-        )
-        .collect(
-            Collectors.toMap(
-                RecipeGenerator::getAssociatedClass,
-                Function.identity()
-            )
-        );
-
-    private final Map<String, List<MethodSpec>> recipeMethods = new HashMap<>();
+    private final List<MethodSpec> recipeMethods = new ArrayList<>();
 
     @Override
     public void addItems(String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
-            RecipeGenerator<?, ?> generator = RECIPE_GENERATORS.get(recipe.getClass());
+            RecipeProviderMapping<?, ?> mapping = RecipeProviderMapping.RECIPE_PROVIDER_MAPPINGS.get(recipe.getClass());
 
-            if (generator != null) {
-                recipeMethods
-                    .computeIfAbsent(generator.getDefaultMethodName(), (key) -> new ArrayList<>())
+            if (mapping != null) {
+                List<MappingArgument> arguments = mapping.providerArgumentsGeneric(namespaceName, itemName, recipe);
+
+                CodeBlock.Builder initBlock = CodeBlock.builder()
                     .add(
-                        generator.generateMethod(namespaceName, itemName, recipe)
+                        "return new $T(",
+                        mapping.getRecipeProviderType()
                     );
+
+                initBlock.add(
+                    arguments.stream()
+                        .map((v) -> MappingArgumentGenerator.mapArgument("this.tagManager", v))
+                        .collect(CodeBlock.joining(", "))
+                );
+
+                initBlock.add(")");
+
+                MethodSpec method = MethodSpec.methodBuilder(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, itemName))
+                    .addModifiers(Modifier.PRIVATE)
+                    .returns(mapping.getRecipeProviderType())
+                    .addStatement(initBlock.build())
+                    .build();
+
+                recipeMethods.add(method);
             }
         });
     }
@@ -84,26 +72,6 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
                 WildcardTypeName.subtypeOf(Object.class)
             )
         );
-        List<MethodSpec> defaultMethods = recipeMethods.entrySet()
-            .stream()
-            .map((entry) -> {
-                return MethodSpec.methodBuilder(entry.getKey())
-                    .addModifiers(Modifier.PRIVATE)
-                    .returns(recipeListType)
-                    .addStatement(
-                        "$T recipes = new $T<>()",
-                        recipeListType,
-                        ArrayList.class)
-                    .addCode(
-                        entry.getValue()
-                            .stream()
-                            .map((method) -> CodeBlock.of("recipes.add($N())", method))
-                            .collect(CodeBlockStatementCollector.collect())
-                    )
-                    .addStatement("return recipes")
-                    .build();
-            })
-            .collect(Collectors.toList());
 
         MethodSpec defaultRecipesMethod = MethodSpec.methodBuilder("defaultRecipes")
             .addModifiers(Modifier.PROTECTED)
@@ -114,8 +82,8 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
                 ArrayList.class
             )
             .addCode(
-                defaultMethods.stream()
-                    .map((method) -> CodeBlock.of("recipes.addAll($N())", method))
+                recipeMethods.stream()
+                    .map((method) -> CodeBlock.of("recipes.add($N())", method))
                     .collect(CodeBlockStatementCollector.collect())
             )
             .addStatement("return recipes")
@@ -132,8 +100,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             .superclass(AbstractRecipeManager.class)
             .addMethod(constructorMethod)
             .addMethod(defaultRecipesMethod)
-            .addMethods(defaultMethods)
-            .addMethods(recipeMethods.values().stream().flatMap(List::stream).collect(Collectors.toList()))
+            .addMethods(recipeMethods)
             .build();
 
         JavaFile recipeManagerJavaFile = JavaFile.builder(generatedClassNamespace, recipeManagerTypeSpec)
@@ -146,4 +113,5 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             throw new UncheckedIOException(e);
         }
     }
+
 }

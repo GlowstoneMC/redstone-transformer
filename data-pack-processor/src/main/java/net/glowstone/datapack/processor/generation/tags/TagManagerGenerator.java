@@ -13,7 +13,9 @@ import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.tag.Tag;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
-import net.glowstone.datapack.processor.generation.utils.NamespaceUtils;
+import net.glowstone.datapack.processor.generation.MappingArgumentGenerator;
+import net.glowstone.datapack.tags.mapping.TagMapping;
+import net.glowstone.datapack.utils.NamespaceUtils;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -48,77 +50,35 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
         );
     }
 
-    private static CodeBlock.Builder createTagCodeBlock(Class<?> valueClass) {
-        return CodeBlock.builder()
-            .addStatement(
-                "$T tags = new $T<>()",
-                createNamespacedSetMap(ClassName.get(valueClass)),
-                HashMap.class
-            );
-    }
-
-    private final CodeBlock.Builder blockTagCodeBlocks = createTagCodeBlock(Material.class);
-    private final CodeBlock.Builder itemTagCodeBlocks = createTagCodeBlock(Material.class);
-    private final CodeBlock.Builder entityTagCodeBlocks = createTagCodeBlock(EntityType.class);
+    private final CodeBlock.Builder tagCodeBlocks = CodeBlock.builder();
 
     @Override
     public void addItems(String namespaceName, Data data) {
         traverseTags(namespaceName, data.getBlockTags())
-            .forEach(new TagAccumulator<>(namespaceName, blockTagCodeBlocks, Material.class, Material::matchMaterial));
+            .forEach((entry) -> tagCodeBlocks.addStatement(createTagBlock(org.bukkit.Tag.REGISTRY_BLOCKS, namespaceName, entry, TagMapping.BLOCK)));
         traverseTags(namespaceName, data.getItemTags())
-            .forEach(new TagAccumulator<>(namespaceName, itemTagCodeBlocks, Material.class, Material::matchMaterial));
+            .forEach((entry) -> tagCodeBlocks.addStatement(createTagBlock(org.bukkit.Tag.REGISTRY_ITEMS, namespaceName, entry, TagMapping.ITEM)));
         traverseTags(namespaceName, data.getEntityTypeTags())
-            .forEach(new TagAccumulator<>(namespaceName, entityTagCodeBlocks, EntityType.class, (s) -> EntityType.fromName(NamespaceUtils.parseNamespace(s, namespaceName).getKey())));
+            .forEach((entry) -> tagCodeBlocks.addStatement(createTagBlock("entityTypes", namespaceName, entry, TagMapping.ENTITY)));
     }
 
     @Override
     public void generateManager(Path generatedClassPath, String generatedClassNamespace) {
-        MethodSpec defaultBlockTags = createDefaultTagMethod("defaultBlockTags", Material.class, blockTagCodeBlocks);
-        MethodSpec defaultItemTags = createDefaultTagMethod("defaultItemTags", Material.class, itemTagCodeBlocks);
-        MethodSpec defaultEntityTags = createDefaultTagMethod("defaultEntityTags", EntityType.class, entityTagCodeBlocks);
-
         ParameterizedTypeName returnType = ParameterizedTypeName.get(
             ClassName.get(Map.class),
             ClassName.get(String.class),
             NAMESPACED_KEYED_SET_MAP
         );
         MethodSpec defaultTags = MethodSpec
-            .methodBuilder("defaultTagValues")
+            .methodBuilder("addDefaultTagValues")
             .addAnnotation(Override.class)
             .addModifiers(Modifier.PROTECTED)
-            .returns(returnType)
-            .addStatement(
-                "$T tags = new $T<>()",
-                returnType,
-                HashMap.class
-            )
-            .addStatement(
-                "tags.computeIfAbsent($S, (k) -> new $T<>()).putAll($N())",
-                org.bukkit.Tag.REGISTRY_BLOCKS,
-                HashMap.class,
-                defaultBlockTags
-            )
-            .addStatement(
-                "tags.computeIfAbsent($S, (k) -> new $T<>()).putAll($N())",
-                org.bukkit.Tag.REGISTRY_ITEMS,
-                HashMap.class,
-                defaultItemTags
-            )
-            .addStatement(
-                "tags.computeIfAbsent($S, (k) -> new $T<>()).putAll($N())",
-                "entityTypes",
-                HashMap.class,
-                defaultEntityTags
-            )
-            .addStatement("return tags")
+            .addCode(tagCodeBlocks.build())
             .build();
 
         TypeSpec tagManagerTypeSpec = TypeSpec.classBuilder("TagManager")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(AbstractTagManager.class)
-            .addMethod(defaultBlockTags)
-            .addMethod(defaultItemTags)
-            .addMethod(defaultEntityTags)
             .addMethod(defaultTags)
             .build();
 
@@ -165,99 +125,14 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
             .stream()
             .sorted(Comparator.comparingInt(o -> depthCounts.get(new NamespacedKey(namespaceName, o.getKey()))));
     }
-    
-    private MethodSpec createDefaultTagMethod(String methodName, Class<?> valueType, CodeBlock.Builder tagCodeBlock) {
-        tagCodeBlock.addStatement("return tags");
-        return MethodSpec
-            .methodBuilder(methodName)
-            .addModifiers(Modifier.PRIVATE)
-            .returns(createNamespacedSetMap(ClassName.get(valueType)))
-            .addCode(tagCodeBlock.build())
-            .build();
-    }
 
-    private static class TagAccumulator<T extends Enum<T>> implements Consumer<Entry<String, Tag>> {
-        private final String namespaceName;
-        private final CodeBlock.Builder tagBlock;
-        private final Class<T> valueType;
-        private final Function<String, T> enumConverter;
-
-        private TagAccumulator(String namespaceName, CodeBlock.Builder tagBlock, Class<T> valueType, Function<String, T> enumConverter) {
-            this.namespaceName = namespaceName;
-            this.tagBlock = tagBlock;
-            this.valueType = valueType;
-            this.enumConverter = enumConverter;
-        }
-
-        @Override
-        public void accept(Entry<String, Tag> entry) {
-            String itemName = entry.getKey();
-            Tag tag = entry.getValue();
-            Optional<CodeBlock.Builder> directValueBlock = Optional.empty();
-            Optional<CodeBlock.Builder> subTagValueBlock = Optional.empty();
-            for (String tagValue : tag.getValues()) {
-                if (tagValue.startsWith("#")) {
-                    CodeBlock.Builder block;
-                    if (subTagValueBlock.isPresent()) {
-                        block = subTagValueBlock.get().add(", ");
-                    } else {
-                        block = CodeBlock.builder().add(
-                            "$T.<$T>newHashSet(",
-                            Sets.class,
-                            ParameterizedTypeName.get(
-                                SubTagTrackingTag.class,
-                                Material.class
-                            )
-                        );
-                        subTagValueBlock = Optional.of(block);
-                    }
-                    NamespacedKey namespacedKey = NamespaceUtils.parseNamespace(tagValue.substring(1), namespaceName);
-                    block.add(
-                        "getTagFromMap(tags, $S, $S)",
-                        namespacedKey.getNamespace(),
-                        namespacedKey.getKey()
-                    );
-                } else {
-                    CodeBlock.Builder block;
-                    if (directValueBlock.isPresent()) {
-                        block = directValueBlock.get().add(", ");
-                    } else {
-                        block = CodeBlock.builder().add(
-                            "$T.newHashSet(",
-                            Sets.class
-                        );
-                        directValueBlock = Optional.of(block);
-                    }
-                    block.add(
-                        "$T.$L",
-                        valueType,
-                        enumConverter.apply(tagValue)
-                    );
-                }
-            }
-
-            CodeBlock directValues = directValueBlock
-                .map(builder -> builder.add(")").build())
-                .orElseGet(() -> CodeBlock.of(
-                    "$T.emptySet()",
-                    Collections.class
-                ));
-
-            CodeBlock subTagValues = subTagValueBlock
-                .map(builder -> builder.add(")").build())
-                .orElseGet(() -> CodeBlock.of(
-                    "$T.emptySet()",
-                    Collections.class
-                ));
-
-            tagBlock.addStatement(
-                "this.addTagToMap(tags, $S, $S, $T.class, $L, $L)",
-                namespaceName,
-                itemName,
-                valueType,
-                directValues,
-                subTagValues
-            );
-        }
+    private CodeBlock createTagBlock(String registry, String namespace, Entry<String, Tag> entry, TagMapping<?> tagMapping) {
+        return CodeBlock.of(
+            "this.addTag($L)",
+            tagMapping.providerArguments(registry, namespace, entry.getKey(), entry.getValue())
+                .stream()
+                .map((v) -> MappingArgumentGenerator.mapArgument("this", v))
+                .collect(CodeBlock.joining(", "))
+        );
     }
 }

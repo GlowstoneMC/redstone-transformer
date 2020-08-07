@@ -1,4 +1,4 @@
-package net.glowstone.datapack.processor.generation.utils;
+package net.glowstone.datapack.utils;
 
 import org.bukkit.NamespacedKey;
 

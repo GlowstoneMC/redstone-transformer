@@ -1,5 +1,6 @@
-package net.glowstone.datapack.recipes;
+package net.glowstone.datapack.recipes.providers;
 
+import net.glowstone.datapack.recipes.StaticResultRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

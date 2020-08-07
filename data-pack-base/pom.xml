@@ -20,6 +20,11 @@
             <groupId>net.glowstone</groupId>
             <artifactId>glowkit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.glowstone</groupId>
+            <artifactId>data-pack-loader</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

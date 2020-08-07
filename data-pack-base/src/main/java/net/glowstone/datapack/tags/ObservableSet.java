@@ -8,6 +8,10 @@ import java.util.function.BiConsumer;
 public interface ObservableSet<E> extends Set<E>, Cloneable {
     Class<E> getValueClass();
 
+    Set<E> getDirectValues();
+
+    Set<? extends ObservableSet<? extends E>> getSubSets();
+
     boolean add(ObservableSet<? extends E> subSet);
 
     boolean remove(ObservableSet<? extends E> subSet);

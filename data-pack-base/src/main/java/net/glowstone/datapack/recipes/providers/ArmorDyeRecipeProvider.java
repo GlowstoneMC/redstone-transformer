@@ -1,7 +1,8 @@
-package net.glowstone.datapack.recipes;
+package net.glowstone.datapack.recipes.providers;
 
 import com.destroystokyo.paper.MaterialTags;
 import com.google.common.collect.ImmutableMap;
+import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.tags.ExtraMaterialTags;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;

@@ -1,9 +1,11 @@
-package net.glowstone.datapack.recipes;
+package net.glowstone.datapack.recipes.providers;
 
+import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.StonecutterInventory;
 import org.bukkit.inventory.StonecuttingRecipe;
 
@@ -11,6 +13,16 @@ import java.util.Optional;
 
 public class StonecuttingRecipeProvider extends AbstractRecipeProvider<StonecutterInventory> {
     private final StonecuttingRecipe recipe;
+
+    public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, RecipeChoice source) {
+        super(StonecutterInventory.class);
+        this.recipe = new StonecuttingRecipe(
+            new NamespacedKey(namespace, key),
+            new ItemStack(resultMaterial, resultAmount),
+            source
+        );
+        group.ifPresent(this.recipe::setGroup);
+    }
 
     public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, MaterialTagRecipeChoice source) {
         super(StonecutterInventory.class);

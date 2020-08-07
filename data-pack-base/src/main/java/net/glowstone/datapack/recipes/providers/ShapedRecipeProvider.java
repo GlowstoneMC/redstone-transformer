@@ -1,4 +1,4 @@
-package net.glowstone.datapack.recipes;
+package net.glowstone.datapack.recipes.providers;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -8,15 +8,29 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class ShapedRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
     private final ShapedRecipe recipe;
 
+    public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<String> shape, Map<Character, RecipeChoice> ingredients) {
+        super(CraftingInventory.class);
+        this.recipe = new ShapedRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
+        group.ifPresent(this.recipe::setGroup);
+        this.recipe.shape(shape.toArray(new String[0]));
+        ingredients.forEach(this.recipe::setIngredient);
+    }
+
     public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
         super(CraftingInventory.class);
         this.recipe = new ShapedRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
+    }
+
+    public ShapedRecipeProvider setGroup(Optional<String> group) {
+        group.ifPresent(this.recipe::setGroup);
+        return this;
     }
 
     public ShapedRecipeProvider setGroup(String group) {
@@ -24,13 +38,22 @@ public class ShapedRecipeProvider extends AbstractRecipeProvider<CraftingInvento
         return this;
     }
 
-    public ShapedRecipeProvider setShape(String... shape) {
-        recipe.shape(shape);
+    public ShapedRecipeProvider setIngredients(Map<Character, RecipeChoice> ingredients) {
+        ingredients.forEach(this.recipe::setIngredient);
         return this;
     }
 
     public ShapedRecipeProvider setIngredient(char key, RecipeChoice ingredient) {
-        recipe.setIngredient(key, ingredient);
+        this.recipe.setIngredient(key, ingredient);
+        return this;
+    }
+
+    public ShapedRecipeProvider setShape(List<String> shape) {
+        return setShape(shape.toArray(new String[0]));
+    }
+
+    public ShapedRecipeProvider setShape(String... shape) {
+        this.recipe.shape(shape);
         return this;
     }
 

@@ -73,6 +73,16 @@ public class HashObservableSet<E> implements ObservableSet<E> {
     }
 
     @Override
+    public Set<E> getDirectValues() {
+        return Collections.unmodifiableSet(this.directValues);
+    }
+
+    @Override
+    public Set<? extends ObservableSet<? extends E>> getSubSets() {
+        return Collections.unmodifiableSet(this.subSets);
+    }
+
+    @Override
     public int size() {
         return this.allValues.elementSet().size();
     }

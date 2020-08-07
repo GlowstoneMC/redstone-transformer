@@ -1,16 +1,26 @@
-package net.glowstone.datapack.recipes;
+package net.glowstone.datapack.recipes.providers;
 
+import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapelessRecipe;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ShapelessRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
     private final ShapelessRecipe recipe;
+
+    public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<RecipeChoice> ingredients) {
+        super(CraftingInventory.class);
+        this.recipe = new ShapelessRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
+        group.ifPresent(this.recipe::setGroup);
+        ingredients.forEach(this.recipe::addIngredient);
+    }
 
     public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
         super(CraftingInventory.class);

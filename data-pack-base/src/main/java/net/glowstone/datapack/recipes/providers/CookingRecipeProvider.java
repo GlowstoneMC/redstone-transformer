@@ -1,16 +1,15 @@
-package net.glowstone.datapack.recipes;
+package net.glowstone.datapack.recipes.providers;
 
+import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CookingRecipe;
 import org.bukkit.inventory.FurnaceInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 public class CookingRecipeProvider<T extends CookingRecipe<T>> extends AbstractRecipeProvider<FurnaceInventory> {
     private final T recipe;
@@ -19,7 +18,7 @@ public class CookingRecipeProvider<T extends CookingRecipe<T>> extends AbstractR
                                  String key,
                                  Material resultMaterial,
                                  int resultAmount,
-                                 MaterialTagRecipeChoice choice,
+                                 RecipeChoice choice,
                                  float experience,
                                  int cookingTime,
                                  CookingRecipeConstructor<T> constructor) {
@@ -31,6 +30,31 @@ public class CookingRecipeProvider<T extends CookingRecipe<T>> extends AbstractR
             experience,
             cookingTime
         );
+    }
+
+    public CookingRecipeProvider(String namespace,
+                                 String key,
+                                 Material resultMaterial,
+                                 int resultAmount,
+                                 Optional<String> group,
+                                 RecipeChoice choice,
+                                 float experience,
+                                 int cookingTime,
+                                 CookingRecipeConstructor<T> constructor) {
+        super(FurnaceInventory.class);
+        this.recipe = constructor.create(
+            new NamespacedKey(namespace, key),
+            new ItemStack(resultMaterial, resultAmount),
+            choice,
+            experience,
+            cookingTime
+        );
+        group.ifPresent(this.recipe::setGroup);
+    }
+
+    public CookingRecipeProvider<T> setGroup(Optional<String> group) {
+        group.ifPresent(this.recipe::setGroup);
+        return this;
     }
 
     public CookingRecipeProvider<T> setGroup(String group) {

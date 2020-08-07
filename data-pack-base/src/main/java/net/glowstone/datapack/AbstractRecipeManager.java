@@ -2,8 +2,10 @@ package net.glowstone.datapack;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.glowstone.datapack.loader.model.external.DataPack;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
-import net.glowstone.datapack.recipes.RecipeProvider;
+import net.glowstone.datapack.recipes.providers.RecipeProvider;
+import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMapping;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -38,6 +40,21 @@ public abstract class AbstractRecipeManager {
             .map(Optional::get)
             .findFirst()
             .orElse(null);
+    }
+
+    public void loadFromDataPack(DataPack dataPack) {
+        dataPack.getNamespacedData().forEach((namespace, data) -> {
+            data.getRecipes().forEach((itemName, recipe) -> {
+                RecipeProviderMapping<?, ?> mapping = RecipeProviderMapping.RECIPE_PROVIDER_MAPPINGS.get(recipe.getClass());
+
+                if (mapping != null) {
+                    RecipeProvider<?> provider = mapping.providerGeneric(this.tagManager, namespace, itemName, recipe);
+
+                    this.recipesByKey.put(provider.getKey(), provider);
+                    this.recipesByType.put(provider.getInventoryClass(), provider);
+                }
+            });
+        });
     }
 
     private void loadDefaultRecipes() {

@@ -1,4 +1,4 @@
-package net.glowstone.datapack.recipes;
+package net.glowstone.datapack.recipes.providers;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
