@@ -16,6 +16,8 @@ import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
 import net.glowstone.datapack.processor.generation.MappingArgumentGenerator;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
 import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMapping;
+import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry;
+import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry.RecipeProviderMappingArgumentsResult;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 
 import javax.lang.model.element.Modifier;
@@ -24,6 +26,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     private final List<MethodSpec> recipeMethods = new ArrayList<>();
@@ -32,15 +35,16 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     public void addItems(String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
-            RecipeProviderMapping<?, ?> mapping = RecipeProviderMapping.RECIPE_PROVIDER_MAPPINGS.get(recipe.getClass());
+            Optional<RecipeProviderMappingArgumentsResult> result = RecipeProviderMappingRegistry.providerArguments(namespaceName, itemName, recipe);
 
-            if (mapping != null) {
-                List<MappingArgument> arguments = mapping.providerArgumentsGeneric(namespaceName, itemName, recipe);
+            if (result.isPresent()) {
+                List<MappingArgument> arguments = result.get().getMappingArguments();
+                Class<? extends RecipeProvider<?>> recipeProviderType = result.get().getRecipeProviderType();
 
                 CodeBlock.Builder initBlock = CodeBlock.builder()
                     .add(
                         "return new $T(",
-                        mapping.getRecipeProviderType()
+                        recipeProviderType
                     );
 
                 initBlock.add(
@@ -53,7 +57,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
 
                 MethodSpec method = MethodSpec.methodBuilder(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, itemName))
                     .addModifiers(Modifier.PRIVATE)
-                    .returns(mapping.getRecipeProviderType())
+                    .returns(recipeProviderType)
                     .addStatement(initBlock.build())
                     .build();
 

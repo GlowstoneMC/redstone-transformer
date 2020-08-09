@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.squareup.javapoet.CodeBlock;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 
+import java.util.Collections;
 import java.util.Optional;
 
 public class MappingArgumentGenerator {
@@ -73,6 +74,12 @@ public class MappingArgumentGenerator {
         }
 
         if (argument.getListValue().isPresent()) {
+            if (argument.getListValue().get().isEmpty()) {
+                return CodeBlock.of(
+                    "$T.emptyList()",
+                    Collections.class
+                );
+            }
             CodeBlock list = argument.getListValue()
                 .get()
                 .stream()
@@ -87,6 +94,12 @@ public class MappingArgumentGenerator {
         }
 
         if (argument.getSetValue().isPresent()) {
+            if (argument.getSetValue().get().isEmpty()) {
+                return CodeBlock.of(
+                    "$T.emptySet()",
+                    Collections.class
+                );
+            }
             CodeBlock list = argument.getSetValue()
                 .get()
                 .stream()
@@ -101,6 +114,12 @@ public class MappingArgumentGenerator {
         }
 
         if (argument.getMapValue().isPresent()) {
+            if (argument.getMapValue().get().getArguments().isEmpty()) {
+                return CodeBlock.of(
+                    "$T.emptyMap()",
+                    Collections.class
+                );
+            }
             CodeBlock map = argument.getMapValue()
                 .get()
                 .getArguments()

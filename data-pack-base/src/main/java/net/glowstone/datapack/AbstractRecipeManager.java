@@ -6,6 +6,7 @@ import net.glowstone.datapack.loader.model.external.DataPack;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
 import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMapping;
+import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -45,10 +46,10 @@ public abstract class AbstractRecipeManager {
     public void loadFromDataPack(DataPack dataPack) {
         dataPack.getNamespacedData().forEach((namespace, data) -> {
             data.getRecipes().forEach((itemName, recipe) -> {
-                RecipeProviderMapping<?, ?> mapping = RecipeProviderMapping.RECIPE_PROVIDER_MAPPINGS.get(recipe.getClass());
+                Optional<RecipeProvider<?>> possibleProvider = RecipeProviderMappingRegistry.provider(this.tagManager, namespace, itemName, recipe);
 
-                if (mapping != null) {
-                    RecipeProvider<?> provider = mapping.providerGeneric(this.tagManager, namespace, itemName, recipe);
+                if (possibleProvider.isPresent()) {
+                    RecipeProvider<?> provider = possibleProvider.get();
 
                     this.recipesByKey.put(provider.getKey(), provider);
                     this.recipesByType.put(provider.getInventoryClass(), provider);

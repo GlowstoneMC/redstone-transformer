@@ -41,6 +41,19 @@ public abstract class AbstractTagManager {
         });
     }
 
+    public void clear() {
+        tagValues.forEach((registry, namespaces) -> {
+            namespaces.forEach((namespace, tag) -> {
+                tag.clear();
+            });
+        });
+    }
+
+    public void resetToDefaults() {
+        this.clear();
+        this.addDefaultTagValues();
+    }
+
     public SubTagTrackingTag<Material> getItemTag(String namespaceName, String key) {
         return getItemTag(new NamespacedKey(namespaceName, key));
     }
