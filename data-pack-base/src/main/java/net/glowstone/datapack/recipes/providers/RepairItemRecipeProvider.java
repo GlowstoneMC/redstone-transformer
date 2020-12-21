@@ -12,23 +12,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-public class RepairItemRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
+public class RepairItemRecipeProvider extends DynamicRecipeProvider<CraftingInventory> {
     private static boolean isRepairable(ItemStack item) {
         return item.getItemMeta() instanceof Damageable;
     }
 
-    private final NamespacedKey key;
-
     public RepairItemRecipeProvider(String namespace, String key) {
-        super(CraftingInventory.class);
-        this.key = new NamespacedKey(namespace, key);
-    }
-
-    @Override
-    public NamespacedKey getKey() {
-        return this.key;
+        super(new NamespacedKey(namespace, key), CraftingInventory.class);
     }
 
     @Override
@@ -71,5 +64,17 @@ public class RepairItemRecipeProvider extends AbstractRecipeProvider<CraftingInv
         newItem.setItemMeta(newItemMeta);
 
         return Optional.of(new StaticResultRecipe(newItem));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return true;
     }
 }

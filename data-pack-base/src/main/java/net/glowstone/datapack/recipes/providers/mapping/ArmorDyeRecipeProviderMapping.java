@@ -1,7 +1,7 @@
 package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableList;
-import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
 import net.glowstone.datapack.recipes.providers.ArmorDyeRecipeProvider;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -28,7 +28,7 @@ public class ArmorDyeRecipeProviderMapping implements RecipeProviderMapping<Armo
     }
 
     @Override
-    public ArmorDyeRecipeProvider provider(AbstractTagManager tagManager, String namespace, String key, ArmorDyeRecipe recipe) {
+    public ArmorDyeRecipeProvider provider(TagManager tagManager, String namespace, String key, ArmorDyeRecipe recipe) {
         return new ArmorDyeRecipeProvider(namespace, key);
     }
 }

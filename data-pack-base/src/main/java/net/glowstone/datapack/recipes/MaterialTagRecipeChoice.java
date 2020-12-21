@@ -11,6 +11,7 @@ import org.bukkit.inventory.RecipeChoice;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class MaterialTagRecipeChoice implements RecipeChoice {
@@ -71,5 +72,18 @@ public class MaterialTagRecipeChoice implements RecipeChoice {
     @Override
     public boolean test(ItemStack itemStack) {
         return choices.contains(itemStack.getType());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MaterialTagRecipeChoice that = (MaterialTagRecipeChoice) o;
+        return choices.equals(that.choices);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(choices);
     }
 }

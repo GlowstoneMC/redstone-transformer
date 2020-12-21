@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.Streams;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.Item;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -17,7 +18,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 class MappingUtils {
-    static RecipeChoice generateRecipeChoice(AbstractTagManager tagManager, String namespace, List<Item> items) {
+    static RecipeChoice generateRecipeChoice(TagManager tagManager, String namespace, List<Item> items) {
         return generateFromMaterialTags(namespace, items, (materials, tags) -> {
             if (tags.size() > 0) {
                 return new MaterialTagRecipeChoice(

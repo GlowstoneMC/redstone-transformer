@@ -17,9 +17,11 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-public class ArmorDyeRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
+public class ArmorDyeRecipeProvider extends DynamicRecipeProvider<CraftingInventory> {
     private static final Map<Material, DyeColor> DYE_COLORS = ImmutableMap.<Material, DyeColor>builder()
         .put(Material.BLACK_DYE, DyeColor.BLACK)
         .put(Material.BLUE_DYE, DyeColor.BLUE)
@@ -39,16 +41,8 @@ public class ArmorDyeRecipeProvider extends AbstractRecipeProvider<CraftingInven
         .put(Material.YELLOW_DYE, DyeColor.YELLOW)
         .build();
 
-    private final NamespacedKey key;
-
     public ArmorDyeRecipeProvider(String namespace, String key) {
-        super(CraftingInventory.class);
-        this.key = new NamespacedKey(namespace, key);
-    }
-
-    @Override
-    public NamespacedKey getKey() {
-        return this.key;
+        super(new NamespacedKey(namespace, key), CraftingInventory.class);
     }
 
     @Override
@@ -99,5 +93,17 @@ public class ArmorDyeRecipeProvider extends AbstractRecipeProvider<CraftingInven
         ret.setItemMeta(retMeta);
 
         return Optional.of(new StaticResultRecipe(ret));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return true;
     }
 }

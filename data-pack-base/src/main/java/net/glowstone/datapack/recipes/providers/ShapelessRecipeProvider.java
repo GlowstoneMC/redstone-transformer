@@ -10,36 +10,41 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapelessRecipe;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-public class ShapelessRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
-    private final ShapelessRecipe recipe;
-
+public class ShapelessRecipeProvider extends StaticRecipeProvider<CraftingInventory, ShapelessRecipe> {
     public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<RecipeChoice> ingredients) {
-        super(CraftingInventory.class);
-        this.recipe = new ShapelessRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
-        group.ifPresent(this.recipe::setGroup);
-        ingredients.forEach(this.recipe::addIngredient);
+        super(
+            CraftingInventory.class,
+            new ShapelessRecipe(
+                new NamespacedKey(namespace, key),
+                new ItemStack(resultMaterial, resultAmount)
+            )
+        );
+        ShapelessRecipe recipe = getRecipe();
+        group.ifPresent(recipe::setGroup);
+        ingredients.forEach(recipe::addIngredient);
     }
 
     public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
-        super(CraftingInventory.class);
-        this.recipe = new ShapelessRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
+        super(
+            CraftingInventory.class,
+            new ShapelessRecipe(
+                new NamespacedKey(namespace, key),
+                new ItemStack(resultMaterial, resultAmount)
+            )
+        );
     }
 
     public ShapelessRecipeProvider setGroup(String group) {
-        this.recipe.setGroup(group);
+        getRecipe().setGroup(group);
         return this;
     }
 
     public ShapelessRecipeProvider addIngredient(MaterialTagRecipeChoice choice) {
-        this.recipe.addIngredient(choice);
+        getRecipe().addIngredient(choice);
         return this;
-    }
-
-    @Override
-    public NamespacedKey getKey() {
-        return recipe.getKey();
     }
 
     @Override
@@ -52,7 +57,7 @@ public class ShapelessRecipeProvider extends AbstractRecipeProvider<CraftingInve
         }
 
         // Make sure each ingredient in the recipe exists in the inventory
-        for (ItemStack ingredient : recipe.getIngredientList()) {
+        for (ItemStack ingredient : getRecipe().getIngredientList()) {
             boolean foundItem = false;
             for (int i = 0; i < inventory.getMatrix().length; ++i) {
                 // if this item is not already used and it matches this ingredient...
@@ -74,6 +79,27 @@ public class ShapelessRecipeProvider extends AbstractRecipeProvider<CraftingInve
             }
         }
 
-        return Optional.of(recipe);
+        return Optional.of(getRecipe());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            getRecipe().getKey(),
+            getRecipe().getResult(),
+            getRecipe().getChoiceList(),
+            getRecipe().getGroup()
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShapelessRecipeProvider that = (ShapelessRecipeProvider) o;
+        return Objects.equals(getRecipe().getKey(), that.getRecipe().getKey())
+            && Objects.equals(getRecipe().getResult(), that.getRecipe().getResult())
+            && Objects.equals(getRecipe().getChoiceList(), that.getRecipe().getChoiceList())
+            && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
     }
 }

@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableMap;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -43,7 +44,7 @@ public class RecipeProviderMappingRegistry {
         return Optional.of(new RecipeProviderMappingArgumentsResult(mapping.getRecipeProviderType(), mapping.providerArguments(namespace, key, recipe)));
     }
 
-    public static <R extends Recipe> Optional<RecipeProvider<?>> provider(AbstractTagManager tagManager, String namespace, String key, R recipe) {
+    public static <R extends Recipe> Optional<RecipeProvider<?>> provider(TagManager tagManager, String namespace, String key, R recipe) {
         if (!RECIPE_PROVIDER_MAPPINGS.containsKey(recipe.getClass())) {
             return Optional.empty();
         }

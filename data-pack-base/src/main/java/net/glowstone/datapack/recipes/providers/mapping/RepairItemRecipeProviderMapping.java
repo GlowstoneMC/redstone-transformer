@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.special.RepairItemRecipe;
 import net.glowstone.datapack.recipes.providers.RepairItemRecipeProvider;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -28,7 +29,7 @@ public class RepairItemRecipeProviderMapping implements RecipeProviderMapping<Re
     }
 
     @Override
-    public RepairItemRecipeProvider provider(AbstractTagManager tagManager, String namespace, String key, RepairItemRecipe recipe) {
+    public RepairItemRecipeProvider provider(TagManager tagManager, String namespace, String key, RepairItemRecipe recipe) {
         return new RepairItemRecipeProvider(namespace, key);
     }
 }

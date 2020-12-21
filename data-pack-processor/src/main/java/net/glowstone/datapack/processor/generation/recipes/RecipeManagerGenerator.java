@@ -10,6 +10,7 @@ import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 import net.glowstone.datapack.AbstractRecipeManager;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
@@ -95,11 +96,11 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
 
         MethodSpec constructorMethod = MethodSpec.constructorBuilder()
             .addModifiers(Modifier.PUBLIC)
-            .addParameter(AbstractTagManager.class, "tagManager")
+            .addParameter(TagManager.class, "tagManager")
             .addStatement("super(tagManager)")
             .build();
 
-        TypeSpec recipeManagerTypeSpec = TypeSpec.classBuilder("RecipeManager")
+        TypeSpec recipeManagerTypeSpec = TypeSpec.classBuilder("VanillaRecipeManager")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(AbstractRecipeManager.class)
             .addMethod(constructorMethod)

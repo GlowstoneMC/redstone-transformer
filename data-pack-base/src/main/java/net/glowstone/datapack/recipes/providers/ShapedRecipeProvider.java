@@ -8,43 +8,55 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-public class ShapedRecipeProvider extends AbstractRecipeProvider<CraftingInventory> {
-    private final ShapedRecipe recipe;
-
+public class ShapedRecipeProvider extends StaticRecipeProvider<CraftingInventory, ShapedRecipe> {
     public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<String> shape, Map<Character, RecipeChoice> ingredients) {
-        super(CraftingInventory.class);
-        this.recipe = new ShapedRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
-        group.ifPresent(this.recipe::setGroup);
-        this.recipe.shape(shape.toArray(new String[0]));
-        ingredients.forEach(this.recipe::setIngredient);
+        super(
+            CraftingInventory.class,
+            new ShapedRecipe(
+                new NamespacedKey(namespace, key),
+                new ItemStack(resultMaterial, resultAmount)
+            )
+        );
+        ShapedRecipe recipe = getRecipe();
+        group.ifPresent(recipe::setGroup);
+        recipe.shape(shape.toArray(new String[0]));
+        ingredients.forEach(recipe::setIngredient);
     }
 
     public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
-        super(CraftingInventory.class);
-        this.recipe = new ShapedRecipe(new NamespacedKey(namespace, key), new ItemStack(resultMaterial, resultAmount));
+        super(
+            CraftingInventory.class,
+            new ShapedRecipe(
+                new NamespacedKey(namespace, key),
+                new ItemStack(resultMaterial, resultAmount)
+            )
+        );
     }
 
     public ShapedRecipeProvider setGroup(Optional<String> group) {
-        group.ifPresent(this.recipe::setGroup);
+        group.ifPresent(getRecipe()::setGroup);
         return this;
     }
 
     public ShapedRecipeProvider setGroup(String group) {
-        this.recipe.setGroup(group);
+        getRecipe().setGroup(group);
         return this;
     }
 
     public ShapedRecipeProvider setIngredients(Map<Character, RecipeChoice> ingredients) {
-        ingredients.forEach(this.recipe::setIngredient);
+        ingredients.forEach(getRecipe()::setIngredient);
         return this;
     }
 
     public ShapedRecipeProvider setIngredient(char key, RecipeChoice ingredient) {
-        this.recipe.setIngredient(key, ingredient);
+        getRecipe().setIngredient(key, ingredient);
         return this;
     }
 
@@ -53,20 +65,15 @@ public class ShapedRecipeProvider extends AbstractRecipeProvider<CraftingInvento
     }
 
     public ShapedRecipeProvider setShape(String... shape) {
-        this.recipe.shape(shape);
+        getRecipe().shape(shape);
         return this;
-    }
-
-    @Override
-    public NamespacedKey getKey() {
-        return recipe.getKey();
     }
 
     @Override
     public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
         int size = (int) Math.sqrt(inventory.getMatrix().length);
-        Map<Character, ItemStack> ingredients = recipe.getIngredientMap();
-        String[] shape = recipe.getShape();
+        Map<Character, ItemStack> ingredients = getRecipe().getIngredientMap();
+        String[] shape = getRecipe().getShape();
 
         int rows = shape.length;
         int cols = 0;
@@ -143,10 +150,33 @@ public class ShapedRecipeProvider extends AbstractRecipeProvider<CraftingInvento
                 }
 
                 // recipe matches and zero items outside the recipe part.
-                return Optional.of(recipe);
+                return Optional.of(getRecipe());
             }
         } // end position loop
 
         return Optional.empty();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            getRecipe().getKey(),
+            getRecipe().getResult(),
+            getRecipe().getChoiceMap(),
+            Arrays.hashCode(getRecipe().getShape()),
+            getRecipe().getGroup()
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShapedRecipeProvider that = (ShapedRecipeProvider) o;
+        return Objects.equals(getRecipe().getKey(), that.getRecipe().getKey())
+            && Objects.equals(getRecipe().getResult(), that.getRecipe().getResult())
+            && Objects.equals(getRecipe().getChoiceMap(), that.getRecipe().getChoiceMap())
+            && Arrays.equals(getRecipe().getShape(), that.getRecipe().getShape())
+            && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
     }
 }

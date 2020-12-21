@@ -76,7 +76,7 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
             .addCode(tagCodeBlocks.build())
             .build();
 
-        TypeSpec tagManagerTypeSpec = TypeSpec.classBuilder("TagManager")
+        TypeSpec tagManagerTypeSpec = TypeSpec.classBuilder("VanillaTagManager")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(AbstractTagManager.class)
             .addMethod(defaultTags)

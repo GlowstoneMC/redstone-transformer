@@ -1,41 +1,81 @@
 package net.glowstone.datapack;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import net.glowstone.datapack.loader.model.external.DataPack;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
-import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMapping;
 import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
+import org.apache.commons.lang3.ClassUtils;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public abstract class AbstractRecipeManager {
+public abstract class AbstractRecipeManager implements RecipeManager {
     private final Map<NamespacedKey, RecipeProvider<?>> recipesByKey;
     private final Multimap<Class<? extends Inventory>, RecipeProvider<?>> recipesByType;
-    protected final AbstractTagManager tagManager;
+    private final LoadingCache<Class<? extends Inventory>, Set<Class<? extends Inventory>>> inventoryTypeCache;
+    protected final TagManager tagManager;
 
-    protected AbstractRecipeManager(AbstractTagManager tagManager) {
+    protected AbstractRecipeManager(TagManager tagManager) {
         this.recipesByKey = new HashMap<>();
         this.recipesByType = HashMultimap.create();
+        this.inventoryTypeCache = CacheBuilder.newBuilder()
+            .build(
+                new CacheLoader<Class<? extends Inventory>, Set<Class<? extends Inventory>>>() {
+                    @Override
+                    public Set<Class<? extends Inventory>> load(Class<? extends Inventory> key) {
+                        Set<Class<?>> possibleClasses = new HashSet<>();
+                        possibleClasses.add(key);
+                        List<Class<?>> superClasses = ClassUtils.getAllSuperclasses(key);
+                        possibleClasses.addAll(superClasses);
+                        superClasses.forEach((superClass) -> possibleClasses.addAll(ClassUtils.getAllInterfaces(superClass)));
+                        return possibleClasses.stream()
+                            .filter(Inventory.class::isAssignableFrom)
+                            .map((clazz) -> (Class<? extends Inventory>) clazz)
+                            .collect(Collectors.toSet());
+                    }
+                }
+            );
         this.tagManager = tagManager;
         loadDefaultRecipes();
     }
 
+    @Override
+    public Set<NamespacedKey> getAllRecipeKeys() {
+        return ImmutableSet.copyOf(recipesByKey.keySet());
+    }
+
+    @Override
+    public Optional<RecipeProvider<?>> getRecipeProvider(NamespacedKey key) {
+        return Optional.ofNullable(recipesByKey.get(key));
+    }
+
+    @Override
     public Recipe getRecipe(Inventory inventory) {
-        return recipesByType.get(inventory.getClass())
+        Set<Class<? extends Inventory>> allClasses = inventoryTypeCache.getUnchecked(inventory.getClass());
+
+        return allClasses
             .stream()
+            .flatMap((clazz) -> recipesByType.get((Class<? extends Inventory>) clazz).stream())
+            .distinct()
             .map((r) -> r.getRecipeGeneric(inventory))
             .filter(Optional::isPresent)
             .map(Optional::get)
@@ -43,6 +83,29 @@ public abstract class AbstractRecipeManager {
             .orElse(null);
     }
 
+    @Override
+    public List<Recipe> getAllRecipesForResult(ItemStack result) {
+        // handling for old-style wildcards
+        ItemStack adjustedResult;
+        if (result.getDurability() == -1) {
+            adjustedResult = result.clone();
+            adjustedResult.setDurability(Short.MAX_VALUE);
+        } else {
+            adjustedResult = result;
+        }
+
+        return recipesByKey.values()
+            .stream()
+            .flatMap((provider) -> provider.getRecipesForResult(adjustedResult))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public Iterator<Recipe> getAllRecipes() {
+        return null;
+    }
+
+    @Override
     public void loadFromDataPack(DataPack dataPack) {
         dataPack.getNamespacedData().forEach((namespace, data) -> {
             data.getRecipes().forEach((itemName, recipe) -> {
@@ -56,6 +119,13 @@ public abstract class AbstractRecipeManager {
                 }
             });
         });
+    }
+
+    @Override
+    public void resetToDefaults() {
+        recipesByKey.clear();
+        recipesByType.clear();
+        loadDefaultRecipes();
     }
 
     private void loadDefaultRecipes() {

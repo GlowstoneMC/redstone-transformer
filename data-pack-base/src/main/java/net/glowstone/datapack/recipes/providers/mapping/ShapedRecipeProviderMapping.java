@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.ShapedRecipe;
 import net.glowstone.datapack.recipes.providers.ShapedRecipeProvider;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -54,7 +55,7 @@ public class ShapedRecipeProviderMapping implements RecipeProviderMapping<Shaped
     }
 
     @Override
-    public ShapedRecipeProvider provider(AbstractTagManager tagManager, String namespace, String key, ShapedRecipe recipe) {
+    public ShapedRecipeProvider provider(TagManager tagManager, String namespace, String key, ShapedRecipe recipe) {
         return new ShapedRecipeProvider(
             namespace,
             key,

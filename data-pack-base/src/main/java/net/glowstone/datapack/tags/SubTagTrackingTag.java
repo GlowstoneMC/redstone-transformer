@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 public class SubTagTrackingTag<T extends Keyed> extends HashObservableSet<T> implements Tag<T> {
@@ -38,5 +39,18 @@ public class SubTagTrackingTag<T extends Keyed> extends HashObservableSet<T> imp
     @Override
     public SubTagTrackingTag<T> clone() {
         return new SubTagTrackingTag<>(key, this.getValueClass(), this.getDirectValues(), this.getSubSets());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubTagTrackingTag<?> that = (SubTagTrackingTag<?>) o;
+        return Objects.equals(key, that.key) && super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), key);
     }
 }

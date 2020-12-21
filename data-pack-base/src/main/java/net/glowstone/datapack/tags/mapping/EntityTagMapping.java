@@ -39,7 +39,7 @@ public class EntityTagMapping extends AbstractTagMapping<EntityType> {
         return generateValuesAndTags(
             namespace,
             tag,
-            EntityType::fromName,
+            (name) -> EntityType.fromName(NamespaceUtils.parseNamespace(name, namespace).getKey()),
             (values, tags) -> tagManager.addTag(
                 registry,
                 namespace,

@@ -14,6 +14,12 @@
     <url>https://www.glowstone.net</url>
     <description>Genereated Bukkit models from the vanilla data packs.</description>
 
+    <properties>
+        <vanilla.exports.directory>${project.build.directory}/server</vanilla.exports.directory>
+        <vanilla.generated.directory>${vanilla.exports.directory}/generated</vanilla.generated.directory>
+        <datapack.generated.sources.directory>${project.build.directory}/generated-sources/datapack</datapack.generated.sources.directory>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>net.glowstone</groupId>
@@ -44,6 +50,14 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.truth</groupId>
+            <artifactId>truth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.truth.extensions</groupId>
+            <artifactId>truth-java8-extension</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -73,7 +87,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <executable>java</executable>
-                            <workingDirectory>${project.build.directory}/server</workingDirectory>
+                            <workingDirectory>${vanilla.exports.directory}</workingDirectory>
                             <arguments>
                                 <argument>-cp</argument>
                                 <argument>minecraft-server-${minecraft.version}.jar</argument>
@@ -92,10 +106,10 @@
                         <configuration>
                             <mainClass>net.glowstone.datapack.processor.DataPackProcessorRunner</mainClass>
                             <includePluginDependencies>true</includePluginDependencies>
-                            <sourceRoot>${project.build.directory}/generated-sources/datapack</sourceRoot>
+                            <sourceRoot>${datapack.generated.sources.directory}</sourceRoot>
                             <arguments>
-                                <argument>${project.build.directory}/server/generated</argument>
-                                <argument>${project.build.directory}/generated-sources/datapack</argument>
+                                <argument>${vanilla.generated.directory}</argument>
+                                <argument>${datapack.generated.sources.directory}</argument>
                                 <argument>com.glowstone.datapack.vanilla</argument>
                             </arguments>
                         </configuration>
@@ -109,6 +123,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <vanilla.generated.directory>${vanilla.generated.directory}</vanilla.generated.directory>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

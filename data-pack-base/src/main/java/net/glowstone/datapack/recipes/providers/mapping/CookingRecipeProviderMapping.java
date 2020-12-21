@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.CookingRecipe;
 import net.glowstone.datapack.recipes.providers.CookingRecipeProvider;
 import net.glowstone.datapack.recipes.providers.CookingRecipeProvider.CookingRecipeConstructor;
@@ -57,7 +58,7 @@ public class CookingRecipeProviderMapping<ExternalRecipe extends CookingRecipe, 
     }
 
     @Override
-    public ProviderType provider(AbstractTagManager tagManager, String namespace, String key, ExternalRecipe recipe) {
+    public ProviderType provider(TagManager tagManager, String namespace, String key, ExternalRecipe recipe) {
         return providerConstructor.create(
             namespace,
             key,

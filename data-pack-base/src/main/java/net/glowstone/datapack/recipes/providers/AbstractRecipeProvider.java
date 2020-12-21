@@ -1,16 +1,24 @@
 package net.glowstone.datapack.recipes.providers;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 
 public abstract class AbstractRecipeProvider<I extends Inventory> implements RecipeProvider<I> {
+    private final NamespacedKey key;
     private final Class<I> inventoryClass;
 
-    protected AbstractRecipeProvider(Class<I> inventoryClass) {
+    protected AbstractRecipeProvider(NamespacedKey key, Class<I> inventoryClass) {
+        this.key = key;
         this.inventoryClass = inventoryClass;
+    }
+
+    @Override
+    public NamespacedKey getKey() {
+        return this.key;
     }
 
     @Override

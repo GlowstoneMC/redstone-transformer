@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.ShapelessRecipe;
 import net.glowstone.datapack.recipes.providers.ShapelessRecipeProvider;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -39,7 +40,7 @@ public class ShapelessRecipeProviderMapping implements RecipeProviderMapping<Sha
     }
 
     @Override
-    public ShapelessRecipeProvider provider(AbstractTagManager tagManager, String namespace, String key, ShapelessRecipe recipe) {
+    public ShapelessRecipeProvider provider(TagManager tagManager, String namespace, String key, ShapelessRecipe recipe) {
         return new ShapelessRecipeProvider(
             namespace,
             key,

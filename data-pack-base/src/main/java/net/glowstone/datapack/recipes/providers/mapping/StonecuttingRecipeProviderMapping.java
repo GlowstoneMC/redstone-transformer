@@ -2,6 +2,7 @@ package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.AbstractTagManager;
+import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.StonecuttingRecipe;
 import net.glowstone.datapack.recipes.providers.StonecuttingRecipeProvider;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -34,7 +35,7 @@ public class StonecuttingRecipeProviderMapping implements RecipeProviderMapping<
     }
 
     @Override
-    public StonecuttingRecipeProvider provider(AbstractTagManager tagManager, String namespace, String key, StonecuttingRecipe recipe) {
+    public StonecuttingRecipeProvider provider(TagManager tagManager, String namespace, String key, StonecuttingRecipe recipe) {
         return new StonecuttingRecipeProvider(
             namespace,
             key,
