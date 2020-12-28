@@ -3,13 +3,13 @@ package net.glowstone.datapack.recipes.providers;
 import com.destroystokyo.paper.MaterialTags;
 import com.google.common.collect.ImmutableMap;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
+import net.glowstone.datapack.recipes.inputs.ArmorDyeRecipeInput;
 import net.glowstone.datapack.tags.ExtraMaterialTags;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-public class ArmorDyeRecipeProvider extends DynamicRecipeProvider<CraftingInventory> {
+public class ArmorDyeRecipeProvider extends DynamicRecipeProvider<ArmorDyeRecipeInput> {
     private static final Map<Material, DyeColor> DYE_COLORS = ImmutableMap.<Material, DyeColor>builder()
         .put(Material.BLACK_DYE, DyeColor.BLACK)
         .put(Material.BLUE_DYE, DyeColor.BLUE)
@@ -42,15 +41,18 @@ public class ArmorDyeRecipeProvider extends DynamicRecipeProvider<CraftingInvent
         .build();
 
     public ArmorDyeRecipeProvider(String namespace, String key) {
-        super(new NamespacedKey(namespace, key), CraftingInventory.class);
+        super(
+            ArmorDyeRecipeInput.class,
+            new NamespacedKey(namespace, key)
+        );
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
+    public Optional<Recipe> getRecipeFor(ArmorDyeRecipeInput input) {
         ItemStack armor = null;
         List<Color> colors = new ArrayList<>();
 
-        for (ItemStack item : inventory.getMatrix()) {
+        for (ItemStack item : input.getInput()) {
             if (itemStackIsEmpty(item)) {
                 continue;
             }

@@ -7,9 +7,9 @@ import net.glowstone.datapack.utils.mapping.MappingArgument;
 
 import java.util.List;
 
-public interface RecipeProviderMapping<P extends RecipeProvider<?>, R extends Recipe> {
-    Class<R> getModelType();
-    Class<P> getRecipeProviderType();
-    List<MappingArgument> providerArguments(String namespace, String key, R recipe);
-    P provider(TagManager tagManager, String namespace, String key, R recipe);
+public interface RecipeProviderMapping<ProviderType extends RecipeProvider<?>, ExternalType extends Recipe> {
+    Class<ExternalType> getModelType();
+    Class<ProviderType> getRecipeProviderType();
+    List<MappingArgument> providerArguments(String namespace, String key, ExternalType recipe);
+    ProviderType provider(TagManager tagManager, String namespace, String key, ExternalType recipe);
 }

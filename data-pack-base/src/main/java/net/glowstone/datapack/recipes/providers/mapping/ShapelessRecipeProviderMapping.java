@@ -11,10 +11,15 @@ import org.bukkit.Material;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShapelessRecipeProviderMapping implements RecipeProviderMapping<ShapelessRecipeProvider, ShapelessRecipe> {
+public class ShapelessRecipeProviderMapping implements StaticRecipeProviderMapping<ShapelessRecipeProvider, ShapelessRecipe, org.bukkit.inventory.ShapelessRecipe> {
     @Override
     public Class<ShapelessRecipe> getModelType() {
         return ShapelessRecipe.class;
+    }
+
+    @Override
+    public Class<org.bukkit.inventory.ShapelessRecipe> getBukkitType() {
+        return org.bukkit.inventory.ShapelessRecipe.class;
     }
 
     @Override
@@ -52,5 +57,10 @@ public class ShapelessRecipeProviderMapping implements RecipeProviderMapping<Sha
                 .map((items) -> MappingUtils.generateRecipeChoice(tagManager, namespace, items))
                 .collect(Collectors.toList())
         );
+    }
+
+    @Override
+    public ShapelessRecipeProvider provider(org.bukkit.inventory.ShapelessRecipe recipe) {
+        return new ShapelessRecipeProvider(recipe);
     }
 }

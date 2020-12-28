@@ -1,21 +1,20 @@
 package net.glowstone.datapack.recipes.providers;
 
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
+import net.glowstone.datapack.recipes.inputs.StonecuttingRecipeInput;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.StonecutterInventory;
 import org.bukkit.inventory.StonecuttingRecipe;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public class StonecuttingRecipeProvider extends StaticRecipeProvider<StonecutterInventory, StonecuttingRecipe> {
+public class StonecuttingRecipeProvider extends StaticRecipeProvider<StonecuttingRecipe, StonecuttingRecipeInput> {
     public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, RecipeChoice source) {
-        super(
-            StonecutterInventory.class,
+        this(
             new StonecuttingRecipe(
                 new NamespacedKey(namespace, key),
                 new ItemStack(resultMaterial, resultAmount),
@@ -26,13 +25,19 @@ public class StonecuttingRecipeProvider extends StaticRecipeProvider<Stonecutter
     }
 
     public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, MaterialTagRecipeChoice source) {
-        super(
-            StonecutterInventory.class,
+        this(
             new StonecuttingRecipe(
                 new NamespacedKey(namespace, key),
                 new ItemStack(resultMaterial, resultAmount),
                 source
             )
+        );
+    }
+
+    public StonecuttingRecipeProvider(StonecuttingRecipe recipe) {
+        super(
+            StonecuttingRecipeInput.class,
+            recipe
         );
     }
 
@@ -42,10 +47,8 @@ public class StonecuttingRecipeProvider extends StaticRecipeProvider<Stonecutter
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(StonecutterInventory inventory) {
-        ItemStack item = inventory.getItem(0);
-
-        if (matchesWildcard(getRecipe().getInput(), item)) {
+    public Optional<Recipe> getRecipeFor(StonecuttingRecipeInput input) {
+        if (matchesWildcard(getRecipe().getInput(), input.getInput())) {
             return Optional.of(getRecipe());
         }
         return Optional.empty();

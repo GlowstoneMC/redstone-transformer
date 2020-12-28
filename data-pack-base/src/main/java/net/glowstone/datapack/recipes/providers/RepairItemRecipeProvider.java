@@ -1,10 +1,10 @@
 package net.glowstone.datapack.recipes.providers;
 
 import net.glowstone.datapack.recipes.StaticResultRecipe;
+import net.glowstone.datapack.recipes.inputs.RepairItemRecipeInput;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.Damageable;
@@ -15,20 +15,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class RepairItemRecipeProvider extends DynamicRecipeProvider<CraftingInventory> {
+public class RepairItemRecipeProvider extends DynamicRecipeProvider<RepairItemRecipeInput> {
     private static boolean isRepairable(ItemStack item) {
         return item.getItemMeta() instanceof Damageable;
     }
 
     public RepairItemRecipeProvider(String namespace, String key) {
-        super(new NamespacedKey(namespace, key), CraftingInventory.class);
+        super(RepairItemRecipeInput.class, new NamespacedKey(namespace, key));
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
+    public Optional<Recipe> getRecipeFor(RepairItemRecipeInput input) {
         List<ItemStack> items = new ArrayList<>();
 
-        for (ItemStack item : inventory.getMatrix()) {
+        for (ItemStack item : input.getInput()) {
             if (itemStackIsEmpty(item)) {
                 continue;
             }

@@ -1,40 +1,53 @@
 package net.glowstone.datapack.recipes.providers.mapping;
 
 import com.google.common.collect.ImmutableList;
-import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.CookingRecipe;
 import net.glowstone.datapack.recipes.providers.CookingRecipeProvider;
 import net.glowstone.datapack.recipes.providers.CookingRecipeProvider.CookingRecipeConstructor;
+import net.glowstone.datapack.recipes.inputs.CookingRecipeInput;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.inventory.RecipeChoice;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
-public class CookingRecipeProviderMapping<ExternalRecipe extends CookingRecipe, BukkkitRecipe extends org.bukkit.inventory.CookingRecipe<BukkkitRecipe>, ProviderType extends CookingRecipeProvider<BukkkitRecipe>> implements RecipeProviderMapping<ProviderType, ExternalRecipe> {
+public class CookingRecipeProviderMapping<ExternalRecipe extends CookingRecipe,
+                                          BukkkitRecipe extends org.bukkit.inventory.CookingRecipe<BukkkitRecipe>,
+                                          InputType extends CookingRecipeInput,
+                                          ProviderType extends CookingRecipeProvider<BukkkitRecipe, InputType>>
+                                          implements StaticRecipeProviderMapping<ProviderType, ExternalRecipe, BukkkitRecipe> {
     private final Class<ExternalRecipe> modelType;
     private final Class<ProviderType> recipeProvider;
     private final Class<BukkkitRecipe> bukkitType;
     private final CookingRecipeConstructor<BukkkitRecipe> bukkitConstructor;
-    private final CookingRecipeProviderConstructor<BukkkitRecipe, ProviderType> providerConstructor;
+    private final CookingRecipeProviderConstructor<BukkkitRecipe, InputType, ProviderType> providerConstructor;
+    private final Function<BukkkitRecipe, ProviderType> providerWrapper;
 
     public CookingRecipeProviderMapping(Class<ExternalRecipe> modelType,
                                         Class<ProviderType> recipeProvider,
                                         Class<BukkkitRecipe> bukkitType,
                                         CookingRecipeConstructor<BukkkitRecipe> bukkitConstructor,
-                                        CookingRecipeProviderConstructor<BukkkitRecipe, ProviderType> providerConstructor) {
+                                        CookingRecipeProviderConstructor<BukkkitRecipe, InputType, ProviderType> providerConstructor,
+                                        Function<BukkkitRecipe, ProviderType> providerWrapper) {
         this.modelType = modelType;
         this.recipeProvider = recipeProvider;
         this.bukkitType = bukkitType;
         this.bukkitConstructor = bukkitConstructor;
         this.providerConstructor = providerConstructor;
+        this.providerWrapper = providerWrapper;
     }
 
     @Override
     public Class<ExternalRecipe> getModelType() {
         return this.modelType;
+    }
+
+    @Override
+    public Class<BukkkitRecipe> getBukkitType() {
+        return this.bukkitType;
     }
 
     @Override
@@ -72,7 +85,15 @@ public class CookingRecipeProviderMapping<ExternalRecipe extends CookingRecipe, 
         );
     }
 
-    public interface CookingRecipeProviderConstructor<BukkkitRecipe extends org.bukkit.inventory.CookingRecipe<BukkkitRecipe>, ProviderType extends CookingRecipeProvider<BukkkitRecipe>> {
+    @Override
+    public ProviderType provider(BukkkitRecipe recipe) {
+        return providerWrapper.apply(recipe);
+    }
+
+    @FunctionalInterface
+    public interface CookingRecipeProviderConstructor<BukkkitRecipe extends org.bukkit.inventory.CookingRecipe<BukkkitRecipe>,
+                                                      InputType extends CookingRecipeInput,
+                                                      ProviderType extends CookingRecipeProvider<BukkkitRecipe, InputType>> {
         ProviderType create(String namespace,
                             String key,
                             Material resultMaterial,

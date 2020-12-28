@@ -2,7 +2,9 @@ package net.glowstone.datapack;
 
 import net.glowstone.datapack.loader.model.external.DataPack;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
+import net.glowstone.datapack.recipes.inputs.RecipeInput;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -26,9 +28,19 @@ public interface RecipeManager {
      */
     Recipe getRecipe(Inventory inventory);
 
+    Recipe getRecipe(InventoryType inventoryType, ItemStack[] itemStacks);
+
+    Recipe getRecipe(RecipeInput input);
+
+    Recipe getRecipe(NamespacedKey key);
+
     List<Recipe> getAllRecipesForResult(ItemStack result);
 
     Iterator<Recipe> getAllRecipes();
+
+    boolean addRecipe(Recipe recipe);
+
+    boolean removeRecipe(NamespacedKey key);
 
     /**
      * Loads all recipes from the given data pack.
@@ -41,4 +53,6 @@ public interface RecipeManager {
      * Resets the recipes within this manager to their default states.
      */
     void resetToDefaults();
+
+    void clearRecipes();
 }

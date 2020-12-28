@@ -1,9 +1,9 @@
 package net.glowstone.datapack.recipes.providers;
 
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
+import net.glowstone.datapack.recipes.inputs.ShapelessRecipeInput;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -13,10 +13,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ShapelessRecipeProvider extends StaticRecipeProvider<CraftingInventory, ShapelessRecipe> {
+public class ShapelessRecipeProvider extends StaticRecipeProvider<ShapelessRecipe, ShapelessRecipeInput> {
     public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<RecipeChoice> ingredients) {
-        super(
-            CraftingInventory.class,
+        this(
             new ShapelessRecipe(
                 new NamespacedKey(namespace, key),
                 new ItemStack(resultMaterial, resultAmount)
@@ -28,12 +27,18 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<CraftingInvent
     }
 
     public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
-        super(
-            CraftingInventory.class,
+        this(
             new ShapelessRecipe(
                 new NamespacedKey(namespace, key),
                 new ItemStack(resultMaterial, resultAmount)
             )
+        );
+    }
+
+    public ShapelessRecipeProvider(ShapelessRecipe recipe) {
+        super(
+            ShapelessRecipeInput.class,
+            recipe
         );
     }
 
@@ -48,20 +53,20 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<CraftingInvent
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
-        boolean[] accountedFor = new boolean[inventory.getMatrix().length];
+    public Optional<Recipe> getRecipeFor(ShapelessRecipeInput input) {
+        boolean[] accountedFor = new boolean[input.getInput().length];
 
         // Mark empty item slots accounted for
-        for (int i = 0; i < inventory.getMatrix().length; ++i) {
-            accountedFor[i] = itemStackIsEmpty(inventory.getMatrix()[i]);
+        for (int i = 0; i < input.getInput().length; ++i) {
+            accountedFor[i] = itemStackIsEmpty(input.getInput()[i]);
         }
 
         // Make sure each ingredient in the recipe exists in the inventory
         for (ItemStack ingredient : getRecipe().getIngredientList()) {
             boolean foundItem = false;
-            for (int i = 0; i < inventory.getMatrix().length; ++i) {
+            for (int i = 0; i < input.getInput().length; ++i) {
                 // if this item is not already used and it matches this ingredient...
-                if (!accountedFor[i] && matchesWildcard(ingredient, inventory.getMatrix()[i])) {
+                if (!accountedFor[i] && matchesWildcard(ingredient, input.getInput()[i])) {
                     // ... this item is accounted for and this ingredient is found.
                     accountedFor[i] = foundItem = true;
                 }
@@ -73,7 +78,7 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<CraftingInvent
         }
 
         // Make sure inventory has no leftover items
-        for (int i = 0; i < inventory.getMatrix().length; ++i) {
+        for (int i = 0; i < input.getInput().length; ++i) {
             if (!accountedFor[i]) {
                 return Optional.empty();
             }

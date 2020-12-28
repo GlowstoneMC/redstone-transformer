@@ -10,11 +10,16 @@ import org.bukkit.Material;
 
 import java.util.List;
 
-public class StonecuttingRecipeProviderMapping implements RecipeProviderMapping<StonecuttingRecipeProvider, StonecuttingRecipe> {
+public class StonecuttingRecipeProviderMapping implements StaticRecipeProviderMapping<StonecuttingRecipeProvider, StonecuttingRecipe, org.bukkit.inventory.StonecuttingRecipe> {
 
     @Override
     public Class<StonecuttingRecipe> getModelType() {
         return StonecuttingRecipe.class;
+    }
+
+    @Override
+    public Class<org.bukkit.inventory.StonecuttingRecipe> getBukkitType() {
+        return org.bukkit.inventory.StonecuttingRecipe.class;
     }
 
     @Override
@@ -44,5 +49,10 @@ public class StonecuttingRecipeProviderMapping implements RecipeProviderMapping<
             recipe.getGroup(),
             MappingUtils.generateRecipeChoice(tagManager, namespace, recipe.getIngredient())
         );
+    }
+
+    @Override
+    public StonecuttingRecipeProvider provider(org.bukkit.inventory.StonecuttingRecipe recipe) {
+        return new StonecuttingRecipeProvider(recipe);
     }
 }

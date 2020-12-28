@@ -1,20 +1,18 @@
 package net.glowstone.datapack;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
 import net.glowstone.datapack.loader.model.external.DataPack;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
+import net.glowstone.datapack.recipes.providers.StaticRecipeProvider;
+import net.glowstone.datapack.recipes.inputs.RecipeInput;
+import net.glowstone.datapack.recipes.inputs.RecipeInputRegistry;
 import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
-import org.apache.commons.lang3.ClassUtils;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -30,30 +28,12 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractRecipeManager implements RecipeManager {
     private final Map<NamespacedKey, RecipeProvider<?>> recipesByKey;
-    private final Multimap<Class<? extends Inventory>, RecipeProvider<?>> recipesByType;
-    private final LoadingCache<Class<? extends Inventory>, Set<Class<? extends Inventory>>> inventoryTypeCache;
+    private final Map<Class<? extends RecipeInput>, RecipeProvider<?>> recipesByInputType;
     protected final TagManager tagManager;
 
     protected AbstractRecipeManager(TagManager tagManager) {
         this.recipesByKey = new HashMap<>();
-        this.recipesByType = HashMultimap.create();
-        this.inventoryTypeCache = CacheBuilder.newBuilder()
-            .build(
-                new CacheLoader<Class<? extends Inventory>, Set<Class<? extends Inventory>>>() {
-                    @Override
-                    public Set<Class<? extends Inventory>> load(Class<? extends Inventory> key) {
-                        Set<Class<?>> possibleClasses = new HashSet<>();
-                        possibleClasses.add(key);
-                        List<Class<?>> superClasses = ClassUtils.getAllSuperclasses(key);
-                        possibleClasses.addAll(superClasses);
-                        superClasses.forEach((superClass) -> possibleClasses.addAll(ClassUtils.getAllInterfaces(superClass)));
-                        return possibleClasses.stream()
-                            .filter(Inventory.class::isAssignableFrom)
-                            .map((clazz) -> (Class<? extends Inventory>) clazz)
-                            .collect(Collectors.toSet());
-                    }
-                }
-            );
+        this.recipesByInputType = new HashMap<>();
         this.tagManager = tagManager;
         loadDefaultRecipes();
     }
@@ -70,17 +50,50 @@ public abstract class AbstractRecipeManager implements RecipeManager {
 
     @Override
     public Recipe getRecipe(Inventory inventory) {
-        Set<Class<? extends Inventory>> allClasses = inventoryTypeCache.getUnchecked(inventory.getClass());
-
-        return allClasses
+        return RecipeInputRegistry
+            .from(inventory)
             .stream()
-            .flatMap((clazz) -> recipesByType.get((Class<? extends Inventory>) clazz).stream())
-            .distinct()
-            .map((r) -> r.getRecipeGeneric(inventory))
+            .map((input) -> recipesByInputType.get(input.getClass()).getRecipeGeneric(input))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .findFirst()
             .orElse(null);
+    }
+
+    @Override
+    public Recipe getRecipe(InventoryType inventoryType, ItemStack[] itemStacks) {
+        return RecipeInputRegistry
+            .from(inventoryType, itemStacks)
+            .stream()
+            .map((input) -> recipesByInputType.get(input.getClass()).getRecipeGeneric(input))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst()
+            .orElse(null);
+    }
+
+    @Override
+    public Recipe getRecipe(RecipeInput input) {
+        if (!recipesByInputType.containsKey(input.getClass())) {
+            return null;
+        }
+
+        return recipesByInputType.get(input.getClass())
+            .getRecipeGeneric(input)
+            .orElse(null);
+    }
+
+    @Override
+    public Recipe getRecipe(NamespacedKey key) {
+        if (recipesByKey.containsKey(key)) {
+            RecipeProvider<?> recipeProvider = recipesByKey.get(key);
+            if (recipeProvider instanceof StaticRecipeProvider) {
+                StaticRecipeProvider<?, ?> staticRecipeProvider = (StaticRecipeProvider<?, ?>) recipeProvider;
+                return staticRecipeProvider.getRecipe();
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -115,24 +128,56 @@ public abstract class AbstractRecipeManager implements RecipeManager {
                     RecipeProvider<?> provider = possibleProvider.get();
 
                     this.recipesByKey.put(provider.getKey(), provider);
-                    this.recipesByType.put(provider.getInventoryClass(), provider);
+                    this.recipesByInputType.put(provider.getInputClass(), provider);
                 }
             });
         });
     }
 
     @Override
+    public boolean addRecipe(Recipe recipe) {
+        Optional<RecipeProvider<?>> possibleProvider = RecipeProviderMappingRegistry.provider(recipe);
+
+        if (!possibleProvider.isPresent()) {
+            return false;
+        }
+
+        RecipeProvider<?> provider = possibleProvider.get();
+
+        this.recipesByKey.put(provider.getKey(), provider);
+        this.recipesByInputType.put(provider.getInputClass(), provider);
+
+        return true;
+    }
+
+    @Override
+    public boolean removeRecipe(NamespacedKey key) {
+        RecipeProvider<?> provider = this.recipesByKey.remove(key);
+
+        if (provider != null) {
+            this.recipesByInputType.remove(provider.getInputClass(), provider);
+        }
+
+        return provider != null;
+    }
+
+    @Override
     public void resetToDefaults() {
-        recipesByKey.clear();
-        recipesByType.clear();
+        clearRecipes();
         loadDefaultRecipes();
+    }
+
+    @Override
+    public void clearRecipes() {
+        recipesByKey.clear();
+        recipesByInputType.clear();
     }
 
     private void loadDefaultRecipes() {
         defaultRecipes()
             .forEach((provider) -> {
                 this.recipesByKey.put(provider.getKey(), provider);
-                this.recipesByType.put(provider.getInventoryClass(), provider);
+                this.recipesByInputType.put(provider.getInputClass(), provider);
             });
     }
 

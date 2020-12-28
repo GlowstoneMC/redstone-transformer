@@ -1,23 +1,17 @@
 package net.glowstone.datapack.recipes.providers;
 
+import net.glowstone.datapack.recipes.inputs.RecipeInput;
 import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public abstract class StaticRecipeProvider<I extends Inventory, R extends Recipe & Keyed> extends AbstractRecipeProvider<I> {
+public abstract class StaticRecipeProvider<R extends Recipe & Keyed, I extends RecipeInput> extends AbstractRecipeProvider<I> {
     private R recipe;
 
-    protected StaticRecipeProvider(
-        Class<I> inventoryClass,
-        R recipe) {
-        super(recipe.getKey(), inventoryClass);
+    protected StaticRecipeProvider(Class<I> inventoryClass, R recipe) {
+        super(inventoryClass, recipe.getKey());
         this.recipe = recipe;
     }
 

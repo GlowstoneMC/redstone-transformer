@@ -12,12 +12,18 @@ import org.bukkit.inventory.RecipeChoice;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ShapedRecipeProviderMapping implements RecipeProviderMapping<ShapedRecipeProvider, ShapedRecipe> {
+public class ShapedRecipeProviderMapping implements StaticRecipeProviderMapping<ShapedRecipeProvider, ShapedRecipe, org.bukkit.inventory.ShapedRecipe> {
     @Override
     public Class<ShapedRecipe> getModelType() {
         return ShapedRecipe.class;
+    }
+
+    @Override
+    public Class<org.bukkit.inventory.ShapedRecipe> getBukkitType() {
+        return org.bukkit.inventory.ShapedRecipe.class;
     }
 
     @Override
@@ -69,5 +75,10 @@ public class ShapedRecipeProviderMapping implements RecipeProviderMapping<Shaped
                 .map((entry) -> new SimpleEntry<>(entry.getKey(), MappingUtils.generateRecipeChoice(tagManager, namespace, entry.getValue())))
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue))
         );
+    }
+
+    @Override
+    public ShapedRecipeProvider provider(org.bukkit.inventory.ShapedRecipe recipe) {
+        return new ShapedRecipeProvider(recipe);
     }
 }

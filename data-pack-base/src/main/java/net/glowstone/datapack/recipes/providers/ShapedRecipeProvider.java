@@ -1,8 +1,8 @@
 package net.glowstone.datapack.recipes.providers;
 
+import net.glowstone.datapack.recipes.inputs.ShapedRecipeInput;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -13,12 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-public class ShapedRecipeProvider extends StaticRecipeProvider<CraftingInventory, ShapedRecipe> {
+public class ShapedRecipeProvider extends StaticRecipeProvider<ShapedRecipe, ShapedRecipeInput> {
     public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<String> shape, Map<Character, RecipeChoice> ingredients) {
         super(
-            CraftingInventory.class,
+            ShapedRecipeInput.class,
             new ShapedRecipe(
                 new NamespacedKey(namespace, key),
                 new ItemStack(resultMaterial, resultAmount)
@@ -32,12 +31,16 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<CraftingInventory
 
     public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
         super(
-            CraftingInventory.class,
+            ShapedRecipeInput.class,
             new ShapedRecipe(
                 new NamespacedKey(namespace, key),
                 new ItemStack(resultMaterial, resultAmount)
             )
         );
+    }
+
+    public ShapedRecipeProvider(ShapedRecipe recipe) {
+        super(ShapedRecipeInput.class, recipe);
     }
 
     public ShapedRecipeProvider setGroup(Optional<String> group) {
@@ -70,8 +73,8 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<CraftingInventory
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(CraftingInventory inventory) {
-        int size = (int) Math.sqrt(inventory.getMatrix().length);
+    public Optional<Recipe> getRecipeFor(ShapedRecipeInput input) {
+        int size = (int) Math.sqrt(input.getInput().length);
         Map<Character, ItemStack> ingredients = getRecipe().getIngredientMap();
         String[] shape = getRecipe().getShape();
 
@@ -94,7 +97,7 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<CraftingInventory
                 // inner loop: verify recipe against this position
                 for (int row = 0; row < rows; ++row) {
                     for (int col = 0; col < cols; ++col) {
-                        ItemStack given = inventory.getMatrix()[(rowStart + row) * size + colStart + col];
+                        ItemStack given = input.getInput()[(rowStart + row) * size + colStart + col];
                         char ingredientChar =
                             shape[row].length() > col ? shape[row].charAt(col) : ' ';
                         ItemStack expected = ingredients.get(ingredientChar);
@@ -134,7 +137,7 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<CraftingInventory
                         // if this position is outside the recipe and non-null, fail
                         if ((row < rowStart || row >= rowStart + rows || col < colStart
                             || col >= colStart + cols)
-                            && itemStackIsEmpty(inventory.getMatrix()[row * size + col])) {
+                            && itemStackIsEmpty(input.getInput()[row * size + col])) {
                             skip = true;
                             break;
                         }
