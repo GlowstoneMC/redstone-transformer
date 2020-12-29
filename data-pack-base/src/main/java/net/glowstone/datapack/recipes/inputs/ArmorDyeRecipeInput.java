@@ -9,21 +9,11 @@ import java.util.Optional;
 
 public class ArmorDyeRecipeInput extends CraftingRecipeInput {
     public static Optional<ArmorDyeRecipeInput> create(Inventory inventory) {
-        if (inventory instanceof CraftingRecipeInput) {
-            return Optional.of(new ArmorDyeRecipeInput((CraftingInventory) inventory));
-        }
-        return Optional.empty();
+        return create(ArmorDyeRecipeInput::new, inventory);
     }
 
     public static Optional<ArmorDyeRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        switch (inventoryType) {
-            case WORKBENCH:
-            case CRAFTING:
-                return Optional.of(new ArmorDyeRecipeInput(itemStacks));
-
-            default:
-                return Optional.empty();
-        }
+        return create(ArmorDyeRecipeInput::new, inventoryType, itemStacks);
     }
 
     public ArmorDyeRecipeInput(CraftingInventory inventory) {

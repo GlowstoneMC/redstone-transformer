@@ -15,24 +15,36 @@ public class RecipeInputRegistry {
         ImmutableSet.<InventoryConverter>builder()
             .add(ArmorDyeRecipeInput::create)
             .add(BlastingRecipeInput::create)
+            .add(BannerDuplicateRecipeInput::create)
+            .add(BookCloningRecipeInput::create)
             .add(FurnaceRecipeInput::create)
+            .add(MapExtendingRecipeInput::create)
             .add(RepairItemRecipeInput::create)
             .add(ShapedRecipeInput::create)
             .add(ShapelessRecipeInput::create)
+            .add(ShieldDecorationRecipeInput::create)
+            .add(ShulkerBoxColoringRecipeInput::create)
             .add(SmokingRecipeInput::create)
             .add(StonecuttingRecipeInput::create)
+            .add(SuspiciousStewRecipeInput::create)
             .build();
 
     private static final Set<InventoryTypeConverter> INVENTORY_TYPE_FUNCS =
         ImmutableSet.<InventoryTypeConverter>builder()
             .add(ArmorDyeRecipeInput::create)
             .add(BlastingRecipeInput::create)
+            .add(BannerDuplicateRecipeInput::create)
+            .add(BookCloningRecipeInput::create)
             .add(FurnaceRecipeInput::create)
+            .add(MapExtendingRecipeInput::create)
             .add(RepairItemRecipeInput::create)
             .add(ShapedRecipeInput::create)
             .add(ShapelessRecipeInput::create)
+            .add(ShieldDecorationRecipeInput::create)
+            .add(ShulkerBoxColoringRecipeInput::create)
             .add(SmokingRecipeInput::create)
             .add(StonecuttingRecipeInput::create)
+            .add(SuspiciousStewRecipeInput::create)
             .build();
 
     public static List<RecipeInput> from(Inventory inventory) {

@@ -28,8 +28,16 @@ public class RecipeProviderMappingRegistry {
     private static final List<RecipeProviderMapping<?, ?>> RECIPE_PROVIDER_MAPPINGS =
         ImmutableList.<RecipeProviderMapping<?, ?>>builder()
             .addAll(STATIC_RECIPE_PROVIDER_MAPPINGS)
-            .add(new ArmorDyeRecipeProviderMapping())
-            .add(new RepairItemRecipeProviderMapping())
+            .add(
+                new ArmorDyeRecipeProviderMapping(),
+                new BannerDuplicateRecipeProviderMapping(),
+                new BookCloningRecipeProviderMapping(),
+                new MapExtendingRecipeProviderMapping(),
+                new RepairItemRecipeProviderMapping(),
+                new ShieldDecorationRecipeProviderMapping(),
+                new ShulkerBoxColoringRecipeProviderMapping(),
+                new SuspiciousStewRecipeProviderMapping()
+            )
             .build();
 
     private static final Map<Class<? extends Recipe>, RecipeProviderMapping<?, ?>> MAPPINGS_BY_MODEL_TYPE =

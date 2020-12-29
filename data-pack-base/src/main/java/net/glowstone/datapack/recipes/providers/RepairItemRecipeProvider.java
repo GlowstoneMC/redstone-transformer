@@ -63,7 +63,7 @@ public class RepairItemRecipeProvider extends DynamicRecipeProvider<RepairItemRe
         ItemStack newItem = new ItemStack(type);
         newItem.setItemMeta(newItemMeta);
 
-        return Optional.of(new StaticResultRecipe(newItem));
+        return Optional.of(new StaticResultRecipe(getKey(), newItem));
     }
 
     @Override

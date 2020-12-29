@@ -9,21 +9,11 @@ import java.util.Optional;
 
 public class ShapedRecipeInput extends CraftingRecipeInput {
     public static Optional<ShapedRecipeInput> create(Inventory inventory) {
-        if (inventory instanceof CraftingRecipeInput) {
-            return Optional.of(new ShapedRecipeInput((CraftingInventory) inventory));
-        }
-        return Optional.empty();
+        return create(ShapedRecipeInput::new, inventory);
     }
 
     public static Optional<ShapedRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        switch (inventoryType) {
-            case WORKBENCH:
-            case CRAFTING:
-                return Optional.of(new ShapedRecipeInput(itemStacks));
-
-            default:
-                return Optional.empty();
-        }
+        return create(ShapedRecipeInput::new, inventoryType, itemStacks);
     }
 
     public ShapedRecipeInput(CraftingInventory inventory) {

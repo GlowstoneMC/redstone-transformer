@@ -63,6 +63,8 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
                     .build();
 
                 recipeMethods.add(method);
+            } else {
+                throw new IllegalArgumentException("Cannot create recipe " + namespaceName + ":" + itemName + " because its of unknown type " + recipe.getClass());
             }
         });
     }
