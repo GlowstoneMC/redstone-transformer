@@ -25,22 +25,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
+
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
 public class SuspiciousStewRecipeProvider extends DynamicRecipeProvider<SuspiciousStewRecipeInput> {
-    private static final Map<Material, PotionEffect> FLOWER_EFFECTS = ImmutableMap.<Material, PotionEffect>builder()
-        .put(Material.ALLIUM, PotionEffectType.FIRE_RESISTANCE.createEffect(TickUtils.secondsToTicks(4), 1))
-        .put(Material.AZURE_BLUET, PotionEffectType.BLINDNESS.createEffect(TickUtils.secondsToTicks(8), 1))
-        .put(Material.BLUE_ORCHID, PotionEffectType.SATURATION.createEffect(TickUtils.millisecondsToTicks(350), 1))
-        .put(Material.DANDELION, PotionEffectType.SATURATION.createEffect(TickUtils.millisecondsToTicks(350), 1))
-        .put(Material.CORNFLOWER, PotionEffectType.JUMP.createEffect(TickUtils.secondsToTicks(6), 1))
-        .put(Material.LILY_OF_THE_VALLEY, PotionEffectType.POISON.createEffect(TickUtils.secondsToTicks(12), 1))
-        .put(Material.OXEYE_DAISY, PotionEffectType.REGENERATION.createEffect(TickUtils.secondsToTicks(8), 1))
-        .put(Material.POPPY, PotionEffectType.NIGHT_VISION.createEffect(TickUtils.secondsToTicks(5), 1))
-        .put(Material.RED_TULIP, PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
-        .put(Material.ORANGE_TULIP, PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
-        .put(Material.PINK_TULIP, PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
-        .put(Material.WHITE_TULIP, PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
-        .put(Material.WITHER_ROSE, PotionEffectType.WITHER.createEffect(TickUtils.secondsToTicks(8), 1))
+    // Need to use supplier functions because createEffect produces a null pointer exception otherwise
+    private static final Map<Material, Supplier<PotionEffect>> FLOWER_EFFECTS = ImmutableMap.<Material, Supplier<PotionEffect>>builder()
+        .put(Material.ALLIUM, () -> PotionEffectType.FIRE_RESISTANCE.createEffect(TickUtils.secondsToTicks(4), 1))
+        .put(Material.AZURE_BLUET, () -> PotionEffectType.BLINDNESS.createEffect(TickUtils.secondsToTicks(8), 1))
+        .put(Material.BLUE_ORCHID, () -> PotionEffectType.SATURATION.createEffect(TickUtils.millisecondsToTicks(350), 1))
+        .put(Material.DANDELION, () -> PotionEffectType.SATURATION.createEffect(TickUtils.millisecondsToTicks(350), 1))
+        .put(Material.CORNFLOWER, () -> PotionEffectType.JUMP.createEffect(TickUtils.secondsToTicks(6), 1))
+        .put(Material.LILY_OF_THE_VALLEY, () -> PotionEffectType.POISON.createEffect(TickUtils.secondsToTicks(12), 1))
+        .put(Material.OXEYE_DAISY, () -> PotionEffectType.REGENERATION.createEffect(TickUtils.secondsToTicks(8), 1))
+        .put(Material.POPPY, () -> PotionEffectType.NIGHT_VISION.createEffect(TickUtils.secondsToTicks(5), 1))
+        .put(Material.RED_TULIP, () -> PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
+        .put(Material.ORANGE_TULIP, () -> PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
+        .put(Material.PINK_TULIP, () -> PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
+        .put(Material.WHITE_TULIP, () -> PotionEffectType.WEAKNESS.createEffect(TickUtils.secondsToTicks(9), 1))
+        .put(Material.WITHER_ROSE, () -> PotionEffectType.WITHER.createEffect(TickUtils.secondsToTicks(8), 1))
         .build();
 
     public SuspiciousStewRecipeProvider(String namespace, String key) {
@@ -78,7 +82,7 @@ public class SuspiciousStewRecipeProvider extends DynamicRecipeProvider<Suspicio
             }
 
             if (FLOWER_EFFECTS.containsKey(item.getType())) {
-                potionEffects.add(FLOWER_EFFECTS.get(item.getType()));
+                potionEffects.add(FLOWER_EFFECTS.get(item.getType()).get());
                 continue;
             }
 

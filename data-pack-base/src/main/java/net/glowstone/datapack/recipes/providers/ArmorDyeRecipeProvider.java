@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
+
 public class ArmorDyeRecipeProvider extends DynamicRecipeProvider<ArmorDyeRecipeInput> {
 
     public ArmorDyeRecipeProvider(String namespace, String key) {

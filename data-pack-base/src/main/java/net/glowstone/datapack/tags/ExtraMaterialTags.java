@@ -29,4 +29,10 @@ public class ExtraMaterialTags {
 
     public static final Tag<Material> BISECTED_BLOCKS = new MaterialSetTag(keyFor("bisected_blocks"))
         .add(mat -> Bisected.class.isAssignableFrom(mat.getData()));
+
+    public static final Tag<Material> HEADS = new MaterialSetTag(keyFor("heads"))
+        .endsWith("_HEAD")
+        .notEndsWith("_WALL_HEAD")
+        .not(Material.PISTON_HEAD)
+        .ensureSize("HEADS", 4);
 }

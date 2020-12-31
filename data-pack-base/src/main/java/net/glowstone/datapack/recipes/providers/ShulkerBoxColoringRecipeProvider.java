@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
+
 public class ShulkerBoxColoringRecipeProvider extends DynamicRecipeProvider<ShulkerBoxColoringRecipeInput> {
     private static final Map<DyeColor, Material> SHULKER_DYES = ImmutableMap.<DyeColor, Material>builder()
         .put(DyeColor.BLACK, Material.BLACK_SHULKER_BOX)

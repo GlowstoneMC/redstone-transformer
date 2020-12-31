@@ -30,13 +30,19 @@ public class RecipeProviderMappingRegistry {
             .addAll(STATIC_RECIPE_PROVIDER_MAPPINGS)
             .add(
                 new ArmorDyeRecipeProviderMapping(),
+                new BannerAddPatternRecipeProviderMapping(),
                 new BannerDuplicateRecipeProviderMapping(),
                 new BookCloningRecipeProviderMapping(),
+                new FireworkRocketRecipeProviderMapping(),
+                new FireworkStarFadeRecipeProviderMapping(),
+                new FireworkStarRecipeProviderMapping(),
+                new MapCloningRecipeProviderMapping(),
                 new MapExtendingRecipeProviderMapping(),
                 new RepairItemRecipeProviderMapping(),
                 new ShieldDecorationRecipeProviderMapping(),
                 new ShulkerBoxColoringRecipeProviderMapping(),
-                new SuspiciousStewRecipeProviderMapping()
+                new SuspiciousStewRecipeProviderMapping(),
+                new TippedArrowRecipeProviderMapping()
             )
             .build();
 

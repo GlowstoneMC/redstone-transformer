@@ -25,25 +25,4 @@ public abstract class AbstractRecipeProvider<I extends RecipeInput> implements R
     public Class<I> getInputClass() {
         return this.inputClass;
     }
-
-    private boolean isWildcard(short data) {
-        // old-style wildcards (byte -1) not supported
-        return data == Short.MAX_VALUE;
-    }
-
-    protected boolean matchesWildcard(ItemStack expected, ItemStack actual) {
-        return itemStackIsEmpty(actual) && expected.getType() == actual.getType() && (
-            isWildcard(expected.getDurability()) || expected.getDurability() == actual
-                .getDurability());
-    }
-
-    /**
-     * Checks whether the given ItemStack is empty.
-     *
-     * @param stack the ItemStack to check
-     * @return whether the given ItemStack is empty
-     */
-    protected static boolean itemStackIsEmpty(@Nullable ItemStack stack) {
-        return stack == null || stack.getType() == Material.AIR || stack.getAmount() == 0;
-    }
 }

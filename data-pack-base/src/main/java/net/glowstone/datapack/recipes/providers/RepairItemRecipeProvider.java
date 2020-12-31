@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
+
 public class RepairItemRecipeProvider extends DynamicRecipeProvider<RepairItemRecipeInput> {
     private static boolean isRepairable(ItemStack item) {
         return item.getItemMeta() instanceof Damageable;

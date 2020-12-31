@@ -14,10 +14,15 @@ public class RecipeInputRegistry {
     private static final Set<InventoryConverter> INVENTORY_FUNCS =
         ImmutableSet.<InventoryConverter>builder()
             .add(ArmorDyeRecipeInput::create)
-            .add(BlastingRecipeInput::create)
+            .add(BannerAddPaternRecipeInput::create)
             .add(BannerDuplicateRecipeInput::create)
+            .add(BlastingRecipeInput::create)
             .add(BookCloningRecipeInput::create)
+            .add(FireworkRocketRecipeInput::create)
+            .add(FireworkStarFadeRecipeInput::create)
+            .add(FireworkStarRecipeInput::create)
             .add(FurnaceRecipeInput::create)
+            .add(MapCloningRecipeInput::create)
             .add(MapExtendingRecipeInput::create)
             .add(RepairItemRecipeInput::create)
             .add(ShapedRecipeInput::create)
@@ -27,15 +32,21 @@ public class RecipeInputRegistry {
             .add(SmokingRecipeInput::create)
             .add(StonecuttingRecipeInput::create)
             .add(SuspiciousStewRecipeInput::create)
+            .add(TippedArrowRecipeInput::create)
             .build();
 
     private static final Set<InventoryTypeConverter> INVENTORY_TYPE_FUNCS =
         ImmutableSet.<InventoryTypeConverter>builder()
             .add(ArmorDyeRecipeInput::create)
-            .add(BlastingRecipeInput::create)
+            .add(BannerAddPaternRecipeInput::create)
             .add(BannerDuplicateRecipeInput::create)
+            .add(BlastingRecipeInput::create)
             .add(BookCloningRecipeInput::create)
+            .add(FireworkRocketRecipeInput::create)
+            .add(FireworkStarFadeRecipeInput::create)
+            .add(FireworkStarRecipeInput::create)
             .add(FurnaceRecipeInput::create)
+            .add(MapCloningRecipeInput::create)
             .add(MapExtendingRecipeInput::create)
             .add(RepairItemRecipeInput::create)
             .add(ShapedRecipeInput::create)
@@ -45,6 +56,7 @@ public class RecipeInputRegistry {
             .add(SmokingRecipeInput::create)
             .add(StonecuttingRecipeInput::create)
             .add(SuspiciousStewRecipeInput::create)
+            .add(TippedArrowRecipeInput::create)
             .build();
 
     public static List<RecipeInput> from(Inventory inventory) {

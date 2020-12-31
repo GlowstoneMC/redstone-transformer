@@ -7,6 +7,8 @@ import org.bukkit.inventory.Recipe;
 
 import java.util.stream.Stream;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
+
 public abstract class StaticRecipeProvider<R extends Recipe & Keyed, I extends RecipeInput> extends AbstractRecipeProvider<I> {
     private R recipe;
 

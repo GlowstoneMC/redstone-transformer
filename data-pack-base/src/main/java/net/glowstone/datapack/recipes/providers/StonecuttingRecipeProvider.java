@@ -12,6 +12,8 @@ import org.bukkit.inventory.StonecuttingRecipe;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
+
 public class StonecuttingRecipeProvider extends StaticRecipeProvider<StonecuttingRecipe, StonecuttingRecipeInput> {
     public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, RecipeChoice source) {
         this(

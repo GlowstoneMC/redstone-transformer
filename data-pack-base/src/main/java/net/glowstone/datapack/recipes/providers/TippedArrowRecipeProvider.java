@@ -3,30 +3,25 @@ package net.glowstone.datapack.recipes.providers;
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.MapExtendingRecipeInput;
-import net.glowstone.datapack.recipes.inputs.RepairItemRecipeInput;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class MapExtendingRecipeProvider extends DynamicRecipeProvider<MapExtendingRecipeInput> {
+public class TippedArrowRecipeProvider extends DynamicRecipeProvider<MapExtendingRecipeInput> {
     private static final List<Material> RECIPE = ImmutableList.<Material>builder()
-        .add(Material.PAPER, Material.PAPER, Material.PAPER)
-        .add(Material.PAPER, Material.FILLED_MAP, Material.PAPER)
-        .add(Material.PAPER, Material.PAPER, Material.PAPER)
+        .add(Material.ARROW, Material.ARROW, Material.ARROW)
+        .add(Material.ARROW, Material.LINGERING_POTION, Material.ARROW)
+        .add(Material.ARROW, Material.ARROW, Material.ARROW)
         .build();
 
-    public MapExtendingRecipeProvider(String namespace, String key) {
+    public TippedArrowRecipeProvider(String namespace, String key) {
         super(MapExtendingRecipeInput.class, new NamespacedKey(namespace, key));
     }
 
@@ -36,7 +31,7 @@ public class MapExtendingRecipeProvider extends DynamicRecipeProvider<MapExtendi
             return Optional.empty(); // Not big enough
         }
 
-        ItemStack map = null;
+        ItemStack potion = null;
 
         for (int i = 0; i < RECIPE.size(); i++) {
             ItemStack item = input.getInput()[i];
@@ -49,18 +44,19 @@ public class MapExtendingRecipeProvider extends DynamicRecipeProvider<MapExtendi
                 return Optional.empty(); // Item doesn't match recipe.
             }
 
-            if (item.getType() == Material.FILLED_MAP) {
-                map = item;
+            if (item.getType() == Material.LINGERING_POTION) {
+                potion = item;
             }
         }
 
-        if (map == null) {
+        if (potion == null) {
             return Optional.empty(); // Sanity check, should never happen.
         }
 
-        //TODO: Add zooming once maps are implemented
+        ItemStack ret = new ItemStack(Material.TIPPED_ARROW);
+        ret.setItemMeta(potion.getItemMeta().clone());
 
-        return Optional.of(new StaticResultRecipe(getKey(), map.clone()));
+        return Optional.of(new StaticResultRecipe(getKey(), ret));
     }
 
     @Override

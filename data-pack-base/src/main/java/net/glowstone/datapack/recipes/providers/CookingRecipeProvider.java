@@ -11,6 +11,8 @@ import org.bukkit.inventory.RecipeChoice;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
+
 public abstract class CookingRecipeProvider<T extends CookingRecipe<T>, I extends CookingRecipeInput> extends StaticRecipeProvider<T, I> {
     protected CookingRecipeProvider(Class<I> inputClass,
                                     String namespace,

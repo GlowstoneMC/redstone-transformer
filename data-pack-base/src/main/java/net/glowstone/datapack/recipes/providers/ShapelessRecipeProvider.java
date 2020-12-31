@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
+import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
+
 public class ShapelessRecipeProvider extends StaticRecipeProvider<ShapelessRecipe, ShapelessRecipeInput> {
     public ShapelessRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<RecipeChoice> ingredients) {
         this(

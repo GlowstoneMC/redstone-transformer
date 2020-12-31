@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
+
 public class BookCloningRecipeProvider extends DynamicRecipeProvider<BookCloningRecipeInput> {
     public BookCloningRecipeProvider(String namespace, String key) {
         super(

@@ -13,6 +13,8 @@ import org.bukkit.inventory.meta.BannerMeta;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
+
 public class BannerDuplicateRecipeProvider extends DynamicRecipeProvider<BannerDuplicateRecipeInput> {
     public BannerDuplicateRecipeProvider(String namespace, String key) {
         super(

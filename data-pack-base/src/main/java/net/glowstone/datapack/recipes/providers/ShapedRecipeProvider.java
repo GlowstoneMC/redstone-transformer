@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
+import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
+
 public class ShapedRecipeProvider extends StaticRecipeProvider<ShapedRecipe, ShapedRecipeInput> {
     public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<String> shape, Map<Character, RecipeChoice> ingredients) {
         super(
