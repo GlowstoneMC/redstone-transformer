@@ -13,7 +13,7 @@ import org.bukkit.block.data.Attachable;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Attachable"
+    interfaceClass = Attachable.class
 )
 public interface GlowAttachable extends StatefulBlockData, Attachable {
     class Constants {

@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Lantern;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Lantern"
+    interfaceClass = Lantern.class
 )
 public interface GlowLantern extends StatefulBlockData, Lantern {
     class Constants {

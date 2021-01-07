@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Tripwire;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Tripwire"
+    interfaceClass = Tripwire.class
 )
 public interface GlowTripwire extends StatefulBlockData, Tripwire {
     class Constants {

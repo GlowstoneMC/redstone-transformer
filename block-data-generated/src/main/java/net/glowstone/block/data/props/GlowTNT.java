@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.TNT;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "TNT"
+    interfaceClass = TNT.class
 )
 public interface GlowTNT extends StatefulBlockData, TNT {
     class Constants {

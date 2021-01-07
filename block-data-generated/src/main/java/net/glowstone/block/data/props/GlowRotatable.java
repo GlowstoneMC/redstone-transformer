@@ -14,7 +14,7 @@ import org.bukkit.block.data.Rotatable;
             reportType = BlockFaceIdStateReport.class
         )
     },
-    interfaceName = "Rotatable"
+    interfaceClass = Rotatable.class
 )
 public interface GlowRotatable extends StatefulBlockData, Rotatable {
     class Constants {

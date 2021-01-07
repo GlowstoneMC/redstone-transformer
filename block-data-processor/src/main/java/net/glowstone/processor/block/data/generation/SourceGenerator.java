@@ -1,7 +1,9 @@
 package net.glowstone.processor.block.data.generation;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimap;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -17,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -35,11 +38,11 @@ import net.glowstone.block.data.states.AbstractStatefulBlockData;
 import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.block.data.states.values.StateValue;
 import net.glowstone.processor.block.data.ingestion.PropInterfaceData;
+import net.glowstone.processor.block.data.ingestion.PropPolyfillData;
 import net.glowstone.processor.block.data.ingestion.PropReportMapping;
 import net.glowstone.processor.block.data.ingestion.IngestionResult;
 import net.glowstone.processor.block.data.report.BlockReportManager;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.BlockData;
 
 public class SourceGenerator {
@@ -59,6 +62,13 @@ public class SourceGenerator {
         Set<ManagerBlockDataDetails> managerBlockDataDetails = new HashSet<>();
         List<PropInterfaceData> allPropInterfaces = ingestionResult.getPropInterfaces();
         String blockDataImplPackage = ingestionResult.getBlockDataImplPackage();
+
+        Multimap<Class<? extends BlockData>, PropPolyfillData> polyfillData = HashMultimap.create();
+        ingestionResult.getPropPolyfills().forEach((propPolyfillData) -> {
+            propPolyfillData.getReplacesInterfaces().forEach((replacesInterface) -> {
+                polyfillData.put(replacesInterface, propPolyfillData);
+            });
+        });
 
         blockReportManager.getBlockNameToProps().forEach((blockName, blockProps) -> {
             int defaultStateId = blockProps.getDefaultState();
@@ -106,7 +116,7 @@ public class SourceGenerator {
                 blockDataClassName = "Glow" + material.data.getSimpleName() + "BlockData";
             } else {
                 List<String> interfaceNames = propInterfaces.stream()
-                    .map(PropInterfaceData::getInterfaceName)
+                    .map((data) -> data.getInterfaceClass().getSimpleName())
                     .sorted()
                     .collect(Collectors.toList());
 
@@ -120,8 +130,24 @@ public class SourceGenerator {
 
             if (!createdBlockDataClasses.contains(blockDataClassName)) {
                 List<TypeName> extendedInterfaces = propInterfaces.stream()
-                    .map((propInterfaceData) -> TypeName.get(propInterfaceData.getAssociatedInterface()))
+                    .flatMap((propInterfaceData) -> {
+                        if (polyfillData.containsKey(propInterfaceData.getInterfaceClass())) {
+                            Collection<PropPolyfillData> polyfills = polyfillData.get(propInterfaceData.getInterfaceClass());
+                            List<TypeName> polyfillTypeNames = new ArrayList<>();
+                            for (PropPolyfillData polyfill : polyfills) {
+                                if (polyfill.getInterfaceClass().isAssignableFrom(material.data)) {
+                                    polyfillTypeNames.add(TypeName.get(polyfill.getAssociatedInterface()));
+                                }
+                            }
+                            if (polyfillTypeNames.isEmpty()) {
+                                return Stream.of(TypeName.get(propInterfaceData.getAssociatedInterface()));
+                            }
+                            return polyfillTypeNames.stream();
+                        }
+                        return Stream.of(TypeName.get(propInterfaceData.getAssociatedInterface()));
+                    })
                     .sorted(Comparator.comparing(TypeName::toString))
+                    .distinct()
                     .collect(Collectors.toCollection(ArrayList::new));
 
                 ClassName generatedClassName = ClassName.get(blockDataImplPackage, blockDataClassName);

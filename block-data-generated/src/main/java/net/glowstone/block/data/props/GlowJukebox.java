@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Jukebox;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Jukebox"
+    interfaceClass = Jukebox.class
 )
 public interface GlowJukebox extends StatefulBlockData, Jukebox {
     class Constants {

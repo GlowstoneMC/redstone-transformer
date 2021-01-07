@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Hopper;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Hopper"
+    interfaceClass = Hopper.class
 )
 public interface GlowHopper extends StatefulBlockData, Hopper {
     class Constants {

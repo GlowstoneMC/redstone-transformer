@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.TechnicalPiston;
             reportType = TechnicalPistonTypeStateReport.class
         )
     },
-    interfaceName = "TechnicalPiston"
+    interfaceClass = TechnicalPiston.class
 )
 public interface GlowTechnicalPiston extends StatefulBlockData, TechnicalPiston {
     class Constants {

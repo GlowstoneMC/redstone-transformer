@@ -13,7 +13,7 @@ import org.bukkit.block.data.Levelled;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "Levelled"
+    interfaceClass = Levelled.class
 )
 public interface GlowLevelled extends StatefulBlockData, Levelled {
     class Constants {

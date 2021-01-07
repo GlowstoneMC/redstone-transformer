@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Sapling;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "Sapling"
+    interfaceClass = Sapling.class
 )
 public interface GlowSapling extends StatefulBlockData, Sapling {
     class Constants {

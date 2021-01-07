@@ -14,7 +14,7 @@ import org.bukkit.block.data.Rail;
             reportType = RailShapeStateReport.class
         )
     },
-    interfaceName = "Rail"
+    interfaceClass = Rail.class
 )
 public interface GlowRail extends StatefulBlockData, Rail {
     class Constants {

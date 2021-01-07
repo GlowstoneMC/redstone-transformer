@@ -14,7 +14,7 @@
     <description>A collection of libraries to generate Bukkit implementations from vanilla server-generated files.</description>
 
     <properties>
-        <minecraft.version>1.15.2</minecraft.version>
+        <minecraft.version>1.16.4</minecraft.version>
         <glowkit.version>-R0.1-SNAPSHOT</glowkit.version>
         <jackson.version>2.10.1</jackson.version>
         <java.version>1.8</java.version>
@@ -192,7 +192,7 @@
                                     2. Within the specific version's manifest JSON, copy the URL from downloads.server.url
                                        and use that as the URL below.
                                 -->
-                                <url>https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar</url>
+                                <url>https://launcher.mojang.com/v1/objects/35139deedbd5182953cf1caa23835da59ca3d7cd/server.jar</url>
                                 <outputDirectory>${project.build.directory}/server</outputDirectory>
                                 <outputFileName>minecraft-server-${minecraft.version}.jar</outputFileName>
                             </configuration>

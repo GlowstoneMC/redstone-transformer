@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Cake;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "Cake"
+    interfaceClass = Cake.class
 )
 public interface GlowCake extends StatefulBlockData, Cake {
     class Constants {

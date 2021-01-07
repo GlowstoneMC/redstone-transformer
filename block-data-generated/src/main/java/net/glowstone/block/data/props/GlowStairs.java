@@ -15,7 +15,7 @@ import org.bukkit.block.data.type.Stairs;
             reportType = StairsShapeStateReport.class
         )
     },
-    interfaceName = "Stairs"
+    interfaceClass = Stairs.class
 )
 public interface GlowStairs extends StatefulBlockData, Stairs {
     class Constants {

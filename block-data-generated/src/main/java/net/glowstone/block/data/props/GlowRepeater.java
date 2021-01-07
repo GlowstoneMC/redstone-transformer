@@ -19,7 +19,7 @@ import org.bukkit.block.data.type.Repeater;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Repeater"
+    interfaceClass = Repeater.class
 )
 public interface GlowRepeater extends StatefulBlockData, Repeater {
     class Constants {

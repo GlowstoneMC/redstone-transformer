@@ -13,7 +13,7 @@ import org.bukkit.block.data.Openable;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Openable"
+    interfaceClass = Openable.class
 )
 public interface GlowOpenable extends StatefulBlockData, Openable {
     class Constants {

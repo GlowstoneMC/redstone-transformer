@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Lectern;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Lectern"
+    interfaceClass = Lectern.class
 )
 public interface GlowLectern extends StatefulBlockData, Lectern {
     class Constants {

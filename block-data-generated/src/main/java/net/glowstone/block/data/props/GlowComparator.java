@@ -15,7 +15,7 @@ import org.bukkit.block.data.type.Comparator;
             reportType = ComparatorModeStateReport.class
         )
     },
-    interfaceName = "Comparator"
+    interfaceClass = Comparator.class
 )
 public interface GlowComparator extends StatefulBlockData, Comparator {
     class Constants {

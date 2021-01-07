@@ -19,7 +19,7 @@ import org.bukkit.block.data.type.Scaffolding;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Scaffolding"
+    interfaceClass = Scaffolding.class
 )
 public interface GlowScaffolding extends StatefulBlockData, Scaffolding {
     class Constants {

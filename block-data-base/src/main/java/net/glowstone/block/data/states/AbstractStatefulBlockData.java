@@ -9,6 +9,7 @@ import net.glowstone.block.data.states.reports.ComparableStateReport;
 import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.block.data.states.values.StateValue;
 import org.bukkit.Material;
+import org.bukkit.SoundGroup;
 import org.bukkit.block.data.BlockData;
 
 public abstract class AbstractStatefulBlockData implements StatefulBlockData {
@@ -125,6 +126,11 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     @Override
     public int hashCode() {
         return Objects.hash(material, stateValues);
+    }
+
+    @Override
+    public SoundGroup getSoundGroup() {
+        return null;
     }
 
     @Override

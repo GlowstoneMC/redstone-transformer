@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.PistonHead;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "PistonHead"
+    interfaceClass = PistonHead.class
 )
 public interface GlowPistonHead extends StatefulBlockData, PistonHead {
     class Constants {

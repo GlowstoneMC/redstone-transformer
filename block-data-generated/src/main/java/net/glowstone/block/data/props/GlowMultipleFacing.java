@@ -14,35 +14,35 @@ import org.bukkit.block.data.MultipleFacing;
 @AssociatedWithProps(
     props = {
         @PropertyAssociation(
-            propName = GlowMultipleFaces.Constants.NORTH_PROP_NAME,
+            propName = GlowMultipleFacing.Constants.NORTH_PROP_NAME,
             reportType = BooleanStateReport.class
         ),
         @PropertyAssociation(
-            propName = GlowMultipleFaces.Constants.SOUTH_PROP_NAME,
+            propName = GlowMultipleFacing.Constants.SOUTH_PROP_NAME,
             reportType = BooleanStateReport.class
         ),
         @PropertyAssociation(
-            propName = GlowMultipleFaces.Constants.EAST_PROP_NAME,
+            propName = GlowMultipleFacing.Constants.EAST_PROP_NAME,
             reportType = BooleanStateReport.class
         ),
         @PropertyAssociation(
-            propName = GlowMultipleFaces.Constants.WEST_PROP_NAME,
+            propName = GlowMultipleFacing.Constants.WEST_PROP_NAME,
             reportType = BooleanStateReport.class
         ),
         @PropertyAssociation(
-            propName = GlowMultipleFaces.Constants.UP_PROP_NAME,
+            propName = GlowMultipleFacing.Constants.UP_PROP_NAME,
             reportType = BooleanStateReport.class,
             required = false
         ),
         @PropertyAssociation(
-            propName = GlowMultipleFaces.Constants.DOWN_PROP_NAME,
+            propName = GlowMultipleFacing.Constants.DOWN_PROP_NAME,
             reportType = BooleanStateReport.class,
             required = false
         )
     },
-    interfaceName = "MultipleFaces"
+    interfaceClass = MultipleFacing.class
 )
-public interface GlowMultipleFaces extends StatefulBlockData, MultipleFacing {
+public interface GlowMultipleFacing extends StatefulBlockData, MultipleFacing {
     class Constants {
         public static final String NORTH_PROP_NAME = "north";
         public static final String SOUTH_PROP_NAME = "south";
@@ -88,24 +88,31 @@ public interface GlowMultipleFaces extends StatefulBlockData, MultipleFacing {
         switch (face){
             case NORTH:
                 setValue(Constants.NORTH_PROP_NAME, Constants.STATE_TYPE, has);
+                break;
 
             case SOUTH:
                 setValue(Constants.SOUTH_PROP_NAME, Constants.STATE_TYPE, has);
+                break;
 
             case EAST:
                 setValue(Constants.EAST_PROP_NAME, Constants.STATE_TYPE, has);
+                break;
 
             case WEST:
                 setValue(Constants.WEST_PROP_NAME, Constants.STATE_TYPE, has);
+                break;
 
             case UP:
                 if (hasValue(Constants.UP_PROP_NAME)) {
                     setValue(Constants.UP_PROP_NAME, Constants.STATE_TYPE, has);
                 }
+                break;
+
             case DOWN:
                 if (hasValue(Constants.DOWN_PROP_NAME)) {
                     setValue(Constants.DOWN_PROP_NAME, Constants.STATE_TYPE, has);
                 }
+                break;
         }
     }
 

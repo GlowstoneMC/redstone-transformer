@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.EndPortalFrame;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "EndPortalFrame"
+    interfaceClass = EndPortalFrame.class
 )
 public interface GlowEndPortalFrame extends StatefulBlockData, EndPortalFrame {
     class Constants {

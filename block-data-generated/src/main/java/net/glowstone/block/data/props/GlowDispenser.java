@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Dispenser;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Dispenser"
+    interfaceClass = Dispenser.class
 )
 public interface GlowDispenser extends StatefulBlockData, Dispenser {
     class Constants {

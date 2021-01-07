@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.BubbleColumn;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "BubbleColumn"
+    interfaceClass = BubbleColumn.class
 )
 public interface GlowBubbleColumn extends StatefulBlockData, BubbleColumn {
     class Constants {

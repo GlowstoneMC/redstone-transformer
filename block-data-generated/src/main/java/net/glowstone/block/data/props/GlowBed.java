@@ -18,7 +18,7 @@ import org.bukkit.block.data.type.Bed;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Bed"
+    interfaceClass = Bed.class
 )
 public interface GlowBed extends StatefulBlockData, Bed {
     class Constants {

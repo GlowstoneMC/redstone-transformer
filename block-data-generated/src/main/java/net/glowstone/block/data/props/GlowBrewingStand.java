@@ -24,7 +24,7 @@ import org.bukkit.block.data.type.BrewingStand;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "BrewingStand"
+    interfaceClass = BrewingStand.class
 )
 public interface GlowBrewingStand extends StatefulBlockData, BrewingStand {
     class Constants {
@@ -53,10 +53,13 @@ public interface GlowBrewingStand extends StatefulBlockData, BrewingStand {
         switch(bottle) {
             case 0:
                 setValue(Constants.BOTTLE_0_PROP_NAME, Constants.STATE_TYPE, has);
+                break;
             case 1:
                 setValue(Constants.BOTTLE_1_PROP_NAME, Constants.STATE_TYPE, has);
+                break;
             case 2:
                 setValue(Constants.BOTTLE_2_PROP_NAME, Constants.STATE_TYPE, has);
+                break;
         }
     }
 

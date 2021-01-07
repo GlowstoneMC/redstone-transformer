@@ -4,35 +4,36 @@ import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.IntegerStateReport;
 import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
 import net.glowstone.processor.block.data.annotations.PropertyAssociation;
-import org.bukkit.block.data.type.Beehive;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.type.RespawnAnchor;
 
 @AssociatedWithProps(
     props = {
         @PropertyAssociation(
-            propName = GlowBeehive.Constants.PROP_NAME,
+            propName = GlowRespawnAnchor.Constants.PROP_NAME,
             reportType = IntegerStateReport.class
         )
     },
-    interfaceClass = Beehive.class
+    interfaceClass = RespawnAnchor.class
 )
-public interface GlowBeehive extends StatefulBlockData, Beehive {
+public interface GlowRespawnAnchor extends StatefulBlockData, RespawnAnchor {
     class Constants {
-        public static final String PROP_NAME = "honey_level";
+        public static final String PROP_NAME = "charges";
         public static final Class<Integer> STATE_TYPE = Integer.class;
     }
 
     @Override
-    default int getHoneyLevel() {
+    default int getCharges() {
         return getValue(Constants.PROP_NAME, Constants.STATE_TYPE);
     }
 
     @Override
-    default void setHoneyLevel(int honeyLevel) {
-        setValue(Constants.PROP_NAME, Constants.STATE_TYPE, honeyLevel);
+    default void setCharges(int charges) {
+        setValue(Constants.PROP_NAME, Constants.STATE_TYPE, charges);
     }
 
     @Override
-    default int getMaximumHoneyLevel() {
+    default int getMaximumCharges() {
         return getMaxValue(Constants.PROP_NAME, Constants.STATE_TYPE);
     }
 }

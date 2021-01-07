@@ -19,7 +19,7 @@ import org.bukkit.block.data.type.TurtleEgg;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "TurtleEgg"
+    interfaceClass = TurtleEgg.class
 )
 public interface GlowTurtleEgg extends StatefulBlockData, TurtleEgg {
     class Constants {

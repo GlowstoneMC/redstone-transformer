@@ -21,7 +21,7 @@ import org.bukkit.block.data.type.NoteBlock;
             reportType = NoteStateReport.class
         )
     },
-    interfaceName = "NoteBlock"
+    interfaceClass = NoteBlock.class
 )
 public interface GlowNoteBlock extends StatefulBlockData, NoteBlock {
     class Constants {

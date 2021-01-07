@@ -13,7 +13,7 @@ import org.bukkit.block.data.Bisected;
             reportType = BisectedHalfStateReport.class
         )
     },
-    interfaceName = "Bisected"
+    interfaceClass = Bisected.class
 )
 public interface GlowBisected extends StatefulBlockData, Bisected {
     class Constants {

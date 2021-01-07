@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Snow;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "Snow"
+    interfaceClass = Snow.class
 )
 public interface GlowSnow extends StatefulBlockData, Snow {
     class Constants {

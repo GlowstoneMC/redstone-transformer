@@ -15,7 +15,7 @@ import org.bukkit.block.data.type.StructureBlock;
             reportType = StructureBlockModeStateReport.class
         )
     },
-    interfaceName = "StructureBlock"
+    interfaceClass = StructureBlock.class
 )
 public interface GlowStructureBlock extends StatefulBlockData, StructureBlock {
     class Constants {

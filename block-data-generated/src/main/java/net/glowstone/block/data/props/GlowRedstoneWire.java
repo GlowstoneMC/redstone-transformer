@@ -33,7 +33,7 @@ import org.bukkit.block.data.type.RedstoneWire;
             reportType = RedstoneWireConnectionStateReport.class
         )
     },
-    interfaceName = "RedstoneWire"
+    interfaceClass = RedstoneWire.class
 )
 public interface GlowRedstoneWire extends StatefulBlockData, RedstoneWire {
     class Constants {
@@ -69,15 +69,19 @@ public interface GlowRedstoneWire extends StatefulBlockData, RedstoneWire {
         switch (face){
             case NORTH:
                 setValue(Constants.NORTH_PROP_NAME, Constants.STATE_TYPE, connection);
+                break;
 
             case SOUTH:
                 setValue(Constants.SOUTH_PROP_NAME, Constants.STATE_TYPE, connection);
+                break;
 
             case EAST:
                 setValue(Constants.EAST_PROP_NAME, Constants.STATE_TYPE, connection);
+                break;
 
             case WEST:
                 setValue(Constants.WEST_PROP_NAME, Constants.STATE_TYPE, connection);
+                break;
         }
     }
 

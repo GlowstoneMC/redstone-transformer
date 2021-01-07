@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface AssociatedWithProps {
-    PropertyAssociation[] props();
+public @interface PropPolyfill {
+    Class<? extends BlockData>[] replaces();
     Class<? extends BlockData> interfaceClass();
 }

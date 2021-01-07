@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Door;
             reportType = HingeStateReport.class
         )
     },
-    interfaceName = "Door"
+    interfaceClass = Door.class
 )
 public interface GlowDoor extends StatefulBlockData, Door {
     class Constants {

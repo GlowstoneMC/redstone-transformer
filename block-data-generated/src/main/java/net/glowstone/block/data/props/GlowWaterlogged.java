@@ -13,7 +13,7 @@ import org.bukkit.block.data.Waterlogged;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Waterlogged"
+    interfaceClass = Waterlogged.class
 )
 public interface GlowWaterlogged extends StatefulBlockData, Waterlogged {
     class Constants {

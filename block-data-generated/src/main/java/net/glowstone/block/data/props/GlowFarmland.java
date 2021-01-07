@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Farmland;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "Farmland"
+    interfaceClass = Farmland.class
 )
 public interface GlowFarmland extends StatefulBlockData, Farmland {
     class Constants {

@@ -13,7 +13,7 @@ import org.bukkit.block.data.Ageable;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "Ageable"
+    interfaceClass = Ageable.class
 )
 public interface GlowAgeable extends StatefulBlockData, Ageable {
     class Constants {

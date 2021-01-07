@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.SeaPickle;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "SeaPickle"
+    interfaceClass = SeaPickle.class
 )
 public interface GlowSeaPickle extends StatefulBlockData, SeaPickle {
     class Constants {

@@ -1,35 +1,27 @@
 package net.glowstone.block.data.props;
 
-import net.glowstone.block.data.states.StatefulBlockData;
-import net.glowstone.block.data.states.reports.StructureBlockModeStateReport;
-import net.glowstone.block.data.states.reports.SwitchFaceStateReport;
-import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
-import net.glowstone.processor.block.data.annotations.PropertyAssociation;
-import org.bukkit.block.data.type.StructureBlock;
+import net.glowstone.processor.block.data.annotations.PropPolyfill;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.FaceAttachable;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.block.data.type.Switch;
 
-@AssociatedWithProps(
-    props = {
-        @PropertyAssociation(
-            propName = GlowSwitch.Constants.PROP_NAME,
-            reportType = SwitchFaceStateReport.class
-        )
+@PropPolyfill(
+    replaces = {
+        Directional.class,
+        FaceAttachable.class,
+        Powerable.class
     },
-    interfaceName = "Switch"
+    interfaceClass = Switch.class
 )
-public interface GlowSwitch extends StatefulBlockData, Switch {
-    class Constants {
-        public static final String PROP_NAME = "face";
-        public static final Class<Face> STATE_TYPE = Face.class;
-    }
-
+public interface GlowSwitch extends GlowDirectional, GlowFaceAttachable, GlowPowerable, Switch {
     @Override
     default Face getFace() {
-        return getValue(Constants.PROP_NAME, Constants.STATE_TYPE);
+        return Face.valueOf(getAttachedFace().name());
     }
 
     @Override
     default void setFace(Face face) {
-        setValue(Constants.PROP_NAME, Constants.STATE_TYPE, face);
+        setAttachedFace(AttachedFace.valueOf(face.name()));
     }
 }

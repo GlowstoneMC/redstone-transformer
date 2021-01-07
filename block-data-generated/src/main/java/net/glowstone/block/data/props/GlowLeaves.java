@@ -18,7 +18,7 @@ import org.bukkit.block.data.type.Leaves;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "Leaves"
+    interfaceClass = Leaves.class
 )
 public interface GlowLeaves extends StatefulBlockData, Leaves {
     class Constants {

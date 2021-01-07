@@ -13,7 +13,7 @@ import org.bukkit.block.data.AnaloguePowerable;
             reportType = IntegerStateReport.class
         )
     },
-    interfaceName = "AnaloguePowerable"
+    interfaceClass = AnaloguePowerable.class
 )
 public interface GlowAnaloguePowerable extends StatefulBlockData, AnaloguePowerable {
     class Constants {

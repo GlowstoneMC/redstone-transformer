@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.DaylightDetector;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "DaylightDetector"
+    interfaceClass = DaylightDetector.class
 )
 public interface GlowDaylightDetector extends StatefulBlockData, DaylightDetector {
     class Constants {

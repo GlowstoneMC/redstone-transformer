@@ -2,26 +2,28 @@ package net.glowstone.processor.block.data.ingestion;
 
 import org.bukkit.block.data.BlockData;
 
-import java.util.Set;
 import javax.lang.model.type.TypeMirror;
+import java.util.List;
 
-public class PropInterfaceData {
-    private final Set<PropReportMapping> propReportMappings;
+public class PropPolyfillData {
     private final TypeMirror associatedInterface;
+    private final List<Class<? extends BlockData>> replacesInterfaces;
     private final Class<? extends BlockData> interfaceClass;
 
-    public PropInterfaceData(Set<PropReportMapping> propReportMappings, TypeMirror associatedInterface, Class<? extends BlockData> interfaceClass) {
-        this.propReportMappings = propReportMappings;
+    public PropPolyfillData(TypeMirror associatedInterface,
+                            List<Class<? extends BlockData>> replacesInterfaces,
+                            Class<? extends BlockData> interfaceClass) {
         this.associatedInterface = associatedInterface;
+        this.replacesInterfaces = replacesInterfaces;
         this.interfaceClass = interfaceClass;
-    }
-
-    public Set<PropReportMapping> getPropReportMappings() {
-        return propReportMappings;
     }
 
     public TypeMirror getAssociatedInterface() {
         return associatedInterface;
+    }
+
+    public List<Class<? extends BlockData>> getReplacesInterfaces() {
+        return replacesInterfaces;
     }
 
     public Class<? extends BlockData> getInterfaceClass() {

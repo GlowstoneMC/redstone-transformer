@@ -13,7 +13,7 @@ import org.bukkit.block.data.Lightable;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Lightable"
+    interfaceClass = Lightable.class
 )
 public interface GlowLightable extends StatefulBlockData, Lightable {
     class Constants {

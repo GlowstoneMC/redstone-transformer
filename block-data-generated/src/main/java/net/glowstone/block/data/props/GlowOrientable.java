@@ -15,7 +15,7 @@ import org.bukkit.block.data.Orientable;
             reportType = AxisStateReport.class
         )
     },
-    interfaceName = "Orientable"
+    interfaceClass = Orientable.class
 )
 public interface GlowOrientable extends StatefulBlockData, Orientable {
     class Constants {

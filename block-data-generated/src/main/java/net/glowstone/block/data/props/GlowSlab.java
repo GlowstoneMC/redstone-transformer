@@ -15,7 +15,7 @@ import org.bukkit.block.data.type.Slab;
             reportType = SlabTypeStateReport.class
         )
     },
-    interfaceName = "Slab"
+    interfaceClass = Slab.class
 )
 public interface GlowSlab extends StatefulBlockData, Slab {
     class Constants {

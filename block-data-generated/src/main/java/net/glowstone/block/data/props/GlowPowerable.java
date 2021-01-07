@@ -9,13 +9,13 @@ import org.bukkit.block.data.Powerable;
 @AssociatedWithProps(
     props = {
         @PropertyAssociation(
-            propName = GlowPowered.Constants.PROP_NAME,
+            propName = GlowPowerable.Constants.PROP_NAME,
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Powerable"
+    interfaceClass = Powerable.class
 )
-public interface GlowPowered extends StatefulBlockData, Powerable {
+public interface GlowPowerable extends StatefulBlockData, Powerable {
     class Constants {
         public static final String PROP_NAME = "powered";
         public static final Class<Boolean> STATE_TYPE = Boolean.class;

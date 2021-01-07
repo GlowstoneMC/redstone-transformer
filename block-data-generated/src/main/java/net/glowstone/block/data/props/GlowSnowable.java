@@ -13,7 +13,7 @@ import org.bukkit.block.data.Snowable;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Snowable"
+    interfaceClass = Snowable.class
 )
 public interface GlowSnowable extends StatefulBlockData, Snowable {
     class Constants {

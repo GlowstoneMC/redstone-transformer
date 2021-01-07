@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Bamboo;
             reportType = BambooLeavesStateReport.class
         )
     },
-    interfaceName = "Bamboo"
+    interfaceClass = Bamboo.class
 )
 public interface GlowBamboo extends StatefulBlockData, Bamboo {
     class Constants {

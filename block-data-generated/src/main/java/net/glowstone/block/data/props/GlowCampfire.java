@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Campfire;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Campfire"
+    interfaceClass = Campfire.class
 )
 public interface GlowCampfire extends StatefulBlockData, Campfire {
     class Constants {

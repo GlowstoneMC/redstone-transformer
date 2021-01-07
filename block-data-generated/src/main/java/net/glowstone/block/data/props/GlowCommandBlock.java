@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.CommandBlock;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "CommandBlock"
+    interfaceClass = CommandBlock.class
 )
 public interface GlowCommandBlock extends StatefulBlockData, CommandBlock {
     class Constants {

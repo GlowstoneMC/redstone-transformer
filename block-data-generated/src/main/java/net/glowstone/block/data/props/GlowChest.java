@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Chest;
             reportType = ChestTypeStateReport.class
         )
     },
-    interfaceName = "Bisected"
+    interfaceClass = Chest.class
 )
 public interface GlowChest extends StatefulBlockData, Chest {
     class Constants {

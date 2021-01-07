@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Gate;
             reportType = BooleanStateReport.class
         )
     },
-    interfaceName = "Gate"
+    interfaceClass = Gate.class
 )
 public interface GlowGate extends StatefulBlockData, Gate {
     class Constants {

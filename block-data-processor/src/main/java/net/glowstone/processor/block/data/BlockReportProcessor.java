@@ -17,6 +17,7 @@ import net.glowstone.processor.block.data.report.BlockReportManager;
 
 @SupportedAnnotationTypes({
     "net.glowstone.processor.block.data.annotations.AssociatedWithProps",
+    "net.glowstone.processor.block.data.annotations.PropPolyfill",
     "net.glowstone.processor.block.data.annotations.ProcessorConfiguration"
 })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)

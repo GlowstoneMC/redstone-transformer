@@ -13,7 +13,7 @@ import org.bukkit.block.data.type.Bell;
             reportType = BellAttachmentStateReport.class
         )
     },
-    interfaceName = "Bell"
+    interfaceClass = Bell.class
 )
 public interface GlowBell extends StatefulBlockData, Bell {
     class Constants {

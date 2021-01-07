@@ -15,7 +15,7 @@ import org.bukkit.block.data.Directional;
             reportType = BlockFaceStateReport.class
         )
     },
-    interfaceName = "Directional"
+    interfaceClass = Directional.class
 )
 public interface GlowDirectional extends StatefulBlockData, Directional {
     class Constants {
