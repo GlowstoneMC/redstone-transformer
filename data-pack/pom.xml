@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>redstone-transformer</artifactId>
+        <groupId>net.glowstone</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>data-pack-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Redstone Transformer - Data Pack - Parent POM</name>
+    <url>https://www.glowstone.net</url>
+    <description>A collection of libraries that transforms the vanilla-generated block data report into Bukkit interface implementations.</description>
+
+    <modules>
+        <module>loader</module>
+        <module>base</module>
+        <module>generated</module>
+        <module>processor</module>
+    </modules>
+
+</project>

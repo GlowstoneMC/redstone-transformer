@@ -209,13 +209,7 @@
     </build>
     
     <modules>
-        <module>block-data-processor</module>
-        <module>block-data-base</module>
-        <module>block-data-generated</module>
-        <module>block-data-annotations</module>
-        <module>data-pack-loader</module>
-        <module>data-pack-base</module>
-        <module>data-pack-generated</module>
-        <module>data-pack-processor</module>
+        <module>block-data</module>
+        <module>data-pack</module>
     </modules>
 </project>
