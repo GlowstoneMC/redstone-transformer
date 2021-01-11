@@ -49,16 +49,33 @@ public class Entity {
         }
     }
 
+    public static class FishingHook {
+        private final Optional<Boolean> inOpenWater;
+
+        @JsonCreator
+        public FishingHook(
+            @JsonProperty("in_open_water") Optional<Boolean> inOpenWater) {
+            this.inOpenWater = inOpenWater;
+        }
+
+        public Optional<Boolean> getInOpenWater() {
+            return inOpenWater;
+        }
+    }
+
     private final Optional<String> catType;
     private final Optional<Distance> distance;
     private final Optional<Map<String, StatusEffect>> effects;
     private final Optional<Equipment> equipment;
     private final Optional<Flags> flags;
+    private final Optional<FishingHook> fishingHook;
     private final Optional<Location> location;
     private final Optional<String> nbt;
     private final Optional<Player> player;
     private final Optional<String> team;
     private final Optional<String> type;
+    private final Optional<Entity> targetedEntity;
+    private final Optional<Entity> vehicle;
 
     @JsonCreator
     public Entity(
@@ -67,21 +84,27 @@ public class Entity {
         @JsonProperty("effects") Optional<Map<String, StatusEffect>> effects,
         @JsonProperty("equipment") Optional<Equipment> equipment,
         @JsonProperty("flags") Optional<Flags> flags,
+        @JsonProperty("fishing_hook") Optional<FishingHook> fishingHook,
         @JsonProperty("location") Optional<Location> location,
         @JsonProperty("nbt") Optional<String> nbt,
         @JsonProperty("player") Optional<Player> player,
         @JsonProperty("team") Optional<String> team,
-        @JsonProperty("type") Optional<String> type) {
+        @JsonProperty("type") Optional<String> type,
+        @JsonProperty("targeted_entity") Optional<Entity> targetedEntity,
+        @JsonProperty("vehicle") Optional<Entity> vehicle) {
         this.catType = catType;
         this.distance = distance;
         this.effects = effects;
         this.equipment = equipment;
+        this.fishingHook = fishingHook;
         this.flags = flags;
         this.location = location;
         this.nbt = nbt;
         this.player = player;
         this.team = team;
         this.type = type;
+        this.targetedEntity = targetedEntity;
+        this.vehicle = vehicle;
     }
 
     public Optional<String> getCatType() {
@@ -122,5 +145,13 @@ public class Entity {
 
     public Optional<String> getType() {
         return type;
+    }
+
+    public Optional<Entity> getTargetedEntity() {
+        return targetedEntity;
+    }
+
+    public Optional<Entity> getVehicle() {
+        return vehicle;
     }
 }

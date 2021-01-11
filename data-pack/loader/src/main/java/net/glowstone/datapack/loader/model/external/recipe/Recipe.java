@@ -40,6 +40,7 @@ import net.glowstone.datapack.loader.model.external.recipe.special.TippedArrowRe
     @JsonSubTypes.Type(value = ShapedRecipe.class, name = ShapedRecipe.TYPE_ID),
     @JsonSubTypes.Type(value = ShapelessRecipe.class, name = ShapelessRecipe.TYPE_ID),
     @JsonSubTypes.Type(value = SmeltingRecipe.class, name = SmeltingRecipe.TYPE_ID),
+    @JsonSubTypes.Type(value = SmithingRecipe.class, name = SmithingRecipe.TYPE_ID),
     @JsonSubTypes.Type(value = SmokingRecipe.class, name = SmokingRecipe.TYPE_ID),
     @JsonSubTypes.Type(value = StonecuttingRecipe.class, name = StonecuttingRecipe.TYPE_ID),
     @JsonSubTypes.Type(value = BlastingRecipe.class, name = BlastingRecipe.TYPE_ID),

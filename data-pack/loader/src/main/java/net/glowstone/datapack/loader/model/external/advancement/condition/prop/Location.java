@@ -13,6 +13,7 @@ public class Location {
     private final Optional<Fluid> fluid;
     private final Optional<RangedDouble> light;
     private final Optional<Position> position;
+    private final Optional<Boolean> smokey;
 
     @JsonCreator
     public Location(
@@ -22,7 +23,8 @@ public class Location {
         @JsonProperty("feature") Optional<String> feature,
         @JsonProperty("fluid") Optional<Fluid> fluid,
         @JsonProperty("light") Optional<RangedDouble> light,
-        @JsonProperty("position") Optional<Position> position) {
+        @JsonProperty("position") Optional<Position> position,
+        @JsonProperty("smokey") Optional<Boolean> smokey) {
         this.biome = biome;
         this.block = block;
         this.dimension = dimension;
@@ -30,6 +32,7 @@ public class Location {
         this.fluid = fluid;
         this.light = light;
         this.position = position;
+        this.smokey = smokey;
     }
 
     public Optional<String> getBiome() {
@@ -58,5 +61,9 @@ public class Location {
 
     public Optional<Position> getPosition() {
         return position;
+    }
+
+    public Optional<Boolean> getSmokey() {
+        return smokey;
     }
 }

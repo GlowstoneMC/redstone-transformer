@@ -6,15 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class InvertedPredicate implements Predicate {
     public static final String TYPE_ID = "minecraft:inverted";
 
-    private final Predicate inverted;
+    private final Predicate term;
 
     @JsonCreator
     public InvertedPredicate(
-        @JsonProperty("inverted") Predicate inverted) {
-        this.inverted = inverted;
+        @JsonProperty("term") Predicate term) {
+        this.term = term;
     }
 
-    public Predicate getInverted() {
-        return inverted;
+    public Predicate getTerm() {
+        return term;
     }
 }

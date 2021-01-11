@@ -8,20 +8,20 @@ import net.glowstone.datapack.loader.model.external.predicate.Predicate;
 import java.util.List;
 import java.util.Optional;
 
-public class FilledBucketConditions extends PlayerConditions {
-    public static final String TYPE_ID = "minecraft:filled_bucket";
+public class PlayerGeneratesContainerLootConditions extends PlayerConditions {
+    public static final String TYPE_ID = "minecraft:player_generates_container_loot";
 
-    private final Optional<Item> item;
+    private final Optional<String> lootTable;
 
     @JsonCreator
-    public FilledBucketConditions(
-        @JsonProperty("item") Optional<Item> item,
+    public PlayerGeneratesContainerLootConditions(
+        @JsonProperty("loot_table") Optional<String> lootTable,
         @JsonProperty("player") Optional<List<Predicate>> player) {
         super(player);
-        this.item = item;
+        this.lootTable = lootTable;
     }
 
-    public Optional<Item> getItem() {
-        return item;
+    public Optional<String> getLootTable() {
+        return lootTable;
     }
 }

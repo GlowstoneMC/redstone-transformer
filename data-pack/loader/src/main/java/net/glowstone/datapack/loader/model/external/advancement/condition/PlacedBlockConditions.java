@@ -3,12 +3,14 @@ package net.glowstone.datapack.loader.model.external.advancement.condition;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.glowstone.datapack.loader.model.external.advancement.condition.prop.Location;
+import net.glowstone.datapack.loader.model.external.predicate.Predicate;
 import net.glowstone.datapack.loader.model.external.recipe.Item;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class PlacedBlockConditions implements Conditions {
+public class PlacedBlockConditions extends PlayerConditions {
     public static final String TYPE_ID = "minecraft:placed_block";
 
     private final Optional<String> block;
@@ -21,7 +23,9 @@ public class PlacedBlockConditions implements Conditions {
         @JsonProperty("block") Optional<String> block,
         @JsonProperty("item") Optional<Item> item,
         @JsonProperty("location") Optional<Location> location,
-        @JsonProperty("state") Optional<Map<String, String>> state) {
+        @JsonProperty("state") Optional<Map<String, String>> state,
+        @JsonProperty("player") Optional<List<Predicate>> player) {
+        super(player);
         this.block = block;
         this.item = item;
         this.location = location;

@@ -2,31 +2,22 @@ package net.glowstone.datapack.loader.model.external.advancement.condition;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.glowstone.datapack.loader.model.external.advancement.condition.prop.LocationBlock;
-import net.glowstone.datapack.loader.model.external.advancement.condition.prop.Fluid;
 import net.glowstone.datapack.loader.model.external.advancement.condition.prop.Location;
-import net.glowstone.datapack.loader.model.external.advancement.condition.prop.Position;
-import net.glowstone.datapack.loader.model.external.advancement.condition.prop.RangedDouble;
+import net.glowstone.datapack.loader.model.external.predicate.Predicate;
 
+import java.util.List;
 import java.util.Optional;
 
-public class HeroOfTheVillageConditions extends Location implements Conditions {
+public class HeroOfTheVillageConditions extends PlayerConditions {
     public static final String TYPE_ID = "minecraft:hero_of_the_village";
 
     private final Optional<Location> location;
 
     @JsonCreator
     public HeroOfTheVillageConditions(
-        @JsonProperty("biome") Optional<String> biome,
-        @JsonProperty("block") Optional<LocationBlock> block,
-        @JsonProperty("dimension") Optional<String> dimension,
-        @JsonProperty("feature") Optional<String> feature,
-        @JsonProperty("fluid") Optional<Fluid> fluid,
-        @JsonProperty("light") Optional<RangedDouble> light,
-        @JsonProperty("position") Optional<Position> position,
-        @JsonProperty("location") Optional<Location> location) {
-        super(biome, block, dimension, feature, fluid, light, position);
-
+        @JsonProperty("location") Optional<Location> location,
+        @JsonProperty("player") Optional<List<Predicate>> player) {
+        super(player);
         this.location = location;
     }
 

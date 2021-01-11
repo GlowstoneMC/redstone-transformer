@@ -1,13 +1,9 @@
 package net.glowstone.datapack.loader.model.external.advancement;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,20 +29,24 @@ import net.glowstone.datapack.loader.model.external.advancement.condition.HeroOf
 import net.glowstone.datapack.loader.model.external.advancement.condition.ImpossibleConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.InventoryChangedConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.ItemDurabilityChangedConditions;
+import net.glowstone.datapack.loader.model.external.advancement.condition.ItemUsedOnBlockConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.KilledByCrossbowConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.LevitationConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.LocationConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.NetherTravelConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.PlacedBlockConditions;
+import net.glowstone.datapack.loader.model.external.advancement.condition.PlayerGeneratesContainerLootConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.PlayerHurtEntityConditions;
+import net.glowstone.datapack.loader.model.external.advancement.condition.PlayerInteractedWithEntityConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.PlayerKilledEntityConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.RecipeUnlockedConditions;
-import net.glowstone.datapack.loader.model.external.advancement.condition.SafelyHarvestHoneyConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.ShotCrossbowConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.SleptInBedConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.SlideDownBlockConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.SummonedEntityConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.TameAnimalConditions;
+import net.glowstone.datapack.loader.model.external.advancement.condition.TargetHitConditions;
+import net.glowstone.datapack.loader.model.external.advancement.condition.ThrownItemPickedUpByEntityConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.TickConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.UsedEnderEyeConditions;
 import net.glowstone.datapack.loader.model.external.advancement.condition.UsedTotemConditions;
@@ -76,7 +76,7 @@ public class Criteria {
                 }
 
                 if (typeNode != null && typeNode.isTextual() && conditionsNode.isObject()) {
-                    Conditions conditions = null;
+                    Conditions conditions;
                     switch (typeNode.asText()) {
                         case BeeNestDestroyedConditions.TYPE_ID:
                             conditions = codec.treeToValue(conditionsNode, BeeNestDestroyedConditions.class);
@@ -154,6 +154,10 @@ public class Criteria {
                             conditions = codec.treeToValue(conditionsNode, ItemDurabilityChangedConditions.class);
                             break;
 
+                        case ItemUsedOnBlockConditions.TYPE_ID:
+                            conditions = codec.treeToValue(conditionsNode, ItemUsedOnBlockConditions.class);
+                            break;
+
                         case KilledByCrossbowConditions.TYPE_ID:
                             conditions = codec.treeToValue(conditionsNode, KilledByCrossbowConditions.class);
                             break;
@@ -174,8 +178,16 @@ public class Criteria {
                             conditions = codec.treeToValue(conditionsNode, PlacedBlockConditions.class);
                             break;
 
+                        case PlayerGeneratesContainerLootConditions.TYPE_ID:
+                            conditions = codec.treeToValue(conditionsNode, PlayerGeneratesContainerLootConditions.class);
+                            break;
+
                         case PlayerHurtEntityConditions.TYPE_ID:
                             conditions = codec.treeToValue(conditionsNode, PlayerHurtEntityConditions.class);
+                            break;
+
+                        case PlayerInteractedWithEntityConditions.TYPE_ID:
+                            conditions = codec.treeToValue(conditionsNode, PlayerInteractedWithEntityConditions.class);
                             break;
 
                         case PlayerKilledEntityConditions.TYPE_ID:
@@ -184,10 +196,6 @@ public class Criteria {
 
                         case RecipeUnlockedConditions.TYPE_ID:
                             conditions = codec.treeToValue(conditionsNode, RecipeUnlockedConditions.class);
-                            break;
-
-                        case SafelyHarvestHoneyConditions.TYPE_ID:
-                            conditions = codec.treeToValue(conditionsNode, SafelyHarvestHoneyConditions.class);
                             break;
 
                         case ShotCrossbowConditions.TYPE_ID:
@@ -210,8 +218,16 @@ public class Criteria {
                             conditions = codec.treeToValue(conditionsNode, TameAnimalConditions.class);
                             break;
 
+                        case TargetHitConditions.TYPE_ID:
+                            conditions = codec.treeToValue(conditionsNode, TargetHitConditions.class);
+                            break;
+
                         case TickConditions.TYPE_ID:
                             conditions = codec.treeToValue(conditionsNode, TickConditions.class);
+                            break;
+
+                        case ThrownItemPickedUpByEntityConditions.TYPE_ID:
+                            conditions = codec.treeToValue(conditionsNode, ThrownItemPickedUpByEntityConditions.class);
                             break;
 
                         case UsedEnderEyeConditions.TYPE_ID:
@@ -229,10 +245,11 @@ public class Criteria {
                         case VoluntaryExileConditions.TYPE_ID:
                             conditions = codec.treeToValue(conditionsNode, VoluntaryExileConditions.class);
                             break;
+
+                        default:
+                            throw new JsonMappingException(p, "Could not create Criteria with type \"" + typeNode.asText() + "\"");
                     }
-                    if (conditions != null) {
-                        return new Criteria(conditions);
-                    }
+                    return new Criteria(conditions);
                 }
             }
 
