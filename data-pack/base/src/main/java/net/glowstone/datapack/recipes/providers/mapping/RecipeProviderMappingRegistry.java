@@ -22,6 +22,7 @@ public class RecipeProviderMappingRegistry {
             new SmokingRecipeProviderMapping(),
             new ShapelessRecipeProviderMapping(),
             new ShapedRecipeProviderMapping(),
+            new SmithingRecipeProviderMapping(),
             new StonecuttingRecipeProviderMapping()
         );
 

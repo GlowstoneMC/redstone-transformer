@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class CookingRecipeProviderMapping<ExternalRecipe extends CookingRecipe,
-                                          BukkkitRecipe extends org.bukkit.inventory.CookingRecipe<BukkkitRecipe>,
-                                          InputType extends CookingRecipeInput,
-                                          ProviderType extends CookingRecipeProvider<BukkkitRecipe, InputType>>
-                                          implements StaticRecipeProviderMapping<ProviderType, ExternalRecipe, BukkkitRecipe> {
+public abstract class CookingRecipeProviderMapping<ExternalRecipe extends CookingRecipe,
+                                                   BukkkitRecipe extends org.bukkit.inventory.CookingRecipe<BukkkitRecipe>,
+                                                   InputType extends CookingRecipeInput,
+                                                   ProviderType extends CookingRecipeProvider<BukkkitRecipe, InputType>>
+                                                   implements StaticRecipeProviderMapping<ProviderType, ExternalRecipe, BukkkitRecipe> {
     private final Class<ExternalRecipe> modelType;
     private final Class<ProviderType> recipeProvider;
     private final Class<BukkkitRecipe> bukkitType;
