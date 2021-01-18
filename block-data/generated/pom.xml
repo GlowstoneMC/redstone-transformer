@@ -15,6 +15,11 @@
     <url>https://www.glowstone.net</url>
     <description>Annotated interfaces and generated interfaces for Bukkit's BlockData.</description>
 
+    <properties>
+        <vanilla.unpack.directory>${project.build.directory}/mojang-vanilla-server-data</vanilla.unpack.directory>
+        <vanilla.reports.blocks>${vanilla.unpack.directory}/${vanilla.package.namespace}/reports/blocks.json</vanilla.reports.blocks>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -25,6 +30,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>block-data-annotations</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>mojang-vanilla-server-data</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test dependencies -->
@@ -43,28 +54,24 @@
 
         <plugins>
             <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>download-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>unpack</goal>
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <executable>java</executable>
-                            <workingDirectory>target/server</workingDirectory>
-                            <arguments>
-                                <argument>-cp</argument>
-                                <argument>minecraft-server-${minecraft.version}.jar</argument>
-                                <argument>net.minecraft.data.Main</argument>
-                                <argument>--server</argument>
-                                <argument>--reports</argument>
-                            </arguments>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>mojang-vanilla-server-data</artifactId>
+                                    <outputDirectory>${vanilla.unpack.directory}</outputDirectory>
+                                    <excludes>META-INF/**/*</excludes>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
@@ -74,7 +81,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <compilerArgs>
-                        <compilerArg>-Areports.blocks.path=${project.build.directory}/server/generated/reports/blocks.json</compilerArg>
+                        <compilerArg>-Areports.blocks.path=${project.build.directory}/mojang-vanilla-server-data/net/minecraft/${minecraft.version}/reports/blocks.json</compilerArg>
                     </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
