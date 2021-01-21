@@ -1,12 +1,10 @@
 package net.glowstone.datapack.recipes.providers;
 
-import com.destroystokyo.paper.MaterialTags;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.loader.model.external.recipe.special.ShieldDecorationRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.ShieldDecorationRecipeInput;
-import net.glowstone.datapack.recipes.inputs.ShulkerBoxColoringRecipeInput;
-import net.glowstone.datapack.utils.DyeUtils;
-import org.bukkit.DyeColor;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -14,14 +12,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.BannerMeta;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class ShieldDecorationRecipeProvider extends DynamicRecipeProvider<ShieldDecorationRecipeInput> {
-    public ShieldDecorationRecipeProvider(String namespace, String key) {
+public class ShieldDecorationRecipeProvider extends SpecialRecipeProvider<ShieldDecorationRecipeInput> {
+    public static ShieldDecorationRecipeProviderFactory factory() {
+        return ShieldDecorationRecipeProviderFactory.getInstance();
+    }
+
+    private ShieldDecorationRecipeProvider(String namespace, String key) {
         super(
             ShieldDecorationRecipeInput.class,
             new NamespacedKey(namespace, key)
@@ -84,5 +86,30 @@ public class ShieldDecorationRecipeProvider extends DynamicRecipeProvider<Shield
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class ShieldDecorationRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ShieldDecorationRecipeProvider, ShieldDecorationRecipe> {
+        private static volatile ShieldDecorationRecipeProviderFactory instance = null;
+
+        private ShieldDecorationRecipeProviderFactory() {
+            super(ShieldDecorationRecipe.class, ShieldDecorationRecipeProvider.class, ShieldDecorationRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ ShieldDecorationRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static ShieldDecorationRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (ShieldDecorationRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new ShieldDecorationRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

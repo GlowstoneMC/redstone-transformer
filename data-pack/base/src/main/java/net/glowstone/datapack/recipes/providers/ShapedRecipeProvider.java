@@ -1,48 +1,32 @@
 package net.glowstone.datapack.recipes.providers;
 
+import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.TagManager;
+import net.glowstone.datapack.loader.model.external.recipe.ShapedRecipe;
 import net.glowstone.datapack.recipes.inputs.ShapedRecipeInput;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
 
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
 
-public class ShapedRecipeProvider extends StaticRecipeProvider<ShapedRecipe, ShapedRecipeInput> {
-    public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, List<String> shape, Map<Character, RecipeChoice> ingredients) {
-        super(
-            ShapedRecipeInput.class,
-            new ShapedRecipe(
-                new NamespacedKey(namespace, key),
-                new ItemStack(resultMaterial, resultAmount)
-            )
-        );
-        ShapedRecipe recipe = getRecipe();
-        group.ifPresent(recipe::setGroup);
-        recipe.shape(shape.toArray(new String[0]));
-        ingredients.forEach(recipe::setIngredient);
+public class ShapedRecipeProvider extends StaticRecipeProvider<org.bukkit.inventory.ShapedRecipe, ShapedRecipeInput> {
+    public static ShapedRecipeProviderFactory factory() {
+        return ShapedRecipeProviderFactory.getInstance();
     }
 
-    public ShapedRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount) {
-        super(
-            ShapedRecipeInput.class,
-            new ShapedRecipe(
-                new NamespacedKey(namespace, key),
-                new ItemStack(resultMaterial, resultAmount)
-            )
-        );
-    }
-
-    public ShapedRecipeProvider(ShapedRecipe recipe) {
+    public ShapedRecipeProvider(org.bukkit.inventory.ShapedRecipe recipe) {
         super(ShapedRecipeInput.class, recipe);
     }
 
@@ -76,7 +60,7 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<ShapedRecipe, Sha
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(ShapedRecipeInput input) {
+    public Optional<org.bukkit.inventory.Recipe> getRecipeFor(ShapedRecipeInput input) {
         int size = (int) Math.sqrt(input.getInput().length);
         Map<Character, ItemStack> ingredients = getRecipe().getIngredientMap();
         String[] shape = getRecipe().getShape();
@@ -184,5 +168,112 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<ShapedRecipe, Sha
             && Objects.equals(getRecipe().getChoiceMap(), that.getRecipe().getChoiceMap())
             && Arrays.equals(getRecipe().getShape(), that.getRecipe().getShape())
             && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
+    }
+
+    public static class ShapedRecipeProviderFactory implements StaticRecipeProviderFactory<ShapedRecipeProvider, ShapedRecipe, org.bukkit.inventory.ShapedRecipe> {
+        private static volatile ShapedRecipeProviderFactory instance = null;
+
+        private ShapedRecipeProviderFactory() {
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ ShapedRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static ShapedRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (ShapedRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new ShapedRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
+
+        @Override
+        public Class<ShapedRecipe> getModelType() {
+            return ShapedRecipe.class;
+        }
+
+        @Override
+        public Class<org.bukkit.inventory.ShapedRecipe> getBukkitType() {
+            return org.bukkit.inventory.ShapedRecipe.class;
+        }
+
+        @Override
+        public Class<ShapedRecipeProvider> getRecipeProviderType() {
+            return ShapedRecipeProvider.class;
+        }
+
+        @Override
+        public List<MappingArgument> providerArguments(String namespace, String key, ShapedRecipe recipe) {
+            return ImmutableList.of(
+                MappingArgument.forString(namespace),
+                MappingArgument.forString(key),
+                MappingArgument.forEnum(Material.matchMaterial(recipe.getResult().getItem())),
+                MappingArgument.forInteger(recipe.getResult().getCount()),
+                MappingArgument.forOptional(recipe.getGroup().map(MappingArgument::forString)),
+                MappingArgument.forList(
+                    recipe.getPattern()
+                        .stream()
+                        .map(MappingArgument::forString)
+                        .collect(Collectors.toList())
+                ),
+                MappingArgument.forMap(
+                    Character.class,
+                    RecipeChoice.class,
+                    recipe.getKey()
+                        .entrySet()
+                        .stream()
+                        .map((entry) -> new AbstractMap.SimpleEntry<>(
+                            MappingArgument.forCharacter(entry.getKey()),
+                            RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, entry.getValue())
+                        ))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                )
+            );
+        }
+
+        @Override
+        public ShapedRecipeProvider provider(TagManager tagManager, String namespace, String key, ShapedRecipe recipe) {
+            return this.provider(
+                namespace,
+                key,
+                Material.matchMaterial(recipe.getResult().getItem()),
+                recipe.getResult().getCount(),
+                recipe.getGroup(),
+                recipe.getPattern(),
+                recipe.getKey()
+                    .entrySet()
+                    .stream()
+                    .map((entry) -> new AbstractMap.SimpleEntry<>(entry.getKey(), RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, entry.getValue())))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+            );
+        }
+
+        @Override
+        public ShapedRecipeProvider provider(org.bukkit.inventory.ShapedRecipe recipe) {
+            return new ShapedRecipeProvider(recipe);
+        }
+
+        public ShapedRecipeProvider provider(String namespace,
+                                             String key,
+                                             Material resultMaterial,
+                                             int resultAmount,
+                                             Optional<String> group,
+                                             List<String> shape,
+                                             Map<Character, RecipeChoice> ingredients) {
+            org.bukkit.inventory.ShapedRecipe recipe = new org.bukkit.inventory.ShapedRecipe(
+                new NamespacedKey(namespace, key),
+                new ItemStack(resultMaterial, resultAmount)
+            );
+            group.ifPresent(recipe::setGroup);
+            recipe.shape(shape.toArray(new String[0]));
+            ingredients.forEach(recipe::setIngredient);
+            return this.provider(recipe);
+        }
     }
 }

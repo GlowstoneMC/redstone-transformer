@@ -1,22 +1,19 @@
 package net.glowstone.datapack.recipes.providers;
 
 import com.destroystokyo.paper.MaterialTags;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import net.glowstone.datapack.loader.model.external.recipe.special.ShulkerBoxColoringRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
-import net.glowstone.datapack.recipes.inputs.ArmorDyeRecipeInput;
 import net.glowstone.datapack.recipes.inputs.ShulkerBoxColoringRecipeInput;
-import net.glowstone.datapack.tags.ExtraMaterialTags;
 import net.glowstone.datapack.utils.DyeUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,7 +21,11 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class ShulkerBoxColoringRecipeProvider extends DynamicRecipeProvider<ShulkerBoxColoringRecipeInput> {
+public class ShulkerBoxColoringRecipeProvider extends SpecialRecipeProvider<ShulkerBoxColoringRecipeInput> {
+    public static ShulkerBoxColoringRecipeProviderFactory factory() {
+        return ShulkerBoxColoringRecipeProviderFactory.getInstance();
+    }
+
     private static final Map<DyeColor, Material> SHULKER_DYES = ImmutableMap.<DyeColor, Material>builder()
         .put(DyeColor.BLACK, Material.BLACK_SHULKER_BOX)
         .put(DyeColor.BLUE, Material.BLUE_SHULKER_BOX)
@@ -44,7 +45,7 @@ public class ShulkerBoxColoringRecipeProvider extends DynamicRecipeProvider<Shul
         .put(DyeColor.YELLOW, Material.YELLOW_SHULKER_BOX)
         .build();
 
-    public ShulkerBoxColoringRecipeProvider(String namespace, String key) {
+    private ShulkerBoxColoringRecipeProvider(String namespace, String key) {
         super(
             ShulkerBoxColoringRecipeInput.class,
             new NamespacedKey(namespace, key)
@@ -104,5 +105,30 @@ public class ShulkerBoxColoringRecipeProvider extends DynamicRecipeProvider<Shul
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class ShulkerBoxColoringRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ShulkerBoxColoringRecipeProvider, ShulkerBoxColoringRecipe> {
+        private static volatile ShulkerBoxColoringRecipeProviderFactory instance = null;
+
+        private ShulkerBoxColoringRecipeProviderFactory() {
+            super(ShulkerBoxColoringRecipe.class, ShulkerBoxColoringRecipeProvider.class, ShulkerBoxColoringRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ ShulkerBoxColoringRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static ShulkerBoxColoringRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (ShulkerBoxColoringRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new ShulkerBoxColoringRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

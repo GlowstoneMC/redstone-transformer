@@ -9,16 +9,14 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 import net.glowstone.datapack.AbstractRecipeManager;
-import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
 import net.glowstone.datapack.processor.generation.MappingArgumentGenerator;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
-import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMapping;
-import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry;
-import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry.RecipeProviderMappingArgumentsResult;
+import net.glowstone.datapack.recipes.providers.RecipeProviderRegistry;
+import net.glowstone.datapack.recipes.providers.RecipeProviderRegistry.RecipeProviderMappingArgumentsResult;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 
 import javax.lang.model.element.Modifier;
@@ -36,7 +34,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     public void addItems(String namespaceName,
                          Data data) {
         data.getRecipes().forEach((itemName, recipe) -> {
-            Optional<RecipeProviderMappingArgumentsResult> result = RecipeProviderMappingRegistry.providerArguments(namespaceName, itemName, recipe);
+            Optional<RecipeProviderMappingArgumentsResult> result = RecipeProviderRegistry.providerArguments(namespaceName, itemName, recipe);
 
             if (result.isPresent()) {
                 List<MappingArgument> arguments = result.get().getMappingArguments();
@@ -44,7 +42,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
 
                 CodeBlock.Builder initBlock = CodeBlock.builder()
                     .add(
-                        "return new $T(",
+                        "return $T.factory().provider(",
                         recipeProviderType
                     );
 

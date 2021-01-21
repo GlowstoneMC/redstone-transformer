@@ -9,27 +9,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public abstract class CraftingRecipeInput implements RecipeInput {
-    protected static <I extends CraftingRecipeInput> Optional<I> create(Function<CraftingInventory, I> constructor,
-                                                                        Inventory inventory) {
-        if (inventory instanceof CraftingRecipeInput) {
-            return Optional.of(constructor.apply((CraftingInventory) inventory));
-        }
-        return Optional.empty();
-    }
-
-    protected static <I extends CraftingRecipeInput> Optional<I> create(Function<ItemStack[], I> constructor,
-                                                                        InventoryType inventoryType,
-                                                                        ItemStack[] itemStacks) {
-        switch (inventoryType) {
-            case WORKBENCH:
-            case CRAFTING:
-                return Optional.of(constructor.apply(itemStacks));
-
-            default:
-                return Optional.empty();
-        }
-    }
-
     private final ItemStack[] input;
 
     protected CraftingRecipeInput(ItemStack[] input) {
@@ -42,5 +21,33 @@ public abstract class CraftingRecipeInput implements RecipeInput {
 
     public ItemStack[] getInput() {
         return input;
+    }
+
+    protected abstract static class CraftingRecipeInputFactory<T extends CraftingRecipeInput> implements InventoryRecipeInputFactory<T>, InventoryTypeRecipeInputFactory<T> {
+        private final Function<ItemStack[], T> itemStackConstructor;
+
+        protected CraftingRecipeInputFactory(Function<ItemStack[], T> itemStackConstructor) {
+            this.itemStackConstructor = itemStackConstructor;
+        }
+
+        @Override
+        public Optional<T> create(Inventory inventory) {
+            if (inventory instanceof CraftingInventory) {
+                return Optional.of(this.itemStackConstructor.apply(((CraftingInventory) inventory).getMatrix()));
+            }
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<T> create(InventoryType inventoryType, ItemStack[] itemStacks) {
+            switch (inventoryType) {
+                case WORKBENCH:
+                case CRAFTING:
+                    return Optional.of(this.itemStackConstructor.apply(itemStacks));
+
+                default:
+                    return Optional.empty();
+            }
+        }
     }
 }

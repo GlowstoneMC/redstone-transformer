@@ -1,7 +1,11 @@
 package net.glowstone.datapack.recipes.providers;
 
+import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.TagManager;
+import net.glowstone.datapack.loader.model.external.recipe.special.RepairItemRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.RepairItemRecipeInput;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -17,12 +21,16 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class RepairItemRecipeProvider extends DynamicRecipeProvider<RepairItemRecipeInput> {
+public class RepairItemRecipeProvider extends SpecialRecipeProvider<RepairItemRecipeInput> {
+    public static RepairItemRecipeProviderFactory factory() {
+        return RepairItemRecipeProviderFactory.getInstance();
+    }
+
     private static boolean isRepairable(ItemStack item) {
         return item.getItemMeta() instanceof Damageable;
     }
 
-    public RepairItemRecipeProvider(String namespace, String key) {
+    private RepairItemRecipeProvider(String namespace, String key) {
         super(RepairItemRecipeInput.class, new NamespacedKey(namespace, key));
     }
 
@@ -78,5 +86,30 @@ public class RepairItemRecipeProvider extends DynamicRecipeProvider<RepairItemRe
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class RepairItemRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<RepairItemRecipeProvider, RepairItemRecipe> {
+        private static volatile RepairItemRecipeProviderFactory instance = null;
+
+        private RepairItemRecipeProviderFactory() {
+            super(RepairItemRecipe.class, RepairItemRecipeProvider.class, RepairItemRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ RepairItemRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static RepairItemRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (RepairItemRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new RepairItemRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

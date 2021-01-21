@@ -1,26 +1,38 @@
 package net.glowstone.datapack.recipes.inputs;
 
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class TippedArrowRecipeInput extends CraftingRecipeInput {
-    public static Optional<TippedArrowRecipeInput> create(Inventory inventory) {
-        return create(TippedArrowRecipeInput::new, inventory);
+    public static TippedArrowRecipeInputFactory factory() {
+        return TippedArrowRecipeInputFactory.getInstance();
     }
 
-    public static Optional<TippedArrowRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        return create(TippedArrowRecipeInput::new, inventoryType, itemStacks);
-    }
-
-    public TippedArrowRecipeInput(CraftingInventory inventory) {
-        super(inventory);
-    }
-
-    public TippedArrowRecipeInput(ItemStack[] input) {
+    private TippedArrowRecipeInput(ItemStack[] input) {
         super(input);
+    }
+
+    private static class TippedArrowRecipeInputFactory extends CraftingRecipeInputFactory<TippedArrowRecipeInput> {
+        private static volatile TippedArrowRecipeInputFactory instance = null;
+
+        private TippedArrowRecipeInputFactory() {
+            super(TippedArrowRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + TippedArrowRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static TippedArrowRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (TippedArrowRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new TippedArrowRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

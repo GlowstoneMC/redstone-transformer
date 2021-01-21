@@ -1,11 +1,14 @@
 package net.glowstone.datapack.recipes.providers;
 
 import com.destroystokyo.paper.MaterialTags;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import net.glowstone.datapack.loader.model.external.recipe.special.FireworkStarFadeRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.special.FireworkStarRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.FireworkStarRecipeInput;
-import net.glowstone.datapack.tags.ExtraMaterialTags;
 import net.glowstone.datapack.utils.DyeUtils;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -22,15 +25,12 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class FireworkStarFadeRecipeProvider extends DynamicRecipeProvider<FireworkStarRecipeInput> {
-    private static final Map<Material, FireworkEffect.Type> EFFECTS = ImmutableMap.<Material, FireworkEffect.Type>builder()
-        .put(Material.FIRE_CHARGE, FireworkEffect.Type.BALL_LARGE)
-        .put(Material.GOLD_NUGGET, FireworkEffect.Type.STAR)
-        .put(Material.CREEPER_HEAD, FireworkEffect.Type.CREEPER)
-        .put(Material.FEATHER, FireworkEffect.Type.BURST)
-        .build();
+public class FireworkStarFadeRecipeProvider extends SpecialRecipeProvider<FireworkStarRecipeInput> {
+    public static FireworkStarFadeRecipeProviderFactory factory() {
+        return FireworkStarFadeRecipeProviderFactory.getInstance();
+    }
 
-    public FireworkStarFadeRecipeProvider(String namespace, String key) {
+    private FireworkStarFadeRecipeProvider(String namespace, String key) {
         super(FireworkStarRecipeInput.class, new NamespacedKey(namespace, key));
     }
 
@@ -90,5 +90,30 @@ public class FireworkStarFadeRecipeProvider extends DynamicRecipeProvider<Firewo
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class FireworkStarFadeRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkStarFadeRecipeProvider, FireworkStarFadeRecipe> {
+        private static volatile FireworkStarFadeRecipeProviderFactory instance = null;
+
+        private FireworkStarFadeRecipeProviderFactory() {
+            super(FireworkStarFadeRecipe.class, FireworkStarFadeRecipeProvider.class, FireworkStarFadeRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ FireworkStarFadeRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static FireworkStarFadeRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (FireworkStarFadeRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new FireworkStarFadeRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
@@ -72,7 +73,7 @@ public class VanillaRecipeManagerTest {
         DataPackLoader dataPackLoader = new DataPackLoader();
         Optional<DataPack> dataPack = dataPackLoader.loadPack(dataPackPath, true);
 
-        assertThat(dataPack.isPresent()).isTrue();
+        assertThat(dataPack).isPresent();
 
         TagManager loadingTagManager = new EmptyTagManager();
         RecipeManager loadingRecipeManager = new EmptyRecipeManager(loadingTagManager);

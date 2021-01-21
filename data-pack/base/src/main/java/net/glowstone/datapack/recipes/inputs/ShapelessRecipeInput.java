@@ -1,26 +1,38 @@
 package net.glowstone.datapack.recipes.inputs;
 
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class ShapelessRecipeInput extends CraftingRecipeInput {
-    public static Optional<ShapelessRecipeInput> create(Inventory inventory) {
-        return create(ShapelessRecipeInput::new, inventory);
+    public static ShapelessRecipeInputFactory factory() {
+        return ShapelessRecipeInputFactory.getInstance();
     }
 
-    public static Optional<ShapelessRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        return create(ShapelessRecipeInput::new, inventoryType, itemStacks);
-    }
-
-    public ShapelessRecipeInput(CraftingInventory inventory) {
-        super(inventory);
-    }
-
-    public ShapelessRecipeInput(ItemStack[] input) {
+    private ShapelessRecipeInput(ItemStack[] input) {
         super(input);
+    }
+
+    private static class ShapelessRecipeInputFactory extends CraftingRecipeInputFactory<ShapelessRecipeInput> {
+        private static volatile ShapelessRecipeInputFactory instance = null;
+
+        private ShapelessRecipeInputFactory() {
+            super(ShapelessRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + ShapelessRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static ShapelessRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (ShapelessRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new ShapelessRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

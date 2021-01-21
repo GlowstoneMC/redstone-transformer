@@ -1,8 +1,10 @@
 package net.glowstone.datapack.recipes.providers;
 
+import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.loader.model.external.recipe.special.FireworkRocketRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.FireworkStarRecipeInput;
-import net.glowstone.datapack.recipes.inputs.MapCloningRecipeInput;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,8 +20,12 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class FireworkRocketRecipeProvider extends DynamicRecipeProvider<FireworkStarRecipeInput> {
-    public FireworkRocketRecipeProvider(String namespace, String key) {
+public class FireworkRocketRecipeProvider extends SpecialRecipeProvider<FireworkStarRecipeInput> {
+    public static FireworkRocketRecipeProviderFactory factory() {
+        return FireworkRocketRecipeProviderFactory.getInstance();
+    }
+
+    private FireworkRocketRecipeProvider(String namespace, String key) {
         super(FireworkStarRecipeInput.class, new NamespacedKey(namespace, key));
     }
 
@@ -73,5 +79,30 @@ public class FireworkRocketRecipeProvider extends DynamicRecipeProvider<Firework
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class FireworkRocketRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkRocketRecipeProvider, FireworkRocketRecipe> {
+        private static volatile FireworkRocketRecipeProviderFactory instance = null;
+
+        private FireworkRocketRecipeProviderFactory() {
+            super(FireworkRocketRecipe.class, FireworkRocketRecipeProvider.class, FireworkRocketRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ FireworkRocketRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static FireworkRocketRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (FireworkRocketRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new FireworkRocketRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

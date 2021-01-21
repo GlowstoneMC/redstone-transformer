@@ -1,26 +1,38 @@
 package net.glowstone.datapack.recipes.inputs;
 
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class ShapedRecipeInput extends CraftingRecipeInput {
-    public static Optional<ShapedRecipeInput> create(Inventory inventory) {
-        return create(ShapedRecipeInput::new, inventory);
+    public static ShapedRecipeInputFactory factory() {
+        return ShapedRecipeInputFactory.getInstance();
     }
 
-    public static Optional<ShapedRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        return create(ShapedRecipeInput::new, inventoryType, itemStacks);
-    }
-
-    public ShapedRecipeInput(CraftingInventory inventory) {
-        super(inventory);
-    }
-
-    public ShapedRecipeInput(ItemStack[] input) {
+    private ShapedRecipeInput(ItemStack[] input) {
         super(input);
+    }
+
+    private static class ShapedRecipeInputFactory extends CraftingRecipeInputFactory<ShapedRecipeInput> {
+        private static volatile ShapedRecipeInputFactory instance = null;
+
+        private ShapedRecipeInputFactory() {
+            super(ShapedRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + ShapedRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static ShapedRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (ShapedRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new ShapedRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

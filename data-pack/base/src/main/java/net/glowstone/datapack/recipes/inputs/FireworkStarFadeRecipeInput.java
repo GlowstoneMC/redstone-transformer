@@ -1,26 +1,38 @@
 package net.glowstone.datapack.recipes.inputs;
 
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class FireworkStarFadeRecipeInput extends CraftingRecipeInput {
-    public static Optional<FireworkStarFadeRecipeInput> create(Inventory inventory) {
-        return create(FireworkStarFadeRecipeInput::new, inventory);
+    public static FireworkStarFadeRecipeInputFactory factory() {
+        return FireworkStarFadeRecipeInputFactory.getInstance();
     }
 
-    public static Optional<FireworkStarFadeRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        return create(FireworkStarFadeRecipeInput::new, inventoryType, itemStacks);
-    }
-
-    public FireworkStarFadeRecipeInput(CraftingInventory inventory) {
-        super(inventory);
-    }
-
-    public FireworkStarFadeRecipeInput(ItemStack[] input) {
+    private FireworkStarFadeRecipeInput(ItemStack[] input) {
         super(input);
+    }
+
+    private static class FireworkStarFadeRecipeInputFactory extends CraftingRecipeInputFactory<FireworkStarFadeRecipeInput> {
+        private static volatile FireworkStarFadeRecipeInputFactory instance = null;
+
+        private FireworkStarFadeRecipeInputFactory() {
+            super(FireworkStarFadeRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + FireworkStarFadeRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static FireworkStarFadeRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (FireworkStarFadeRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new FireworkStarFadeRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

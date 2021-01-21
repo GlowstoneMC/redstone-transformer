@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.special.BannerAddPatternRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
-import net.glowstone.datapack.recipes.inputs.BannerAddPaternRecipeInput;
+import net.glowstone.datapack.recipes.inputs.BannerAddPatternRecipeInput;
 import net.glowstone.datapack.utils.BannerPatternUtils.ItemTag;
 import net.glowstone.datapack.utils.DyeUtils;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.DyeColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.banner.Pattern;
@@ -21,16 +25,20 @@ import static net.glowstone.datapack.utils.BannerPatternUtils.ItemTag.BANNER;
 import static net.glowstone.datapack.utils.BannerPatternUtils.ItemTag.DYE;
 import static net.glowstone.datapack.utils.BannerPatternUtils.getPatternType;
 
-public class BannerAddPatternRecipeProvider extends DynamicRecipeProvider<BannerAddPaternRecipeInput> {
-    public BannerAddPatternRecipeProvider(String namespace, String key) {
+public class BannerAddPatternRecipeProvider extends SpecialRecipeProvider<BannerAddPatternRecipeInput> {
+    public static BannerAddPatternRecipeProviderFactory factory() {
+        return BannerAddPatternRecipeProviderFactory.getInstance();
+    }
+
+    private BannerAddPatternRecipeProvider(String namespace, String key) {
         super(
-            BannerAddPaternRecipeInput.class,
+            BannerAddPatternRecipeInput.class,
             new NamespacedKey(namespace, key)
         );
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(BannerAddPaternRecipeInput input) {
+    public Optional<Recipe> getRecipeFor(BannerAddPatternRecipeInput input) {
         if (input.getInput().length != 9) {
             return Optional.empty(); // Not big enough
         }
@@ -90,5 +98,30 @@ public class BannerAddPatternRecipeProvider extends DynamicRecipeProvider<Banner
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class BannerAddPatternRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<BannerAddPatternRecipeProvider, BannerAddPatternRecipe> {
+        private static volatile BannerAddPatternRecipeProviderFactory instance = null;
+
+        private BannerAddPatternRecipeProviderFactory() {
+            super(BannerAddPatternRecipe.class, BannerAddPatternRecipeProvider.class, BannerAddPatternRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ BannerAddPatternRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static BannerAddPatternRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (BannerAddPatternRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new BannerAddPatternRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

@@ -1,8 +1,10 @@
 package net.glowstone.datapack.recipes.providers;
 
 import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.loader.model.external.recipe.special.TippedArrowRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.MapExtendingRecipeInput;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -14,14 +16,18 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class TippedArrowRecipeProvider extends DynamicRecipeProvider<MapExtendingRecipeInput> {
+public class TippedArrowRecipeProvider extends SpecialRecipeProvider<MapExtendingRecipeInput> {
+    public static TippedArrowRecipeProviderFactory factory() {
+        return TippedArrowRecipeProviderFactory.getInstance();
+    }
+
     private static final List<Material> RECIPE = ImmutableList.<Material>builder()
         .add(Material.ARROW, Material.ARROW, Material.ARROW)
         .add(Material.ARROW, Material.LINGERING_POTION, Material.ARROW)
         .add(Material.ARROW, Material.ARROW, Material.ARROW)
         .build();
 
-    public TippedArrowRecipeProvider(String namespace, String key) {
+    private TippedArrowRecipeProvider(String namespace, String key) {
         super(MapExtendingRecipeInput.class, new NamespacedKey(namespace, key));
     }
 
@@ -69,5 +75,30 @@ public class TippedArrowRecipeProvider extends DynamicRecipeProvider<MapExtendin
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class TippedArrowRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<TippedArrowRecipeProvider, TippedArrowRecipe> {
+        private static volatile TippedArrowRecipeProviderFactory instance = null;
+
+        private TippedArrowRecipeProviderFactory() {
+            super(TippedArrowRecipe.class, TippedArrowRecipeProvider.class, TippedArrowRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ TippedArrowRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static TippedArrowRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (TippedArrowRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new TippedArrowRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

@@ -1,6 +1,9 @@
 package net.glowstone.datapack.recipes.inputs;
 
 import com.google.common.collect.ImmutableSet;
+import net.glowstone.datapack.recipes.inputs.RecipeInput.InventoryRecipeInputFactory;
+import net.glowstone.datapack.recipes.inputs.RecipeInput.InventoryTypeRecipeInputFactory;
+import net.glowstone.datapack.recipes.inputs.RecipeInput.RecipeInputFactory;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -11,59 +14,47 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RecipeInputRegistry {
-    private static final Set<InventoryConverter> INVENTORY_FUNCS =
-        ImmutableSet.<InventoryConverter>builder()
-            .add(ArmorDyeRecipeInput::create)
-            .add(BannerAddPaternRecipeInput::create)
-            .add(BannerDuplicateRecipeInput::create)
-            .add(BlastingRecipeInput::create)
-            .add(BookCloningRecipeInput::create)
-            .add(FireworkRocketRecipeInput::create)
-            .add(FireworkStarFadeRecipeInput::create)
-            .add(FireworkStarRecipeInput::create)
-            .add(FurnaceRecipeInput::create)
-            .add(MapCloningRecipeInput::create)
-            .add(MapExtendingRecipeInput::create)
-            .add(RepairItemRecipeInput::create)
-            .add(ShapedRecipeInput::create)
-            .add(ShapelessRecipeInput::create)
-            .add(ShieldDecorationRecipeInput::create)
-            .add(ShulkerBoxColoringRecipeInput::create)
-            .add(SmithingRecipeInput::create)
-            .add(SmokingRecipeInput::create)
-            .add(StonecuttingRecipeInput::create)
-            .add(SuspiciousStewRecipeInput::create)
-            .add(TippedArrowRecipeInput::create)
+    private static final Set<RecipeInputFactory<?>> ALL_FACTORIES =
+        ImmutableSet.<RecipeInputFactory<?>>builder()
+            .add(ArmorDyeRecipeInput.factory())
+            .add(BannerAddPatternRecipeInput.factory())
+            .add(BannerDuplicateRecipeInput.factory())
+            .add(BlastingRecipeInput.factory())
+            .add(BookCloningRecipeInput.factory())
+            .add(CampfireRecipeInput.factory())
+            .add(FireworkRocketRecipeInput.factory())
+            .add(FireworkStarFadeRecipeInput.factory())
+            .add(FireworkStarRecipeInput.factory())
+            .add(FurnaceRecipeInput.factory())
+            .add(MapCloningRecipeInput.factory())
+            .add(MapExtendingRecipeInput.factory())
+            .add(RepairItemRecipeInput.factory())
+            .add(ShapedRecipeInput.factory())
+            .add(ShapelessRecipeInput.factory())
+            .add(ShieldDecorationRecipeInput.factory())
+            .add(ShulkerBoxColoringRecipeInput.factory())
+            .add(SmithingRecipeInput.factory())
+            .add(SmokingRecipeInput.factory())
+            .add(StonecuttingRecipeInput.factory())
+            .add(SuspiciousStewRecipeInput.factory())
+            .add(TippedArrowRecipeInput.factory())
             .build();
 
-    private static final Set<InventoryTypeConverter> INVENTORY_TYPE_FUNCS =
-        ImmutableSet.<InventoryTypeConverter>builder()
-            .add(ArmorDyeRecipeInput::create)
-            .add(BannerAddPaternRecipeInput::create)
-            .add(BannerDuplicateRecipeInput::create)
-            .add(BlastingRecipeInput::create)
-            .add(BookCloningRecipeInput::create)
-            .add(FireworkRocketRecipeInput::create)
-            .add(FireworkStarFadeRecipeInput::create)
-            .add(FireworkStarRecipeInput::create)
-            .add(FurnaceRecipeInput::create)
-            .add(MapCloningRecipeInput::create)
-            .add(MapExtendingRecipeInput::create)
-            .add(RepairItemRecipeInput::create)
-            .add(ShapedRecipeInput::create)
-            .add(ShapelessRecipeInput::create)
-            .add(ShieldDecorationRecipeInput::create)
-            .add(ShulkerBoxColoringRecipeInput::create)
-            .add(SmithingRecipeInput::create)
-            .add(SmokingRecipeInput::create)
-            .add(StonecuttingRecipeInput::create)
-            .add(SuspiciousStewRecipeInput::create)
-            .add(TippedArrowRecipeInput::create)
-            .build();
+    private static final Set<InventoryRecipeInputFactory<?>> INVENTORY_FACTORIES =
+        ALL_FACTORIES.stream()
+            .filter((factory) -> factory instanceof InventoryRecipeInputFactory)
+            .map((factory) -> (InventoryRecipeInputFactory<?>) factory)
+            .collect(Collectors.toSet());
+
+    private static final Set<InventoryTypeRecipeInputFactory<?>> INVENTORY_TYPE_FUNCS =
+        ALL_FACTORIES.stream()
+            .filter((factory) -> factory instanceof InventoryTypeRecipeInputFactory)
+            .map((factory) -> (InventoryTypeRecipeInputFactory<?>) factory)
+            .collect(Collectors.toSet());
 
     public static List<RecipeInput> from(Inventory inventory) {
-        return INVENTORY_FUNCS.stream()
-            .map((func) -> func.create(inventory))
+        return INVENTORY_FACTORIES.stream()
+            .map((factory) -> factory.create(inventory))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .collect(Collectors.toList());
@@ -71,7 +62,7 @@ public class RecipeInputRegistry {
 
     public static List<RecipeInput> from(InventoryType inventoryType, ItemStack[] itemStacks) {
         return INVENTORY_TYPE_FUNCS.stream()
-            .map((func) -> func.create(inventoryType, itemStacks))
+            .map((factory) -> factory.create(inventoryType, itemStacks))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .collect(Collectors.toList());

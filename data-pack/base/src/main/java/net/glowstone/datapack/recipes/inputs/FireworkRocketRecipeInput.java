@@ -1,26 +1,38 @@
 package net.glowstone.datapack.recipes.inputs;
 
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class FireworkRocketRecipeInput extends CraftingRecipeInput {
-    public static Optional<FireworkRocketRecipeInput> create(Inventory inventory) {
-        return create(FireworkRocketRecipeInput::new, inventory);
+    public static FireworkRocketRecipeInputFactory factory() {
+        return FireworkRocketRecipeInputFactory.getInstance();
     }
 
-    public static Optional<FireworkRocketRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        return create(FireworkRocketRecipeInput::new, inventoryType, itemStacks);
-    }
-
-    public FireworkRocketRecipeInput(CraftingInventory inventory) {
-        super(inventory);
-    }
-
-    public FireworkRocketRecipeInput(ItemStack[] input) {
+    private FireworkRocketRecipeInput(ItemStack[] input) {
         super(input);
+    }
+
+    private static class FireworkRocketRecipeInputFactory extends CraftingRecipeInputFactory<FireworkRocketRecipeInput> {
+        private static volatile FireworkRocketRecipeInputFactory instance = null;
+
+        private FireworkRocketRecipeInputFactory() {
+            super(FireworkRocketRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + FireworkRocketRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static FireworkRocketRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (FireworkRocketRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new FireworkRocketRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

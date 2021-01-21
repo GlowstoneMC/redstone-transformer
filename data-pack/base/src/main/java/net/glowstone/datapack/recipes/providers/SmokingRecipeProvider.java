@@ -8,19 +8,45 @@ import org.bukkit.inventory.SmokingRecipe;
 import java.util.Optional;
 
 public class SmokingRecipeProvider extends CookingRecipeProvider<SmokingRecipe, SmokingRecipeInput> {
-    public SmokingRecipeProvider(String namespace,
-                                 String key,
-                                 Material resultMaterial,
-                                 int resultAmount,
-                                 Optional<String> group,
-                                 RecipeChoice choice,
-                                 float experience,
-                                 int cookingTime,
-                                 CookingRecipeConstructor<SmokingRecipe> constructor) {
-        super(SmokingRecipeInput.class, namespace, key, resultMaterial, resultAmount, group, choice, experience, cookingTime, constructor);
+    public static SmokingRecipeProviderFactory factory() {
+        return SmokingRecipeProviderFactory.getInstance();
     }
 
-    public SmokingRecipeProvider(SmokingRecipe recipe) {
+    private SmokingRecipeProvider(SmokingRecipe recipe) {
         super(SmokingRecipeInput.class, recipe);
+    }
+
+    public static class SmokingRecipeProviderFactory extends CookingRecipeProviderFactory<net.glowstone.datapack.loader.model.external.recipe.SmokingRecipe,
+                                                                                   SmokingRecipe,
+                                                                                   SmokingRecipeInput,
+                                                                                   SmokingRecipeProvider> {
+        private static volatile SmokingRecipeProviderFactory instance = null;
+
+        private SmokingRecipeProviderFactory() {
+            super(
+                net.glowstone.datapack.loader.model.external.recipe.SmokingRecipe.class,
+                SmokingRecipeProvider.class,
+                SmokingRecipe.class,
+                SmokingRecipe::new,
+                SmokingRecipeProvider::new
+            );
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ SmokingRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static SmokingRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (SmokingRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new SmokingRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

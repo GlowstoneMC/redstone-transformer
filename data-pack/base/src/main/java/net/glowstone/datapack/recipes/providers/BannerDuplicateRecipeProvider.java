@@ -1,22 +1,29 @@
 package net.glowstone.datapack.recipes.providers;
 
+import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.TagManager;
+import net.glowstone.datapack.loader.model.external.recipe.special.BannerDuplicateRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.BannerDuplicateRecipeInput;
-import net.glowstone.datapack.recipes.inputs.BookCloningRecipeInput;
-import org.bukkit.Material;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.BannerMeta;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class BannerDuplicateRecipeProvider extends DynamicRecipeProvider<BannerDuplicateRecipeInput> {
-    public BannerDuplicateRecipeProvider(String namespace, String key) {
+public class BannerDuplicateRecipeProvider extends SpecialRecipeProvider<BannerDuplicateRecipeInput> {
+    public static BannerDuplicateRecipeProviderFactory factory() {
+        return BannerDuplicateRecipeProviderFactory.getInstance();
+    }
+
+    private BannerDuplicateRecipeProvider(String namespace, String key) {
         super(
             BannerDuplicateRecipeInput.class,
             new NamespacedKey(namespace, key)
@@ -76,5 +83,30 @@ public class BannerDuplicateRecipeProvider extends DynamicRecipeProvider<BannerD
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class BannerDuplicateRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<BannerDuplicateRecipeProvider, BannerDuplicateRecipe> {
+        private static volatile BannerDuplicateRecipeProviderFactory instance = null;
+
+        private BannerDuplicateRecipeProviderFactory() {
+            super(BannerDuplicateRecipe.class, BannerDuplicateRecipeProvider.class, BannerDuplicateRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ BannerDuplicateRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static BannerDuplicateRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (BannerDuplicateRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new BannerDuplicateRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

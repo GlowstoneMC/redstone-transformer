@@ -1,39 +1,39 @@
 package net.glowstone.datapack.recipes.inputs;
 
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.StonecutterInventory;
-
-import java.util.Optional;
 
 public class StonecuttingRecipeInput extends CookingRecipeInput {
-    public static Optional<StonecuttingRecipeInput> create(Inventory inventory) {
-        if (inventory instanceof StonecutterInventory) {
-            return Optional.of(new StonecuttingRecipeInput((StonecutterInventory) inventory));
-        }
-        return Optional.empty();
+    public static StonecuttingRecipeInputFactory factory() {
+        return StonecuttingRecipeInputFactory.getInstance();
     }
 
-    public static Optional<StonecuttingRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        if (itemStacks.length != 1) {
-            return Optional.empty();
-        }
-
-        switch (inventoryType) {
-            case STONECUTTER:
-                return Optional.of(new StonecuttingRecipeInput(itemStacks[0]));
-
-            default:
-                return Optional.empty();
-        }
-    }
-
-    public StonecuttingRecipeInput(StonecutterInventory inventory) {
-        this(inventory.getItem(0));
-    }
-
-    public StonecuttingRecipeInput(ItemStack input) {
+    private StonecuttingRecipeInput(ItemStack input) {
         super(input);
+    }
+
+    private static class StonecuttingRecipeInputFactory extends CookingRecipeInputFactory<StonecuttingRecipeInput> {
+        private static volatile StonecuttingRecipeInputFactory instance = null;
+
+        private StonecuttingRecipeInputFactory() {
+            super(InventoryType.STONECUTTER, StonecuttingRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + StonecuttingRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static StonecuttingRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (StonecuttingRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new StonecuttingRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

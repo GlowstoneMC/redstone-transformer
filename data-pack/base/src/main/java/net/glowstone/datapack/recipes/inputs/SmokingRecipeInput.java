@@ -1,39 +1,39 @@
 package net.glowstone.datapack.recipes.inputs;
 
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.FurnaceInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class SmokingRecipeInput extends CookingRecipeInput {
-    public static Optional<SmokingRecipeInput> create(Inventory inventory) {
-        if (inventory instanceof SmokingRecipeInput) {
-            return Optional.of(new SmokingRecipeInput((FurnaceInventory) inventory));
-        }
-        return Optional.empty();
+    public static SmokingRecipeInputFactory factory() {
+        return SmokingRecipeInputFactory.getInstance();
     }
 
-    public static Optional<SmokingRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        if (itemStacks.length != 1) {
-            return Optional.empty();
-        }
-
-        switch (inventoryType) {
-            case SMOKER:
-                return Optional.of(new SmokingRecipeInput(itemStacks[0]));
-
-            default:
-                return Optional.empty();
-        }
-    }
-
-    public SmokingRecipeInput(FurnaceInventory inventory) {
-        super(inventory);
-    }
-
-    public SmokingRecipeInput(ItemStack input) {
+    private SmokingRecipeInput(ItemStack input) {
         super(input);
+    }
+
+    private static class SmokingRecipeInputFactory extends CookingRecipeInputFactory<SmokingRecipeInput> {
+        private static volatile SmokingRecipeInputFactory instance = null;
+
+        private SmokingRecipeInputFactory() {
+            super(InventoryType.SMOKER, SmokingRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + SmokingRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static SmokingRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (SmokingRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new SmokingRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

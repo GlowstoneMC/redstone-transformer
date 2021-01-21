@@ -1,26 +1,38 @@
 package net.glowstone.datapack.recipes.inputs;
 
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class ShulkerBoxColoringRecipeInput extends CraftingRecipeInput {
-    public static Optional<ShulkerBoxColoringRecipeInput> create(Inventory inventory) {
-        return create(ShulkerBoxColoringRecipeInput::new, inventory);
+    public static ShulkerBoxColoringRecipeInputFactory factory() {
+        return ShulkerBoxColoringRecipeInputFactory.getInstance();
     }
 
-    public static Optional<ShulkerBoxColoringRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        return create(ShulkerBoxColoringRecipeInput::new, inventoryType, itemStacks);
-    }
-
-    public ShulkerBoxColoringRecipeInput(CraftingInventory inventory) {
-        super(inventory);
-    }
-
-    public ShulkerBoxColoringRecipeInput(ItemStack[] input) {
+    private ShulkerBoxColoringRecipeInput(ItemStack[] input) {
         super(input);
+    }
+
+    private static class ShulkerBoxColoringRecipeInputFactory extends CraftingRecipeInputFactory<ShulkerBoxColoringRecipeInput> {
+        private static volatile ShulkerBoxColoringRecipeInputFactory instance = null;
+
+        private ShulkerBoxColoringRecipeInputFactory() {
+            super(ShulkerBoxColoringRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + ShulkerBoxColoringRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static ShulkerBoxColoringRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (ShulkerBoxColoringRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new ShulkerBoxColoringRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

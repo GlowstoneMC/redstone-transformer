@@ -1,39 +1,39 @@
 package net.glowstone.datapack.recipes.inputs;
 
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.FurnaceInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class FurnaceRecipeInput extends CookingRecipeInput {
-    public static Optional<FurnaceRecipeInput> create(Inventory inventory) {
-        if (inventory instanceof FurnaceInventory) {
-            return Optional.of(new FurnaceRecipeInput((FurnaceInventory) inventory));
-        }
-        return Optional.empty();
+    public static FurnaceRecipeInputFactory factory() {
+        return FurnaceRecipeInputFactory.getInstance();
     }
 
-    public static Optional<FurnaceRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        if (itemStacks.length != 1) {
-            return Optional.empty();
-        }
-
-        switch (inventoryType) {
-            case FURNACE:
-                return Optional.of(new FurnaceRecipeInput(itemStacks[0]));
-
-            default:
-                return Optional.empty();
-        }
-    }
-
-    public FurnaceRecipeInput(FurnaceInventory inventory) {
-        super(inventory);
-    }
-
-    public FurnaceRecipeInput(ItemStack input) {
+    private FurnaceRecipeInput(ItemStack input) {
         super(input);
+    }
+
+    private static class FurnaceRecipeInputFactory extends CookingRecipeInputFactory<FurnaceRecipeInput> {
+        private static volatile FurnaceRecipeInputFactory instance = null;
+
+        private FurnaceRecipeInputFactory() {
+            super(InventoryType.FURNACE, FurnaceRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + FurnaceRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         public static FurnaceRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (FurnaceRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new FurnaceRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

@@ -7,7 +7,7 @@ import net.glowstone.datapack.recipes.providers.RecipeProvider;
 import net.glowstone.datapack.recipes.providers.StaticRecipeProvider;
 import net.glowstone.datapack.recipes.inputs.RecipeInput;
 import net.glowstone.datapack.recipes.inputs.RecipeInputRegistry;
-import net.glowstone.datapack.recipes.providers.mapping.RecipeProviderMappingRegistry;
+import net.glowstone.datapack.recipes.providers.RecipeProviderRegistry;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -122,7 +122,7 @@ public abstract class AbstractRecipeManager implements RecipeManager {
     public void loadFromDataPack(DataPack dataPack) {
         dataPack.getNamespacedData().forEach((namespace, data) -> {
             data.getRecipes().forEach((itemName, recipe) -> {
-                Optional<RecipeProvider<?>> possibleProvider = RecipeProviderMappingRegistry.provider(this.tagManager, namespace, itemName, recipe);
+                Optional<RecipeProvider<?>> possibleProvider = RecipeProviderRegistry.provider(this.tagManager, namespace, itemName, recipe);
 
                 if (possibleProvider.isPresent()) {
                     RecipeProvider<?> provider = possibleProvider.get();
@@ -136,7 +136,7 @@ public abstract class AbstractRecipeManager implements RecipeManager {
 
     @Override
     public boolean addRecipe(Recipe recipe) {
-        Optional<RecipeProvider<?>> possibleProvider = RecipeProviderMappingRegistry.provider(recipe);
+        Optional<RecipeProvider<?>> possibleProvider = RecipeProviderRegistry.provider(recipe);
 
         if (!possibleProvider.isPresent()) {
             return false;

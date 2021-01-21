@@ -1,9 +1,10 @@
 package net.glowstone.datapack.recipes.providers;
 
 import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.loader.model.external.recipe.special.MapCloningRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.MapCloningRecipeInput;
-import net.glowstone.datapack.recipes.inputs.MapExtendingRecipeInput;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -15,8 +16,12 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class MapCloningRecipeProvider extends DynamicRecipeProvider<MapCloningRecipeInput> {
-    public MapCloningRecipeProvider(String namespace, String key) {
+public class MapCloningRecipeProvider extends SpecialRecipeProvider<MapCloningRecipeInput> {
+    public static MapCloningRecipeProviderFactory factory() {
+        return MapCloningRecipeProviderFactory.getInstance();
+    }
+
+    private MapCloningRecipeProvider(String namespace, String key) {
         super(MapCloningRecipeInput.class, new NamespacedKey(namespace, key));
     }
 
@@ -64,5 +69,30 @@ public class MapCloningRecipeProvider extends DynamicRecipeProvider<MapCloningRe
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class MapCloningRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<MapCloningRecipeProvider, MapCloningRecipe> {
+        private static volatile MapCloningRecipeProviderFactory instance = null;
+
+        private MapCloningRecipeProviderFactory() {
+            super(MapCloningRecipe.class, MapCloningRecipeProvider.class, MapCloningRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ MapCloningRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static MapCloningRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (MapCloningRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new MapCloningRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

@@ -1,21 +1,17 @@
 package net.glowstone.datapack.recipes.providers;
 
-import com.destroystokyo.paper.MaterialTags;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import net.glowstone.datapack.loader.model.external.recipe.special.SuspiciousStewRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
-import net.glowstone.datapack.recipes.inputs.ArmorDyeRecipeInput;
 import net.glowstone.datapack.recipes.inputs.SuspiciousStewRecipeInput;
-import net.glowstone.datapack.tags.ExtraMaterialTags;
 import net.glowstone.datapack.utils.TickUtils;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -29,7 +25,11 @@ import java.util.function.Supplier;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class SuspiciousStewRecipeProvider extends DynamicRecipeProvider<SuspiciousStewRecipeInput> {
+public class SuspiciousStewRecipeProvider extends SpecialRecipeProvider<SuspiciousStewRecipeInput> {
+    public static SuspiciousStewRecipeProviderFactory factory() {
+        return SuspiciousStewRecipeProviderFactory.getInstance();
+    }
+
     // Need to use supplier functions because createEffect produces a null pointer exception otherwise
     private static final Map<Material, Supplier<PotionEffect>> FLOWER_EFFECTS = ImmutableMap.<Material, Supplier<PotionEffect>>builder()
         .put(Material.ALLIUM, () -> PotionEffectType.FIRE_RESISTANCE.createEffect(TickUtils.secondsToTicks(4), 1))
@@ -47,7 +47,7 @@ public class SuspiciousStewRecipeProvider extends DynamicRecipeProvider<Suspicio
         .put(Material.WITHER_ROSE, () -> PotionEffectType.WITHER.createEffect(TickUtils.secondsToTicks(8), 1))
         .build();
 
-    public SuspiciousStewRecipeProvider(String namespace, String key) {
+    private SuspiciousStewRecipeProvider(String namespace, String key) {
         super(
             SuspiciousStewRecipeInput.class,
             new NamespacedKey(namespace, key)
@@ -112,5 +112,30 @@ public class SuspiciousStewRecipeProvider extends DynamicRecipeProvider<Suspicio
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class SuspiciousStewRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<SuspiciousStewRecipeProvider, SuspiciousStewRecipe> {
+        private static volatile SuspiciousStewRecipeProviderFactory instance = null;
+
+        private SuspiciousStewRecipeProviderFactory() {
+            super(SuspiciousStewRecipe.class, SuspiciousStewRecipeProvider.class, SuspiciousStewRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ SuspiciousStewRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static SuspiciousStewRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (SuspiciousStewRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new SuspiciousStewRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

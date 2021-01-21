@@ -1,26 +1,38 @@
 package net.glowstone.datapack.recipes.inputs;
 
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 public class ArmorDyeRecipeInput extends CraftingRecipeInput {
-    public static Optional<ArmorDyeRecipeInput> create(Inventory inventory) {
-        return create(ArmorDyeRecipeInput::new, inventory);
+    public static ArmorDyeRecipeInputFactory factory() {
+        return ArmorDyeRecipeInputFactory.getInstance();
     }
 
-    public static Optional<ArmorDyeRecipeInput> create(InventoryType inventoryType, ItemStack[] itemStacks) {
-        return create(ArmorDyeRecipeInput::new, inventoryType, itemStacks);
-    }
-
-    public ArmorDyeRecipeInput(CraftingInventory inventory) {
-        super(inventory);
-    }
-
-    public ArmorDyeRecipeInput(ItemStack[] input) {
+    private ArmorDyeRecipeInput(ItemStack[] input) {
         super(input);
+    }
+
+    private static class ArmorDyeRecipeInputFactory extends CraftingRecipeInputFactory<ArmorDyeRecipeInput> {
+        private static volatile ArmorDyeRecipeInputFactory instance = null;
+
+        private ArmorDyeRecipeInputFactory() {
+            super(ArmorDyeRecipeInput::new);
+            if (instance != null) {
+                throw new AssertionError(
+                        "Another instance of "
+                                + ArmorDyeRecipeInputFactory.class.getName()
+                                + " class already exists, Can't create a new instance.");
+            }
+        }
+
+         private static ArmorDyeRecipeInputFactory getInstance() {
+            if (instance == null) {
+                synchronized (ArmorDyeRecipeInputFactory.class) {
+                    if (instance == null) {
+                        instance = new ArmorDyeRecipeInputFactory();
+                    }
+                }
+            }
+            return instance;
+        }
     }
 }

@@ -8,19 +8,45 @@ import org.bukkit.inventory.RecipeChoice;
 import java.util.Optional;
 
 public class BlastingRecipeProvider extends CookingRecipeProvider<BlastingRecipe, BlastingRecipeInput> {
-    public BlastingRecipeProvider(String namespace,
-                                  String key,
-                                  Material resultMaterial,
-                                  int resultAmount,
-                                  Optional<String> group,
-                                  RecipeChoice choice,
-                                  float experience,
-                                  int cookingTime,
-                                  CookingRecipeConstructor<BlastingRecipe> constructor) {
-        super(BlastingRecipeInput.class, namespace, key, resultMaterial, resultAmount, group, choice, experience, cookingTime, constructor);
+    public static BlastingRecipeProviderFactory factory() {
+        return BlastingRecipeProviderFactory.getInstance();
     }
 
-    public BlastingRecipeProvider(BlastingRecipe recipe) {
+    private BlastingRecipeProvider(BlastingRecipe recipe) {
         super(BlastingRecipeInput.class, recipe);
+    }
+
+    public static class BlastingRecipeProviderFactory extends CookingRecipeProviderFactory<net.glowstone.datapack.loader.model.external.recipe.BlastingRecipe,
+                                                                                    BlastingRecipe,
+                                                                                    BlastingRecipeInput,
+                                                                                    BlastingRecipeProvider> {
+        private static volatile BlastingRecipeProviderFactory instance = null;
+
+        private BlastingRecipeProviderFactory() {
+            super(
+                net.glowstone.datapack.loader.model.external.recipe.BlastingRecipe.class,
+                BlastingRecipeProvider.class,
+                BlastingRecipe.class,
+                BlastingRecipe::new,
+                BlastingRecipeProvider::new
+            );
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ BlastingRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static BlastingRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (BlastingRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new BlastingRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }

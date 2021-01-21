@@ -1,10 +1,13 @@
 package net.glowstone.datapack.recipes.providers;
 
 import com.destroystokyo.paper.MaterialTags;
+import com.google.common.collect.ImmutableList;
+import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.ArmorDyeRecipeInput;
 import net.glowstone.datapack.tags.ExtraMaterialTags;
 import net.glowstone.datapack.utils.DyeUtils;
+import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
@@ -16,12 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class ArmorDyeRecipeProvider extends DynamicRecipeProvider<ArmorDyeRecipeInput> {
+public class ArmorDyeRecipeProvider extends SpecialRecipeProvider<ArmorDyeRecipeInput> {
+    public static ArmorDyeRecipeProviderFactory factory() {
+        return ArmorDyeRecipeProviderFactory.getInstance();
+    }
 
-    public ArmorDyeRecipeProvider(String namespace, String key) {
+    private ArmorDyeRecipeProvider(String namespace, String key) {
         super(
             ArmorDyeRecipeInput.class,
             new NamespacedKey(namespace, key)
@@ -88,5 +95,30 @@ public class ArmorDyeRecipeProvider extends DynamicRecipeProvider<ArmorDyeRecipe
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         return true;
+    }
+
+    public static class ArmorDyeRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ArmorDyeRecipeProvider, ArmorDyeRecipe> {
+        private static volatile ArmorDyeRecipeProviderFactory instance = null;
+
+        private ArmorDyeRecipeProviderFactory() {
+            super(ArmorDyeRecipe.class, ArmorDyeRecipeProvider.class, ArmorDyeRecipeProvider::new);
+        	if (instance != null) {
+        		throw new AssertionError(
+        				"Another instance of "
+        						+ ArmorDyeRecipeProviderFactory.class.getName()
+        						+ " class already exists, Can't create a new instance.");
+        	}
+        }
+
+         private static ArmorDyeRecipeProviderFactory getInstance() {
+        	if (instance == null) {
+        		synchronized (ArmorDyeRecipeProviderFactory.class) {
+        			if (instance == null) {
+        				instance = new ArmorDyeRecipeProviderFactory();
+        			}
+        		}
+        	}
+        	return instance;
+        }
     }
 }
