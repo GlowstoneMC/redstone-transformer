@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.special.TippedArrowRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.MapExtendingRecipeInput;
+import net.glowstone.datapack.recipes.inputs.TippedArrowRecipeInput;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class TippedArrowRecipeProvider extends SpecialRecipeProvider<MapExtendingRecipeInput> {
+public class TippedArrowRecipeProvider extends SpecialRecipeProvider<TippedArrowRecipe, TippedArrowRecipeInput> {
     public static TippedArrowRecipeProviderFactory factory() {
         return TippedArrowRecipeProviderFactory.getInstance();
     }
@@ -28,11 +29,16 @@ public class TippedArrowRecipeProvider extends SpecialRecipeProvider<MapExtendin
         .build();
 
     private TippedArrowRecipeProvider(String namespace, String key) {
-        super(MapExtendingRecipeInput.class, new NamespacedKey(namespace, key));
+        super(new NamespacedKey(namespace, key));
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(MapExtendingRecipeInput input) {
+    public TippedArrowRecipeProviderFactory getFactory() {
+        return factory();
+    }
+
+    @Override
+    public Optional<Recipe> getRecipeFor(TippedArrowRecipeInput input) {
         if (input.getInput().length != RECIPE.size()) {
             return Optional.empty(); // Not big enough
         }
@@ -77,11 +83,11 @@ public class TippedArrowRecipeProvider extends SpecialRecipeProvider<MapExtendin
         return true;
     }
 
-    public static class TippedArrowRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<TippedArrowRecipeProvider, TippedArrowRecipe> {
+    public static class TippedArrowRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<TippedArrowRecipeProvider, TippedArrowRecipe, TippedArrowRecipeInput> {
         private static volatile TippedArrowRecipeProviderFactory instance = null;
 
         private TippedArrowRecipeProviderFactory() {
-            super(TippedArrowRecipe.class, TippedArrowRecipeProvider.class, TippedArrowRecipeProvider::new);
+            super(TippedArrowRecipeProvider.class, TippedArrowRecipe.class, TippedArrowRecipeInput.class, TippedArrowRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

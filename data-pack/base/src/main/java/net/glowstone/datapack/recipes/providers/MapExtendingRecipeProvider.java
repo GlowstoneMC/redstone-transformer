@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class MapExtendingRecipeProvider extends SpecialRecipeProvider<MapExtendingRecipeInput> {
+public class MapExtendingRecipeProvider extends SpecialRecipeProvider<MapExtendingRecipe, MapExtendingRecipeInput> {
     public static MapExtendingRecipeProviderFactory factory() {
         return MapExtendingRecipeProviderFactory.getInstance();
     }
@@ -28,7 +28,12 @@ public class MapExtendingRecipeProvider extends SpecialRecipeProvider<MapExtendi
         .build();
 
     private MapExtendingRecipeProvider(String namespace, String key) {
-        super(MapExtendingRecipeInput.class, new NamespacedKey(namespace, key));
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public MapExtendingRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -76,11 +81,11 @@ public class MapExtendingRecipeProvider extends SpecialRecipeProvider<MapExtendi
         return true;
     }
 
-    public static class MapExtendingRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<MapExtendingRecipeProvider, MapExtendingRecipe> {
+    public static class MapExtendingRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<MapExtendingRecipeProvider, MapExtendingRecipe, MapExtendingRecipeInput> {
         private static volatile MapExtendingRecipeProviderFactory instance = null;
 
         private MapExtendingRecipeProviderFactory() {
-            super(MapExtendingRecipe.class, MapExtendingRecipeProvider.class, MapExtendingRecipeProvider::new);
+            super(MapExtendingRecipeProvider.class, MapExtendingRecipe.class, MapExtendingRecipeInput.class, MapExtendingRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

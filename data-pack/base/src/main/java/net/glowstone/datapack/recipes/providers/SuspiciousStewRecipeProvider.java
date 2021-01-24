@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class SuspiciousStewRecipeProvider extends SpecialRecipeProvider<SuspiciousStewRecipeInput> {
+public class SuspiciousStewRecipeProvider extends SpecialRecipeProvider<SuspiciousStewRecipe, SuspiciousStewRecipeInput> {
     public static SuspiciousStewRecipeProviderFactory factory() {
         return SuspiciousStewRecipeProviderFactory.getInstance();
     }
@@ -48,10 +48,12 @@ public class SuspiciousStewRecipeProvider extends SpecialRecipeProvider<Suspicio
         .build();
 
     private SuspiciousStewRecipeProvider(String namespace, String key) {
-        super(
-            SuspiciousStewRecipeInput.class,
-            new NamespacedKey(namespace, key)
-        );
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public SuspiciousStewRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -114,11 +116,11 @@ public class SuspiciousStewRecipeProvider extends SpecialRecipeProvider<Suspicio
         return true;
     }
 
-    public static class SuspiciousStewRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<SuspiciousStewRecipeProvider, SuspiciousStewRecipe> {
+    public static class SuspiciousStewRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<SuspiciousStewRecipeProvider, SuspiciousStewRecipe, SuspiciousStewRecipeInput> {
         private static volatile SuspiciousStewRecipeProviderFactory instance = null;
 
         private SuspiciousStewRecipeProviderFactory() {
-            super(SuspiciousStewRecipe.class, SuspiciousStewRecipeProvider.class, SuspiciousStewRecipeProvider::new);
+            super(SuspiciousStewRecipeProvider.class, SuspiciousStewRecipe.class, SuspiciousStewRecipeInput.class, SuspiciousStewRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

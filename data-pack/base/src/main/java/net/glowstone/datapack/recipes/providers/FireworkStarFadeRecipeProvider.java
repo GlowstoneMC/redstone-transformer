@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import net.glowstone.datapack.loader.model.external.recipe.special.FireworkStarFadeRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.special.FireworkStarRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
+import net.glowstone.datapack.recipes.inputs.FireworkStarFadeRecipeInput;
 import net.glowstone.datapack.recipes.inputs.FireworkStarRecipeInput;
 import net.glowstone.datapack.utils.DyeUtils;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
@@ -25,17 +26,22 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class FireworkStarFadeRecipeProvider extends SpecialRecipeProvider<FireworkStarRecipeInput> {
+public class FireworkStarFadeRecipeProvider extends SpecialRecipeProvider<FireworkStarFadeRecipe, FireworkStarFadeRecipeInput> {
     public static FireworkStarFadeRecipeProviderFactory factory() {
         return FireworkStarFadeRecipeProviderFactory.getInstance();
     }
 
     private FireworkStarFadeRecipeProvider(String namespace, String key) {
-        super(FireworkStarRecipeInput.class, new NamespacedKey(namespace, key));
+        super(new NamespacedKey(namespace, key));
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(FireworkStarRecipeInput input) {
+    public FireworkStarFadeRecipeProviderFactory getFactory() {
+        return factory();
+    }
+
+    @Override
+    public Optional<Recipe> getRecipeFor(FireworkStarFadeRecipeInput input) {
         ItemStack star = null;
         List<Color> colors = new ArrayList<>();
 
@@ -92,11 +98,11 @@ public class FireworkStarFadeRecipeProvider extends SpecialRecipeProvider<Firewo
         return true;
     }
 
-    public static class FireworkStarFadeRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkStarFadeRecipeProvider, FireworkStarFadeRecipe> {
+    public static class FireworkStarFadeRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkStarFadeRecipeProvider, FireworkStarFadeRecipe, FireworkStarFadeRecipeInput> {
         private static volatile FireworkStarFadeRecipeProviderFactory instance = null;
 
         private FireworkStarFadeRecipeProviderFactory() {
-            super(FireworkStarFadeRecipe.class, FireworkStarFadeRecipeProvider.class, FireworkStarFadeRecipeProvider::new);
+            super(FireworkStarFadeRecipeProvider.class, FireworkStarFadeRecipe.class, FireworkStarFadeRecipeInput.class, FireworkStarFadeRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

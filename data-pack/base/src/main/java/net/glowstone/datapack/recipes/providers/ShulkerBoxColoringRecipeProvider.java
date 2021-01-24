@@ -21,7 +21,7 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class ShulkerBoxColoringRecipeProvider extends SpecialRecipeProvider<ShulkerBoxColoringRecipeInput> {
+public class ShulkerBoxColoringRecipeProvider extends SpecialRecipeProvider<ShulkerBoxColoringRecipe, ShulkerBoxColoringRecipeInput> {
     public static ShulkerBoxColoringRecipeProviderFactory factory() {
         return ShulkerBoxColoringRecipeProviderFactory.getInstance();
     }
@@ -46,10 +46,12 @@ public class ShulkerBoxColoringRecipeProvider extends SpecialRecipeProvider<Shul
         .build();
 
     private ShulkerBoxColoringRecipeProvider(String namespace, String key) {
-        super(
-            ShulkerBoxColoringRecipeInput.class,
-            new NamespacedKey(namespace, key)
-        );
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public ShulkerBoxColoringRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -107,11 +109,11 @@ public class ShulkerBoxColoringRecipeProvider extends SpecialRecipeProvider<Shul
         return true;
     }
 
-    public static class ShulkerBoxColoringRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ShulkerBoxColoringRecipeProvider, ShulkerBoxColoringRecipe> {
+    public static class ShulkerBoxColoringRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ShulkerBoxColoringRecipeProvider, ShulkerBoxColoringRecipe, ShulkerBoxColoringRecipeInput> {
         private static volatile ShulkerBoxColoringRecipeProviderFactory instance = null;
 
         private ShulkerBoxColoringRecipeProviderFactory() {
-            super(ShulkerBoxColoringRecipe.class, ShulkerBoxColoringRecipeProvider.class, ShulkerBoxColoringRecipeProvider::new);
+            super(ShulkerBoxColoringRecipeProvider.class, ShulkerBoxColoringRecipe.class, ShulkerBoxColoringRecipeInput.class, ShulkerBoxColoringRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

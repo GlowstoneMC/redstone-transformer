@@ -18,16 +18,18 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class ShieldDecorationRecipeProvider extends SpecialRecipeProvider<ShieldDecorationRecipeInput> {
+public class ShieldDecorationRecipeProvider extends SpecialRecipeProvider<ShieldDecorationRecipe, ShieldDecorationRecipeInput> {
     public static ShieldDecorationRecipeProviderFactory factory() {
         return ShieldDecorationRecipeProviderFactory.getInstance();
     }
 
     private ShieldDecorationRecipeProvider(String namespace, String key) {
-        super(
-            ShieldDecorationRecipeInput.class,
-            new NamespacedKey(namespace, key)
-        );
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public ShieldDecorationRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -88,11 +90,11 @@ public class ShieldDecorationRecipeProvider extends SpecialRecipeProvider<Shield
         return true;
     }
 
-    public static class ShieldDecorationRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ShieldDecorationRecipeProvider, ShieldDecorationRecipe> {
+    public static class ShieldDecorationRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ShieldDecorationRecipeProvider, ShieldDecorationRecipe, ShieldDecorationRecipeInput> {
         private static volatile ShieldDecorationRecipeProviderFactory instance = null;
 
         private ShieldDecorationRecipeProviderFactory() {
-            super(ShieldDecorationRecipe.class, ShieldDecorationRecipeProvider.class, ShieldDecorationRecipeProvider::new);
+            super(ShieldDecorationRecipeProvider.class, ShieldDecorationRecipe.class, ShieldDecorationRecipeInput.class, ShieldDecorationRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

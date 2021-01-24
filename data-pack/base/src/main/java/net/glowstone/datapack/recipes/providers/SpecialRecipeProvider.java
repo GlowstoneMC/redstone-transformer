@@ -2,19 +2,17 @@ package net.glowstone.datapack.recipes.providers;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
-import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
 import net.glowstone.datapack.recipes.inputs.RecipeInput;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
-public abstract class SpecialRecipeProvider<I extends RecipeInput> extends AbstractRecipeProvider<I> {
-    protected SpecialRecipeProvider(Class<I> inventoryClass, NamespacedKey key) {
-        super(inventoryClass, key);
+public abstract class SpecialRecipeProvider<RE extends Recipe, RI extends RecipeInput> extends AbstractRecipeProvider<RE, RI> {
+    protected SpecialRecipeProvider(NamespacedKey key) {
+        super(key);
     }
 
     @Override
@@ -22,32 +20,23 @@ public abstract class SpecialRecipeProvider<I extends RecipeInput> extends Abstr
         return Stream.empty();
     }
 
-    public interface SpecialRecipeProviderFactory<P extends RecipeProvider<?>, RE extends Recipe> extends RecipeProviderFactory<P, RE> {
+    @Override
+    public abstract SpecialRecipeProviderFactory<? extends SpecialRecipeProvider<RE, RI>, RE, RI> getFactory();
+
+    public interface SpecialRecipeProviderFactory<P extends RecipeProvider<RE, RI>, RE extends Recipe, RI extends RecipeInput> extends RecipeProviderFactory<P, RE, RI> {
         List<MappingArgument> providerArguments(String namespace, String key);
         P provider(String namespace, String key);
     }
 
-    protected static abstract class AbstractSpecialRecipeProviderFactory<P extends RecipeProvider<?>, RE extends Recipe> implements SpecialRecipeProviderFactory<P, RE> {
-        private final Class<RE> modelType;
-        private final Class<P> recipeProviderType;
-        private final SpecialRecipeProviderConstructor<P> constructor;
+    protected static abstract class AbstractSpecialRecipeProviderFactory<P extends SpecialRecipeProvider<RE, RI>, RE extends Recipe, RI extends RecipeInput> extends AbstractRecipeProviderFactory<P, RE, RI> implements SpecialRecipeProviderFactory<P, RE, RI> {
+        private final SpecialRecipeProviderConstructor<P, RE, RI> constructor;
 
-        protected AbstractSpecialRecipeProviderFactory(Class<RE> modelType,
-                                                       Class<P> recipeProviderType,
-                                                       SpecialRecipeProviderConstructor<P> constructor) {
-            this.modelType = modelType;
-            this.recipeProviderType = recipeProviderType;
+        protected AbstractSpecialRecipeProviderFactory(Class<P> recipeProviderType,
+                                                       Class<RE> modelType,
+                                                       Class<RI> inputType,
+                                                       SpecialRecipeProviderConstructor<P, RE, RI> constructor) {
+            super(recipeProviderType, modelType, inputType);
             this.constructor = constructor;
-        }
-
-        @Override
-        public Class<RE> getModelType() {
-            return this.modelType;
-        }
-
-        @Override
-        public Class<P> getRecipeProviderType() {
-            return this.recipeProviderType;
         }
 
         @Override
@@ -65,7 +54,7 @@ public abstract class SpecialRecipeProvider<I extends RecipeInput> extends Abstr
     }
 
     @FunctionalInterface
-    protected interface SpecialRecipeProviderConstructor<P extends RecipeProvider<?>> {
+    protected interface SpecialRecipeProviderConstructor<P extends SpecialRecipeProvider<RE, RI>, RE extends Recipe, RI extends RecipeInput> {
         P create(String namespace, String key);
     }
 }

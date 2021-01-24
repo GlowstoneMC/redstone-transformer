@@ -21,13 +21,18 @@ import java.util.stream.Collectors;
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
 
-public class ShapedRecipeProvider extends StaticRecipeProvider<org.bukkit.inventory.ShapedRecipe, ShapedRecipeInput> {
+public class ShapedRecipeProvider extends StaticRecipeProvider<ShapedRecipe, ShapedRecipeInput, org.bukkit.inventory.ShapedRecipe> {
     public static ShapedRecipeProviderFactory factory() {
         return ShapedRecipeProviderFactory.getInstance();
     }
 
     public ShapedRecipeProvider(org.bukkit.inventory.ShapedRecipe recipe) {
-        super(ShapedRecipeInput.class, recipe);
+        super(recipe);
+    }
+
+    @Override
+    public ShapedRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     public ShapedRecipeProvider setGroup(Optional<String> group) {
@@ -170,10 +175,11 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<org.bukkit.invent
             && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
     }
 
-    public static class ShapedRecipeProviderFactory implements StaticRecipeProviderFactory<ShapedRecipeProvider, ShapedRecipe, org.bukkit.inventory.ShapedRecipe> {
+    public static class ShapedRecipeProviderFactory extends AbstractStaticRecipeProviderFactory<ShapedRecipeProvider, ShapedRecipe, ShapedRecipeInput, org.bukkit.inventory.ShapedRecipe> {
         private static volatile ShapedRecipeProviderFactory instance = null;
 
         private ShapedRecipeProviderFactory() {
+            super(ShapedRecipeProvider.class, ShapedRecipe.class, ShapedRecipeInput.class, org.bukkit.inventory.ShapedRecipe.class);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "
@@ -191,21 +197,6 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<org.bukkit.invent
         		}
         	}
         	return instance;
-        }
-
-        @Override
-        public Class<ShapedRecipe> getModelType() {
-            return ShapedRecipe.class;
-        }
-
-        @Override
-        public Class<org.bukkit.inventory.ShapedRecipe> getBukkitType() {
-            return org.bukkit.inventory.ShapedRecipe.class;
-        }
-
-        @Override
-        public Class<ShapedRecipeProvider> getRecipeProviderType() {
-            return ShapedRecipeProvider.class;
         }
 
         @Override
@@ -230,7 +221,7 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<org.bukkit.invent
                         .stream()
                         .map((entry) -> new AbstractMap.SimpleEntry<>(
                             MappingArgument.forCharacter(entry.getKey()),
-                            RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, entry.getValue())
+                            generateRecipeChoiceMapping(namespace, entry.getValue())
                         ))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
                 )
@@ -249,7 +240,7 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<org.bukkit.invent
                 recipe.getKey()
                     .entrySet()
                     .stream()
-                    .map((entry) -> new AbstractMap.SimpleEntry<>(entry.getKey(), RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, entry.getValue())))
+                    .map((entry) -> new AbstractMap.SimpleEntry<>(entry.getKey(), generateRecipeChoice(tagManager, namespace, entry.getValue())))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
             );
         }

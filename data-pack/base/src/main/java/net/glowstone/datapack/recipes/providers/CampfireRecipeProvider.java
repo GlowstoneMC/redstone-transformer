@@ -19,13 +19,18 @@ import java.util.Optional;
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
 
-public class CampfireRecipeProvider extends StaticRecipeProvider<CampfireRecipe, CampfireRecipeInput> {
+public class CampfireRecipeProvider extends StaticRecipeProvider<CampfireCookingRecipe, CampfireRecipeInput, CampfireRecipe> {
     public static CampfireRecipeProviderFactory factory() {
         return CampfireRecipeProviderFactory.getInstance();
     }
 
     private CampfireRecipeProvider(CampfireRecipe recipe) {
-        super(CampfireRecipeInput.class, recipe);
+        super(recipe);
+    }
+
+    @Override
+    public CampfireRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -68,10 +73,11 @@ public class CampfireRecipeProvider extends StaticRecipeProvider<CampfireRecipe,
             && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
     }
 
-    public static class CampfireRecipeProviderFactory implements StaticRecipeProviderFactory<CampfireRecipeProvider, CampfireCookingRecipe, CampfireRecipe> {
+    public static class CampfireRecipeProviderFactory extends AbstractStaticRecipeProviderFactory<CampfireRecipeProvider, CampfireCookingRecipe, CampfireRecipeInput, CampfireRecipe> {
         private static volatile CampfireRecipeProviderFactory instance = null;
 
         private CampfireRecipeProviderFactory() {
+            super(CampfireRecipeProvider.class, CampfireCookingRecipe.class, CampfireRecipeInput.class, CampfireRecipe.class);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "
@@ -92,21 +98,6 @@ public class CampfireRecipeProvider extends StaticRecipeProvider<CampfireRecipe,
         }
 
         @Override
-        public Class<CampfireCookingRecipe> getModelType() {
-            return CampfireCookingRecipe.class;
-        }
-
-        @Override
-        public Class<CampfireRecipe> getBukkitType() {
-            return CampfireRecipe.class;
-        }
-
-        @Override
-        public Class<CampfireRecipeProvider> getRecipeProviderType() {
-            return CampfireRecipeProvider.class;
-        }
-
-        @Override
         public List<MappingArgument> providerArguments(String namespace, String key, CampfireCookingRecipe recipe) {
             return ImmutableList.of(
                 MappingArgument.forString(namespace),
@@ -114,7 +105,7 @@ public class CampfireRecipeProvider extends StaticRecipeProvider<CampfireRecipe,
                 MappingArgument.forEnum(Material.matchMaterial(recipe.getResult())),
                 MappingArgument.forInteger(1),
                 MappingArgument.forOptional(recipe.getGroup().map(MappingArgument::forString)),
-                RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, recipe.getIngredient()),
+                generateRecipeChoiceMapping(namespace, recipe.getIngredient()),
                 MappingArgument.forFloat((float)recipe.getExperience()),
                 MappingArgument.forInteger(recipe.getCookingTime())
             );
@@ -128,7 +119,7 @@ public class CampfireRecipeProvider extends StaticRecipeProvider<CampfireRecipe,
                 Material.matchMaterial(recipe.getResult()),
                 1,
                 recipe.getGroup(),
-                RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, recipe.getIngredient()),
+                generateRecipeChoice(tagManager, namespace, recipe.getIngredient()),
                 (float)recipe.getExperience(),
                 recipe.getCookingTime()
             );

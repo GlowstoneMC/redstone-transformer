@@ -2,7 +2,9 @@ package net.glowstone.datapack.recipes.providers;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.special.FireworkRocketRecipe;
+import net.glowstone.datapack.loader.model.external.recipe.special.FireworkStarRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
+import net.glowstone.datapack.recipes.inputs.FireworkRocketRecipeInput;
 import net.glowstone.datapack.recipes.inputs.FireworkStarRecipeInput;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.FireworkEffect;
@@ -20,17 +22,22 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class FireworkRocketRecipeProvider extends SpecialRecipeProvider<FireworkStarRecipeInput> {
+public class FireworkRocketRecipeProvider extends SpecialRecipeProvider<FireworkRocketRecipe, FireworkRocketRecipeInput> {
     public static FireworkRocketRecipeProviderFactory factory() {
         return FireworkRocketRecipeProviderFactory.getInstance();
     }
 
     private FireworkRocketRecipeProvider(String namespace, String key) {
-        super(FireworkStarRecipeInput.class, new NamespacedKey(namespace, key));
+        super(new NamespacedKey(namespace, key));
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(FireworkStarRecipeInput input) {
+    public FireworkRocketRecipeProviderFactory getFactory() {
+        return factory();
+    }
+
+    @Override
+    public Optional<Recipe> getRecipeFor(FireworkRocketRecipeInput input) {
         List<FireworkEffect> effects = new ArrayList<>();
         boolean paper = false;
         int duration = 0;
@@ -81,11 +88,11 @@ public class FireworkRocketRecipeProvider extends SpecialRecipeProvider<Firework
         return true;
     }
 
-    public static class FireworkRocketRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkRocketRecipeProvider, FireworkRocketRecipe> {
+    public static class FireworkRocketRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkRocketRecipeProvider, FireworkRocketRecipe, FireworkRocketRecipeInput> {
         private static volatile FireworkRocketRecipeProviderFactory instance = null;
 
         private FireworkRocketRecipeProviderFactory() {
-            super(FireworkRocketRecipe.class, FireworkRocketRecipeProvider.class, FireworkRocketRecipeProvider::new);
+            super(FireworkRocketRecipeProvider.class, FireworkRocketRecipe.class, FireworkRocketRecipeInput.class, FireworkRocketRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

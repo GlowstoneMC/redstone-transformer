@@ -27,8 +27,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class AbstractRecipeManager implements RecipeManager {
-    private final Map<NamespacedKey, RecipeProvider<?>> recipesByKey;
-    private final Map<Class<? extends RecipeInput>, RecipeProvider<?>> recipesByInputType;
+    private final Map<NamespacedKey, RecipeProvider<?, ?>> recipesByKey;
+    private final Map<Class<? extends RecipeInput>, RecipeProvider<?, ?>> recipesByInputType;
     protected final TagManager tagManager;
 
     protected AbstractRecipeManager(TagManager tagManager) {
@@ -44,7 +44,7 @@ public abstract class AbstractRecipeManager implements RecipeManager {
     }
 
     @Override
-    public Optional<RecipeProvider<?>> getRecipeProvider(NamespacedKey key) {
+    public Optional<RecipeProvider<?, ?>> getRecipeProvider(NamespacedKey key) {
         return Optional.ofNullable(recipesByKey.get(key));
     }
 
@@ -86,9 +86,9 @@ public abstract class AbstractRecipeManager implements RecipeManager {
     @Override
     public Recipe getRecipe(NamespacedKey key) {
         if (recipesByKey.containsKey(key)) {
-            RecipeProvider<?> recipeProvider = recipesByKey.get(key);
+            RecipeProvider<?, ?> recipeProvider = recipesByKey.get(key);
             if (recipeProvider instanceof StaticRecipeProvider) {
-                StaticRecipeProvider<?, ?> staticRecipeProvider = (StaticRecipeProvider<?, ?>) recipeProvider;
+                StaticRecipeProvider<?, ?, ?> staticRecipeProvider = (StaticRecipeProvider<?, ?, ?>) recipeProvider;
                 return staticRecipeProvider.getRecipe();
             }
         }
@@ -122,13 +122,13 @@ public abstract class AbstractRecipeManager implements RecipeManager {
     public void loadFromDataPack(DataPack dataPack) {
         dataPack.getNamespacedData().forEach((namespace, data) -> {
             data.getRecipes().forEach((itemName, recipe) -> {
-                Optional<RecipeProvider<?>> possibleProvider = RecipeProviderRegistry.provider(this.tagManager, namespace, itemName, recipe);
+                Optional<RecipeProvider<?, ?>> possibleProvider = RecipeProviderRegistry.provider(this.tagManager, namespace, itemName, recipe);
 
                 if (possibleProvider.isPresent()) {
-                    RecipeProvider<?> provider = possibleProvider.get();
+                    RecipeProvider<?, ?> provider = possibleProvider.get();
 
                     this.recipesByKey.put(provider.getKey(), provider);
-                    this.recipesByInputType.put(provider.getInputClass(), provider);
+                    this.recipesByInputType.put(provider.getFactory().getInputClass(), provider);
                 }
             });
         });
@@ -136,26 +136,26 @@ public abstract class AbstractRecipeManager implements RecipeManager {
 
     @Override
     public boolean addRecipe(Recipe recipe) {
-        Optional<RecipeProvider<?>> possibleProvider = RecipeProviderRegistry.provider(recipe);
+        Optional<StaticRecipeProvider<?, ?, ?>> possibleProvider = RecipeProviderRegistry.provider(recipe);
 
         if (!possibleProvider.isPresent()) {
             return false;
         }
 
-        RecipeProvider<?> provider = possibleProvider.get();
+        StaticRecipeProvider<?, ?, ?> provider = possibleProvider.get();
 
         this.recipesByKey.put(provider.getKey(), provider);
-        this.recipesByInputType.put(provider.getInputClass(), provider);
+        this.recipesByInputType.put(provider.getFactory().getInputClass(), provider);
 
         return true;
     }
 
     @Override
     public boolean removeRecipe(NamespacedKey key) {
-        RecipeProvider<?> provider = this.recipesByKey.remove(key);
+        RecipeProvider<?, ?> provider = this.recipesByKey.remove(key);
 
         if (provider != null) {
-            this.recipesByInputType.remove(provider.getInputClass(), provider);
+            this.recipesByInputType.remove(provider.getFactory().getInputClass(), provider);
         }
 
         return provider != null;
@@ -177,11 +177,11 @@ public abstract class AbstractRecipeManager implements RecipeManager {
         defaultRecipes()
             .forEach((provider) -> {
                 this.recipesByKey.put(provider.getKey(), provider);
-                this.recipesByInputType.put(provider.getInputClass(), provider);
+                this.recipesByInputType.put(provider.getFactory().getInputClass(), provider);
             });
     }
 
-    protected abstract List<RecipeProvider<?>> defaultRecipes();
+    protected abstract List<RecipeProvider<?, ?>> defaultRecipes();
 
     protected MaterialTagRecipeChoice materialChoice(Keyed... keyeds) {
         Set<Material> values = new HashSet<>();

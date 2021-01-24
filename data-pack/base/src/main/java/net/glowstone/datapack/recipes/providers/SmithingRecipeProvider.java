@@ -19,25 +19,17 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class SmithingRecipeProvider extends StaticRecipeProvider<org.bukkit.inventory.SmithingRecipe, SmithingRecipeInput> {
+public class SmithingRecipeProvider extends StaticRecipeProvider<SmithingRecipe, SmithingRecipeInput, org.bukkit.inventory.SmithingRecipe> {
     public static SmithingRecipeProviderFactory factory() {
         return SmithingRecipeProviderFactory.getInstance();
     }
 
-    public SmithingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, RecipeChoice equipment, RecipeChoice mineral) {
-        super(
-            SmithingRecipeInput.class,
-            new org.bukkit.inventory.SmithingRecipe(
-                new NamespacedKey(namespace, key),
-                new ItemStack(resultMaterial, resultAmount),
-                equipment,
-                mineral
-            )
-        );
+    private SmithingRecipeProvider(org.bukkit.inventory.SmithingRecipe recipe) {
+        super(recipe);
     }
 
-    public SmithingRecipeProvider(org.bukkit.inventory.SmithingRecipe recipe) {
-        super(SmithingRecipeInput.class, recipe);
+    public SmithingRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -77,10 +69,11 @@ public class SmithingRecipeProvider extends StaticRecipeProvider<org.bukkit.inve
             && Objects.equals(getRecipe().getAddition(), that.getRecipe().getAddition());
     }
 
-    public static class SmithingRecipeProviderFactory implements StaticRecipeProviderFactory<SmithingRecipeProvider, SmithingRecipe, org.bukkit.inventory.SmithingRecipe> {
+    public static class SmithingRecipeProviderFactory extends AbstractStaticRecipeProviderFactory<SmithingRecipeProvider, SmithingRecipe, SmithingRecipeInput, org.bukkit.inventory.SmithingRecipe> {
         private static volatile SmithingRecipeProviderFactory instance = null;
 
         private SmithingRecipeProviderFactory() {
+            super(SmithingRecipeProvider.class, SmithingRecipe.class, SmithingRecipeInput.class, org.bukkit.inventory.SmithingRecipe.class);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "
@@ -101,21 +94,6 @@ public class SmithingRecipeProvider extends StaticRecipeProvider<org.bukkit.inve
         }
 
         @Override
-        public Class<SmithingRecipe> getModelType() {
-            return SmithingRecipe.class;
-        }
-
-        @Override
-        public Class<org.bukkit.inventory.SmithingRecipe> getBukkitType() {
-            return org.bukkit.inventory.SmithingRecipe.class;
-        }
-
-        @Override
-        public Class<SmithingRecipeProvider> getRecipeProviderType() {
-            return SmithingRecipeProvider.class;
-        }
-
-        @Override
         public List<MappingArgument> providerArguments(String namespace, String key, SmithingRecipe recipe) {
             Preconditions.checkArgument(
                 recipe.getResult().getItem().isPresent(),
@@ -127,8 +105,8 @@ public class SmithingRecipeProvider extends StaticRecipeProvider<org.bukkit.inve
                 MappingArgument.forString(key),
                 MappingArgument.forEnum(Material.matchMaterial(recipe.getResult().getItem().get())),
                 MappingArgument.forInteger(1),
-                RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, Collections.singletonList(recipe.getBase())),
-                RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, Collections.singletonList(recipe.getAddition()))
+                generateRecipeChoiceMapping(namespace, Collections.singletonList(recipe.getBase())),
+                generateRecipeChoiceMapping(namespace, Collections.singletonList(recipe.getAddition()))
             );
         }
 
@@ -144,8 +122,8 @@ public class SmithingRecipeProvider extends StaticRecipeProvider<org.bukkit.inve
                 key,
                 Material.matchMaterial(recipe.getResult().getItem().get()),
                 1,
-                RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, Collections.singletonList(recipe.getBase())),
-                RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, Collections.singletonList(recipe.getAddition()))
+                generateRecipeChoice(tagManager, namespace, Collections.singletonList(recipe.getBase())),
+                generateRecipeChoice(tagManager, namespace, Collections.singletonList(recipe.getAddition()))
             );
         }
 

@@ -2,31 +2,33 @@ package net.glowstone.datapack.recipes.providers;
 
 import net.glowstone.datapack.loader.model.external.recipe.SmeltingRecipe;
 import net.glowstone.datapack.recipes.inputs.FurnaceRecipeInput;
-import org.bukkit.Material;
 import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.RecipeChoice;
 
-import java.util.Optional;
-
-public class FurnaceRecipeProvider extends CookingRecipeProvider<FurnaceRecipe, FurnaceRecipeInput> {
+public class FurnaceRecipeProvider extends CookingRecipeProvider<SmeltingRecipe, FurnaceRecipeInput, FurnaceRecipe> {
     public static FurnaceRecipeProviderFactory factory() {
         return FurnaceRecipeProviderFactory.getInstance();
     }
 
     private FurnaceRecipeProvider(FurnaceRecipe recipe) {
-        super(FurnaceRecipeInput.class, recipe);
+        super(recipe);
     }
 
-    public static class FurnaceRecipeProviderFactory extends CookingRecipeProviderFactory<SmeltingRecipe,
-                                                                                   FurnaceRecipe,
-                                                                                   FurnaceRecipeInput,
-                                                                                   FurnaceRecipeProvider> {
+    @Override
+    public FurnaceRecipeProviderFactory getFactory() {
+        return factory();
+    }
+
+    public static class FurnaceRecipeProviderFactory extends CookingRecipeProviderFactory<FurnaceRecipeProvider,
+                                                                                          SmeltingRecipe,
+                                                                                          FurnaceRecipeInput,
+                                                                                          FurnaceRecipe> {
         private static volatile FurnaceRecipeProviderFactory instance = null;
 
         private FurnaceRecipeProviderFactory() {
             super(
-                SmeltingRecipe.class,
                 FurnaceRecipeProvider.class,
+                SmeltingRecipe.class,
+                FurnaceRecipeInput.class,
                 FurnaceRecipe.class,
                 FurnaceRecipe::new,
                 FurnaceRecipeProvider::new

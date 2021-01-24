@@ -3,6 +3,7 @@ package net.glowstone.datapack;
 import net.glowstone.datapack.loader.model.external.DataPack;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
 import net.glowstone.datapack.recipes.inputs.RecipeInput;
+import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -18,7 +19,7 @@ import java.util.Set;
 public interface RecipeManager {
     Set<NamespacedKey> getAllRecipeKeys();
 
-    Optional<RecipeProvider<?>> getRecipeProvider(NamespacedKey key);
+    Optional<RecipeProvider<?, ?>> getRecipeProvider(NamespacedKey key);
 
     /**
      * Gets the recipe associated with the given inventory object. This could return any type of recipe - shaped,

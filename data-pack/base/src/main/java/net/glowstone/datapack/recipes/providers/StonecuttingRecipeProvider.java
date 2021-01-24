@@ -3,7 +3,6 @@ package net.glowstone.datapack.recipes.providers;
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.StonecuttingRecipe;
-import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.recipes.inputs.StonecuttingRecipeInput;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
@@ -18,37 +17,18 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
 
-public class StonecuttingRecipeProvider extends StaticRecipeProvider<org.bukkit.inventory.StonecuttingRecipe, StonecuttingRecipeInput> {
+public class StonecuttingRecipeProvider extends StaticRecipeProvider<StonecuttingRecipe, StonecuttingRecipeInput, org.bukkit.inventory.StonecuttingRecipe> {
     public static StonecuttingRecipeProviderFactory factory() {
         return StonecuttingRecipeProviderFactory.getInstance();
     }
 
-    public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, Optional<String> group, RecipeChoice source) {
-        this(
-            new org.bukkit.inventory.StonecuttingRecipe(
-                new NamespacedKey(namespace, key),
-                new ItemStack(resultMaterial, resultAmount),
-                source
-            )
-        );
-        group.ifPresent(getRecipe()::setGroup);
-    }
-
-    public StonecuttingRecipeProvider(String namespace, String key, Material resultMaterial, int resultAmount, MaterialTagRecipeChoice source) {
-        this(
-            new org.bukkit.inventory.StonecuttingRecipe(
-                new NamespacedKey(namespace, key),
-                new ItemStack(resultMaterial, resultAmount),
-                source
-            )
-        );
-    }
-
     public StonecuttingRecipeProvider(org.bukkit.inventory.StonecuttingRecipe recipe) {
-        super(
-            StonecuttingRecipeInput.class,
-            recipe
-        );
+        super(recipe);
+    }
+
+    @Override
+    public StonecuttingRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     public StonecuttingRecipeProvider setGroup(String group) {
@@ -85,10 +65,11 @@ public class StonecuttingRecipeProvider extends StaticRecipeProvider<org.bukkit.
             && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
     }
 
-    public static class StonecuttingRecipeProviderFactory implements StaticRecipeProviderFactory<StonecuttingRecipeProvider, StonecuttingRecipe, org.bukkit.inventory.StonecuttingRecipe> {
+    public static class StonecuttingRecipeProviderFactory extends AbstractStaticRecipeProviderFactory<StonecuttingRecipeProvider, StonecuttingRecipe, StonecuttingRecipeInput, org.bukkit.inventory.StonecuttingRecipe> {
         private static volatile StonecuttingRecipeProviderFactory instance = null;
 
         private StonecuttingRecipeProviderFactory() {
+            super(StonecuttingRecipeProvider.class, StonecuttingRecipe.class, StonecuttingRecipeInput.class, org.bukkit.inventory.StonecuttingRecipe.class);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "
@@ -109,21 +90,6 @@ public class StonecuttingRecipeProvider extends StaticRecipeProvider<org.bukkit.
         }
 
         @Override
-        public Class<StonecuttingRecipe> getModelType() {
-            return StonecuttingRecipe.class;
-        }
-
-        @Override
-        public Class<org.bukkit.inventory.StonecuttingRecipe> getBukkitType() {
-            return org.bukkit.inventory.StonecuttingRecipe.class;
-        }
-
-        @Override
-        public Class<StonecuttingRecipeProvider> getRecipeProviderType() {
-            return StonecuttingRecipeProvider.class;
-        }
-
-        @Override
         public List<MappingArgument> providerArguments(String namespace, String key, StonecuttingRecipe recipe) {
             return ImmutableList.of(
                 MappingArgument.forString(namespace),
@@ -131,19 +97,19 @@ public class StonecuttingRecipeProvider extends StaticRecipeProvider<org.bukkit.
                 MappingArgument.forEnum(Material.matchMaterial(recipe.getResult())),
                 MappingArgument.forInteger(1),
                 MappingArgument.forOptional(recipe.getGroup().map(MappingArgument::forString)),
-                RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, recipe.getIngredient())
+                generateRecipeChoiceMapping(namespace, recipe.getIngredient())
             );
         }
 
         @Override
         public StonecuttingRecipeProvider provider(TagManager tagManager, String namespace, String key, StonecuttingRecipe recipe) {
-            return new StonecuttingRecipeProvider(
+            return this.provider(
                 namespace,
                 key,
                 Material.matchMaterial(recipe.getResult()),
                 1,
                 recipe.getGroup(),
-                RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, recipe.getIngredient())
+                generateRecipeChoice(tagManager, namespace, recipe.getIngredient())
             );
         }
 

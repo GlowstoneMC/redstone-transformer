@@ -23,16 +23,18 @@ import java.util.function.Function;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class ArmorDyeRecipeProvider extends SpecialRecipeProvider<ArmorDyeRecipeInput> {
+public class ArmorDyeRecipeProvider extends SpecialRecipeProvider<ArmorDyeRecipe, ArmorDyeRecipeInput> {
     public static ArmorDyeRecipeProviderFactory factory() {
         return ArmorDyeRecipeProviderFactory.getInstance();
     }
 
     private ArmorDyeRecipeProvider(String namespace, String key) {
-        super(
-            ArmorDyeRecipeInput.class,
-            new NamespacedKey(namespace, key)
-        );
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public ArmorDyeRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -97,11 +99,11 @@ public class ArmorDyeRecipeProvider extends SpecialRecipeProvider<ArmorDyeRecipe
         return true;
     }
 
-    public static class ArmorDyeRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ArmorDyeRecipeProvider, ArmorDyeRecipe> {
+    public static class ArmorDyeRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<ArmorDyeRecipeProvider, ArmorDyeRecipe, ArmorDyeRecipeInput> {
         private static volatile ArmorDyeRecipeProviderFactory instance = null;
 
         private ArmorDyeRecipeProviderFactory() {
-            super(ArmorDyeRecipe.class, ArmorDyeRecipeProvider.class, ArmorDyeRecipeProvider::new);
+            super(ArmorDyeRecipeProvider.class, ArmorDyeRecipe.class, ArmorDyeRecipeInput.class, ArmorDyeRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

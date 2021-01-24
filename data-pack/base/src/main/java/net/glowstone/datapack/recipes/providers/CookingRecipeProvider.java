@@ -2,11 +2,11 @@ package net.glowstone.datapack.recipes.providers;
 
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.TagManager;
+import net.glowstone.datapack.loader.model.external.recipe.CookingRecipe;
 import net.glowstone.datapack.recipes.inputs.CookingRecipeInput;
 import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.CookingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -18,20 +18,17 @@ import java.util.function.Function;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
 
-public abstract class CookingRecipeProvider<T extends CookingRecipe<T>, I extends CookingRecipeInput> extends StaticRecipeProvider<T, I> {
-    public CookingRecipeProvider(Class<I> inputClass, T recipe) {
-        super(
-            inputClass,
-            recipe
-        );
+public abstract class CookingRecipeProvider<RE extends CookingRecipe, RI extends CookingRecipeInput, RB extends org.bukkit.inventory.CookingRecipe<RB>> extends StaticRecipeProvider<RE, RI, RB> {
+    public CookingRecipeProvider(RB recipe) {
+        super(recipe);
     }
 
-    public CookingRecipeProvider<T, I> setGroup(Optional<String> group) {
+    public CookingRecipeProvider<RE, RI, RB> setGroup(Optional<String> group) {
         group.ifPresent(getRecipe()::setGroup);
         return this;
     }
 
-    public CookingRecipeProvider<T, I> setGroup(String group) {
+    public CookingRecipeProvider<RE, RI, RB> setGroup(String group) {
         getRecipe().setGroup(group);
         return this;
     }
@@ -42,7 +39,7 @@ public abstract class CookingRecipeProvider<T extends CookingRecipe<T>, I extend
     }
 
     @Override
-    public Optional<Recipe> getRecipeFor(I input) {
+    public Optional<Recipe> getRecipeFor(RI input) {
         if (matchesWildcard(getRecipe().getInput(), input.getInput())) {
             return Optional.of(getRecipe());
         }
@@ -51,7 +48,7 @@ public abstract class CookingRecipeProvider<T extends CookingRecipe<T>, I extend
     }
 
     @FunctionalInterface
-    public interface CookingRecipeConstructor<T extends CookingRecipe<T>> {
+    public interface CookingRecipeConstructor<T extends org.bukkit.inventory.CookingRecipe<T>> {
         T create(NamespacedKey key, ItemStack result, RecipeChoice input, float experience, int cookingTime);
     }
 
@@ -71,11 +68,8 @@ public abstract class CookingRecipeProvider<T extends CookingRecipe<T>, I extend
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CookingRecipeProvider<?, ?> genericThat = (CookingRecipeProvider<?, ?>) o;
-        if (getRecipe().getClass() != genericThat.getRecipe().getClass()) return false;
-        if (getInputClass() != genericThat.getInputClass()) return false;
         @SuppressWarnings("unchecked")
-        CookingRecipeProvider<T, I> that = (CookingRecipeProvider<T, I>) genericThat;
+        CookingRecipeProvider<RE, RI, RB> that = (CookingRecipeProvider<RE, RI, RB>) o;
         return Objects.equals(getRecipe().getKey(), that.getRecipe().getKey())
             && Objects.equals(getRecipe().getResult(), that.getRecipe().getResult())
             && Objects.equals(getRecipe().getInputChoice(), that.getRecipe().getInputChoice())
@@ -84,86 +78,67 @@ public abstract class CookingRecipeProvider<T extends CookingRecipe<T>, I extend
             && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
     }
 
-    public abstract static class CookingRecipeProviderFactory<ExternalRecipe extends net.glowstone.datapack.loader.model.external.recipe.CookingRecipe,
-                                                              BukkitRecipe extends CookingRecipe<BukkitRecipe>,
-                                                              InputType extends CookingRecipeInput,
-                                                              ProviderType extends CookingRecipeProvider<BukkitRecipe, InputType>>
-                                                              implements StaticRecipeProviderFactory<ProviderType, ExternalRecipe, BukkitRecipe> {
-        private final Class<ExternalRecipe> modelType;
-        private final Class<ProviderType> recipeProvider;
-        private final Class<BukkitRecipe> bukkitType;
-        private final CookingRecipeConstructor<BukkitRecipe> bukkitConstructor;
-        private final Function<BukkitRecipe, ProviderType> providerWrapper;
+    public abstract static class CookingRecipeProviderFactory<P extends CookingRecipeProvider<RE, RI, RB>,
+                                                              RE extends CookingRecipe,
+                                                              RI extends CookingRecipeInput,
+                                                              RB extends org.bukkit.inventory.CookingRecipe<RB>>
+                                                              extends AbstractStaticRecipeProviderFactory<P, RE, RI, RB> {
+        private final CookingRecipeConstructor<RB> bukkitConstructor;
+        private final Function<RB, P> providerWrapper;
 
-        public CookingRecipeProviderFactory(Class<ExternalRecipe> modelType,
-                                            Class<ProviderType> recipeProvider,
-                                            Class<BukkitRecipe> bukkitType,
-                                            CookingRecipeConstructor<BukkitRecipe> bukkitConstructor,
-                                            Function<BukkitRecipe, ProviderType> providerWrapper) {
-            this.modelType = modelType;
-            this.recipeProvider = recipeProvider;
-            this.bukkitType = bukkitType;
+        public CookingRecipeProviderFactory(Class<P> recipeProviderType,
+                                            Class<RE> modelType,
+                                            Class<RI> inputType,
+                                            Class<RB> bukkitType,
+                                            CookingRecipeConstructor<RB> bukkitConstructor,
+                                            Function<RB, P> providerWrapper) {
+            super(recipeProviderType, modelType, inputType, bukkitType);
             this.bukkitConstructor = bukkitConstructor;
             this.providerWrapper = providerWrapper;
         }
 
         @Override
-        public Class<ExternalRecipe> getModelType() {
-            return this.modelType;
-        }
-
-        @Override
-        public Class<BukkitRecipe> getBukkitType() {
-            return this.bukkitType;
-        }
-
-        @Override
-        public Class<ProviderType> getRecipeProviderType() {
-            return this.recipeProvider;
-        }
-
-        @Override
-        public List<MappingArgument> providerArguments(String namespace, String key, ExternalRecipe recipe) {
+        public List<MappingArgument> providerArguments(String namespace, String key, RE recipe) {
             return ImmutableList.of(
                 MappingArgument.forString(namespace),
                 MappingArgument.forString(key),
                 MappingArgument.forEnum(Material.matchMaterial(recipe.getResult())),
                 MappingArgument.forInteger(1),
                 MappingArgument.forOptional(recipe.getGroup().map(MappingArgument::forString)),
-                RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, recipe.getIngredient()),
+                generateRecipeChoiceMapping(namespace, recipe.getIngredient()),
                 MappingArgument.forFloat((float)recipe.getExperience()),
                 MappingArgument.forInteger(recipe.getCookingTime())
             );
         }
 
         @Override
-        public ProviderType provider(TagManager tagManager, String namespace, String key, ExternalRecipe recipe) {
+        public P provider(TagManager tagManager, String namespace, String key, RE recipe) {
             return this.provider(
                 namespace,
                 key,
                 Material.matchMaterial(recipe.getResult()),
                 1,
                 recipe.getGroup(),
-                RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, recipe.getIngredient()),
+                generateRecipeChoice(tagManager, namespace, recipe.getIngredient()),
                 (float)recipe.getExperience(),
                 recipe.getCookingTime()
             );
         }
 
         @Override
-        public ProviderType provider(BukkitRecipe recipe) {
+        public P provider(RB recipe) {
             return providerWrapper.apply(recipe);
         }
 
-        public ProviderType provider(String namespace,
-                                     String key,
-                                     Material resultMaterial,
-                                     int resultAmount,
-                                     Optional<String> group,
-                                     RecipeChoice choice,
-                                     float experience,
-                                     int cookingTime) {
-            BukkitRecipe recipe = this.bukkitConstructor.create(
+        public P provider(String namespace,
+                          String key,
+                          Material resultMaterial,
+                          int resultAmount,
+                          Optional<String> group,
+                          RecipeChoice choice,
+                          float experience,
+                          int cookingTime) {
+            RB recipe = this.bukkitConstructor.create(
                 new NamespacedKey(namespace, key),
                 new ItemStack(resultMaterial, resultAmount),
                 choice,

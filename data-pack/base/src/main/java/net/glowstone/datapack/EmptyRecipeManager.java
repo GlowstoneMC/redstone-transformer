@@ -11,7 +11,7 @@ public class EmptyRecipeManager extends AbstractRecipeManager {
     }
 
     @Override
-    protected List<RecipeProvider<?>> defaultRecipes() {
+    protected List<RecipeProvider<?, ?>> defaultRecipes() {
         return Collections.emptyList();
     }
 }

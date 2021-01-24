@@ -21,7 +21,7 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class RepairItemRecipeProvider extends SpecialRecipeProvider<RepairItemRecipeInput> {
+public class RepairItemRecipeProvider extends SpecialRecipeProvider<RepairItemRecipe, RepairItemRecipeInput> {
     public static RepairItemRecipeProviderFactory factory() {
         return RepairItemRecipeProviderFactory.getInstance();
     }
@@ -31,7 +31,12 @@ public class RepairItemRecipeProvider extends SpecialRecipeProvider<RepairItemRe
     }
 
     private RepairItemRecipeProvider(String namespace, String key) {
-        super(RepairItemRecipeInput.class, new NamespacedKey(namespace, key));
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public RepairItemRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -88,11 +93,11 @@ public class RepairItemRecipeProvider extends SpecialRecipeProvider<RepairItemRe
         return true;
     }
 
-    public static class RepairItemRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<RepairItemRecipeProvider, RepairItemRecipe> {
+    public static class RepairItemRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<RepairItemRecipeProvider, RepairItemRecipe, RepairItemRecipeInput> {
         private static volatile RepairItemRecipeProviderFactory instance = null;
 
         private RepairItemRecipeProviderFactory() {
-            super(RepairItemRecipe.class, RepairItemRecipeProvider.class, RepairItemRecipeProvider::new);
+            super(RepairItemRecipeProvider.class, RepairItemRecipe.class, RepairItemRecipeInput.class, RepairItemRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

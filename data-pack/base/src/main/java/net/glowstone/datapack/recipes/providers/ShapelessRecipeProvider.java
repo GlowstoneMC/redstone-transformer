@@ -20,16 +20,18 @@ import java.util.stream.Collectors;
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 import static net.glowstone.datapack.utils.ItemStackUtils.matchesWildcard;
 
-public class ShapelessRecipeProvider extends StaticRecipeProvider<org.bukkit.inventory.ShapelessRecipe, ShapelessRecipeInput> {
+public class ShapelessRecipeProvider extends StaticRecipeProvider<ShapelessRecipe, ShapelessRecipeInput, org.bukkit.inventory.ShapelessRecipe> {
     public static ShapelessRecipeProviderFactory factory() {
         return ShapelessRecipeProviderFactory.getInstance();
     }
 
     public ShapelessRecipeProvider(org.bukkit.inventory.ShapelessRecipe recipe) {
-        super(
-            ShapelessRecipeInput.class,
-            recipe
-        );
+        super(recipe);
+    }
+
+    @Override
+    public ShapelessRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     public ShapelessRecipeProvider setGroup(String group) {
@@ -98,10 +100,11 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<org.bukkit.inv
             && Objects.equals(getRecipe().getGroup(), that.getRecipe().getGroup());
     }
 
-    public static class ShapelessRecipeProviderFactory implements StaticRecipeProviderFactory<ShapelessRecipeProvider, ShapelessRecipe, org.bukkit.inventory.ShapelessRecipe> {
+    public static class ShapelessRecipeProviderFactory extends AbstractStaticRecipeProviderFactory<ShapelessRecipeProvider, ShapelessRecipe, ShapelessRecipeInput, org.bukkit.inventory.ShapelessRecipe> {
         private static volatile ShapelessRecipeProviderFactory instance = null;
 
         private ShapelessRecipeProviderFactory() {
+            super(ShapelessRecipeProvider.class, ShapelessRecipe.class, ShapelessRecipeInput.class, org.bukkit.inventory.ShapelessRecipe.class);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "
@@ -122,21 +125,6 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<org.bukkit.inv
         }
 
         @Override
-        public Class<ShapelessRecipe> getModelType() {
-            return ShapelessRecipe.class;
-        }
-
-        @Override
-        public Class<org.bukkit.inventory.ShapelessRecipe> getBukkitType() {
-            return org.bukkit.inventory.ShapelessRecipe.class;
-        }
-
-        @Override
-        public Class<ShapelessRecipeProvider> getRecipeProviderType() {
-            return ShapelessRecipeProvider.class;
-        }
-
-        @Override
         public List<MappingArgument> providerArguments(String namespace, String key, ShapelessRecipe recipe) {
             return ImmutableList.of(
                 MappingArgument.forString(namespace),
@@ -147,7 +135,7 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<org.bukkit.inv
                 MappingArgument.forList(
                     recipe.getIngredients()
                         .stream()
-                        .map((items) -> RecipeProviderFactoryUtils.generateRecipeChoiceMapping(namespace, items))
+                        .map((items) -> generateRecipeChoiceMapping(namespace, items))
                         .collect(Collectors.toList())
                 )
             );
@@ -163,7 +151,7 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<org.bukkit.inv
                 recipe.getGroup(),
                 recipe.getIngredients()
                     .stream()
-                    .map((items) -> RecipeProviderFactoryUtils.generateRecipeChoice(tagManager, namespace, items))
+                    .map((items) -> generateRecipeChoice(tagManager, namespace, items))
                     .collect(Collectors.toList())
             );
         }

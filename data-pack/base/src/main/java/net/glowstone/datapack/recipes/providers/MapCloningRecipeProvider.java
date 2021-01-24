@@ -16,13 +16,18 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class MapCloningRecipeProvider extends SpecialRecipeProvider<MapCloningRecipeInput> {
+public class MapCloningRecipeProvider extends SpecialRecipeProvider<MapCloningRecipe, MapCloningRecipeInput> {
     public static MapCloningRecipeProviderFactory factory() {
         return MapCloningRecipeProviderFactory.getInstance();
     }
 
     private MapCloningRecipeProvider(String namespace, String key) {
-        super(MapCloningRecipeInput.class, new NamespacedKey(namespace, key));
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public MapCloningRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -71,11 +76,11 @@ public class MapCloningRecipeProvider extends SpecialRecipeProvider<MapCloningRe
         return true;
     }
 
-    public static class MapCloningRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<MapCloningRecipeProvider, MapCloningRecipe> {
+    public static class MapCloningRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<MapCloningRecipeProvider, MapCloningRecipe, MapCloningRecipeInput> {
         private static volatile MapCloningRecipeProviderFactory instance = null;
 
         private MapCloningRecipeProviderFactory() {
-            super(MapCloningRecipe.class, MapCloningRecipeProvider.class, MapCloningRecipeProvider::new);
+            super(MapCloningRecipeProvider.class, MapCloningRecipe.class, MapCloningRecipeInput.class, MapCloningRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

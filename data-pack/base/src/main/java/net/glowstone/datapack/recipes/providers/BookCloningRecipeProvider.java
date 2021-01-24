@@ -1,31 +1,30 @@
 package net.glowstone.datapack.recipes.providers;
 
-import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.special.BookCloningRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.BookCloningRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class BookCloningRecipeProvider extends SpecialRecipeProvider<BookCloningRecipeInput> {
+public class BookCloningRecipeProvider extends SpecialRecipeProvider<BookCloningRecipe, BookCloningRecipeInput> {
     public static BookCloningRecipeProviderFactory factory() {
         return BookCloningRecipeProviderFactory.getInstance();
     }
 
     private BookCloningRecipeProvider(String namespace, String key) {
-        super(
-            BookCloningRecipeInput.class,
-            new NamespacedKey(namespace, key)
-        );
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public BookCloningRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -80,11 +79,11 @@ public class BookCloningRecipeProvider extends SpecialRecipeProvider<BookCloning
         return true;
     }
 
-    public static class BookCloningRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<BookCloningRecipeProvider, BookCloningRecipe> {
+    public static class BookCloningRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<BookCloningRecipeProvider, BookCloningRecipe, BookCloningRecipeInput> {
         private static volatile BookCloningRecipeProviderFactory instance = null;
 
         private BookCloningRecipeProviderFactory() {
-            super(BookCloningRecipe.class, BookCloningRecipeProvider.class, BookCloningRecipeProvider::new);
+            super(BookCloningRecipeProvider.class, BookCloningRecipe.class, BookCloningRecipeInput.class, BookCloningRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

@@ -38,7 +38,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
 
             if (result.isPresent()) {
                 List<MappingArgument> arguments = result.get().getMappingArguments();
-                Class<? extends RecipeProvider<?>> recipeProviderType = result.get().getRecipeProviderType();
+                Class<? extends RecipeProvider<?, ?>> recipeProviderType = result.get().getRecipeProviderType();
 
                 CodeBlock.Builder initBlock = CodeBlock.builder()
                     .add(
@@ -74,6 +74,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             ClassName.get(List.class),
             ParameterizedTypeName.get(
                 ClassName.get(RecipeProvider.class),
+                WildcardTypeName.subtypeOf(Object.class),
                 WildcardTypeName.subtypeOf(Object.class)
             )
         );

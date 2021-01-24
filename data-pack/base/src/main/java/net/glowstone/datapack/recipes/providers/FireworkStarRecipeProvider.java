@@ -25,7 +25,7 @@ import java.util.Optional;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 
-public class FireworkStarRecipeProvider extends SpecialRecipeProvider<FireworkStarRecipeInput> {
+public class FireworkStarRecipeProvider extends SpecialRecipeProvider<FireworkStarRecipe, FireworkStarRecipeInput> {
     public static FireworkStarRecipeProviderFactory factory() {
         return FireworkStarRecipeProviderFactory.getInstance();
     }
@@ -38,7 +38,12 @@ public class FireworkStarRecipeProvider extends SpecialRecipeProvider<FireworkSt
         .build();
 
     private FireworkStarRecipeProvider(String namespace, String key) {
-        super(FireworkStarRecipeInput.class, new NamespacedKey(namespace, key));
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public FireworkStarRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -123,11 +128,11 @@ public class FireworkStarRecipeProvider extends SpecialRecipeProvider<FireworkSt
         return true;
     }
 
-    public static class FireworkStarRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkStarRecipeProvider, FireworkStarRecipe> {
+    public static class FireworkStarRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<FireworkStarRecipeProvider, FireworkStarRecipe, FireworkStarRecipeInput> {
         private static volatile FireworkStarRecipeProviderFactory instance = null;
 
         private FireworkStarRecipeProviderFactory() {
-            super(FireworkStarRecipe.class, FireworkStarRecipeProvider.class, FireworkStarRecipeProvider::new);
+            super(FireworkStarRecipeProvider.class, FireworkStarRecipe.class, FireworkStarRecipeInput.class, FireworkStarRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "

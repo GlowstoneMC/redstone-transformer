@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.google.common.collect.ImmutableList;
-import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
 import net.glowstone.datapack.loader.model.external.recipe.special.BannerAddPatternRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.BannerAddPatternRecipeInput;
 import net.glowstone.datapack.utils.BannerPatternUtils.ItemTag;
 import net.glowstone.datapack.utils.DyeUtils;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.DyeColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.banner.Pattern;
@@ -25,16 +22,18 @@ import static net.glowstone.datapack.utils.BannerPatternUtils.ItemTag.BANNER;
 import static net.glowstone.datapack.utils.BannerPatternUtils.ItemTag.DYE;
 import static net.glowstone.datapack.utils.BannerPatternUtils.getPatternType;
 
-public class BannerAddPatternRecipeProvider extends SpecialRecipeProvider<BannerAddPatternRecipeInput> {
+public class BannerAddPatternRecipeProvider extends SpecialRecipeProvider<BannerAddPatternRecipe, BannerAddPatternRecipeInput> {
     public static BannerAddPatternRecipeProviderFactory factory() {
         return BannerAddPatternRecipeProviderFactory.getInstance();
     }
 
     private BannerAddPatternRecipeProvider(String namespace, String key) {
-        super(
-            BannerAddPatternRecipeInput.class,
-            new NamespacedKey(namespace, key)
-        );
+        super(new NamespacedKey(namespace, key));
+    }
+
+    @Override
+    public BannerAddPatternRecipeProviderFactory getFactory() {
+        return factory();
     }
 
     @Override
@@ -100,11 +99,11 @@ public class BannerAddPatternRecipeProvider extends SpecialRecipeProvider<Banner
         return true;
     }
 
-    public static class BannerAddPatternRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<BannerAddPatternRecipeProvider, BannerAddPatternRecipe> {
+    public static class BannerAddPatternRecipeProviderFactory extends AbstractSpecialRecipeProviderFactory<BannerAddPatternRecipeProvider, BannerAddPatternRecipe, BannerAddPatternRecipeInput> {
         private static volatile BannerAddPatternRecipeProviderFactory instance = null;
 
         private BannerAddPatternRecipeProviderFactory() {
-            super(BannerAddPatternRecipe.class, BannerAddPatternRecipeProvider.class, BannerAddPatternRecipeProvider::new);
+            super(BannerAddPatternRecipeProvider.class, BannerAddPatternRecipe.class, BannerAddPatternRecipeInput.class, BannerAddPatternRecipeProvider::new);
         	if (instance != null) {
         		throw new AssertionError(
         				"Another instance of "
