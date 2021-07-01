@@ -1,12 +1,10 @@
 package net.glowstone.datapack.recipes.providers;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.glowstone.datapack.loader.model.external.recipe.special.SuspiciousStewRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.SuspiciousStewRecipeInput;
 import net.glowstone.datapack.utils.TickUtils;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

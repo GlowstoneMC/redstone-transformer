@@ -5,7 +5,10 @@ import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.SmithingRecipe;
 import net.glowstone.datapack.recipes.inputs.SmithingRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
+import net.glowstone.datapack.utils.mapping.EnumMappingArgument;
+import net.glowstone.datapack.utils.mapping.IntegerMappingArgument;
+import net.glowstone.datapack.utils.mapping.StringMappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -94,17 +97,17 @@ public class SmithingRecipeProvider extends StaticRecipeProvider<SmithingRecipe,
         }
 
         @Override
-        public List<MappingArgument> providerArguments(String namespace, String key, SmithingRecipe recipe) {
+        public List<AbstractMappingArgument> providerArguments(String namespace, String key, SmithingRecipe recipe) {
             Preconditions.checkArgument(
                 recipe.getResult().getItem().isPresent(),
                 "SmithingRecipe must result in an item."
             );
 
             return ImmutableList.of(
-                MappingArgument.forString(namespace),
-                MappingArgument.forString(key),
-                MappingArgument.forEnum(Material.matchMaterial(recipe.getResult().getItem().get())),
-                MappingArgument.forInteger(1),
+                new StringMappingArgument(namespace),
+                new StringMappingArgument(key),
+                new EnumMappingArgument(Material.matchMaterial(recipe.getResult().getItem().get())),
+                new IntegerMappingArgument(1),
                 generateRecipeChoiceMapping(namespace, Collections.singletonList(recipe.getBase())),
                 generateRecipeChoiceMapping(namespace, Collections.singletonList(recipe.getAddition()))
             );

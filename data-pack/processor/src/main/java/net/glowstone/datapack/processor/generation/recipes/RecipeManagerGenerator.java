@@ -13,11 +13,10 @@ import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.processor.generation.CodeBlockStatementCollector;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
-import net.glowstone.datapack.processor.generation.MappingArgumentGenerator;
+import net.glowstone.datapack.processor.generation.MappingArgumentGeneratorRegistry;
 import net.glowstone.datapack.recipes.providers.RecipeProvider;
 import net.glowstone.datapack.recipes.providers.RecipeProviderRegistry;
 import net.glowstone.datapack.recipes.providers.RecipeProviderRegistry.RecipeProviderMappingArgumentsResult;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
@@ -26,6 +25,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
 
 public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
     private final List<MethodSpec> recipeMethods = new ArrayList<>();
@@ -37,7 +37,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             Optional<RecipeProviderMappingArgumentsResult> result = RecipeProviderRegistry.providerArguments(namespaceName, itemName, recipe);
 
             if (result.isPresent()) {
-                List<MappingArgument> arguments = result.get().getMappingArguments();
+                List<AbstractMappingArgument> arguments = result.get().getMappingArguments();
                 Class<? extends RecipeProvider<?, ?>> recipeProviderType = result.get().getRecipeProviderType();
 
                 CodeBlock.Builder initBlock = CodeBlock.builder()
@@ -48,7 +48,7 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
 
                 initBlock.add(
                     arguments.stream()
-                        .map((v) -> MappingArgumentGenerator.mapArgument("this.tagManager", v))
+                        .map((v) -> MappingArgumentGeneratorRegistry.mapArgument("this.tagManager", v))
                         .collect(CodeBlock.joining(", "))
                 );
 

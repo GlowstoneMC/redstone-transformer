@@ -1,12 +1,8 @@
 package net.glowstone.datapack.recipes.providers;
 
-import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.special.FireworkRocketRecipe;
-import net.glowstone.datapack.loader.model.external.recipe.special.FireworkStarRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.FireworkRocketRecipeInput;
-import net.glowstone.datapack.recipes.inputs.FireworkStarRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

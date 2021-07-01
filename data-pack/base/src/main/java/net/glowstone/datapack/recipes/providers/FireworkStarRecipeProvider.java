@@ -1,14 +1,12 @@
 package net.glowstone.datapack.recipes.providers;
 
 import com.destroystokyo.paper.MaterialTags;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.glowstone.datapack.loader.model.external.recipe.special.FireworkStarRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.FireworkStarRecipeInput;
 import net.glowstone.datapack.tags.ExtraMaterialTags;
 import net.glowstone.datapack.utils.DyeUtils;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;

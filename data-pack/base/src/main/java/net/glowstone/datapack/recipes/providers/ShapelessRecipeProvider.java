@@ -5,7 +5,12 @@ import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.ShapelessRecipe;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.recipes.inputs.ShapelessRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
+import net.glowstone.datapack.utils.mapping.EnumMappingArgument;
+import net.glowstone.datapack.utils.mapping.IntegerMappingArgument;
+import net.glowstone.datapack.utils.mapping.ListMappingArgument;
+import net.glowstone.datapack.utils.mapping.OptionalMappingArgument;
+import net.glowstone.datapack.utils.mapping.StringMappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -125,14 +130,14 @@ public class ShapelessRecipeProvider extends StaticRecipeProvider<ShapelessRecip
         }
 
         @Override
-        public List<MappingArgument> providerArguments(String namespace, String key, ShapelessRecipe recipe) {
+        public List<AbstractMappingArgument> providerArguments(String namespace, String key, ShapelessRecipe recipe) {
             return ImmutableList.of(
-                MappingArgument.forString(namespace),
-                MappingArgument.forString(key),
-                MappingArgument.forEnum(Material.matchMaterial(recipe.getResult().getItem())),
-                MappingArgument.forInteger(recipe.getResult().getCount()),
-                MappingArgument.forOptional(recipe.getGroup().map(MappingArgument::forString)),
-                MappingArgument.forList(
+                new StringMappingArgument(namespace),
+                new StringMappingArgument(key),
+                new EnumMappingArgument(Material.matchMaterial(recipe.getResult().getItem())),
+                new IntegerMappingArgument(recipe.getResult().getCount()),
+                new OptionalMappingArgument(recipe.getGroup().map(StringMappingArgument::new)),
+                new ListMappingArgument(
                     recipe.getIngredients()
                         .stream()
                         .map((items) -> generateRecipeChoiceMapping(namespace, items))

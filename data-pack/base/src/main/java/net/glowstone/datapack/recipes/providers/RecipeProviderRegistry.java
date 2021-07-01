@@ -7,13 +7,13 @@ import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.recipes.providers.RecipeProvider.RecipeProviderFactory;
 import net.glowstone.datapack.recipes.providers.SpecialRecipeProvider.SpecialRecipeProviderFactory;
 import net.glowstone.datapack.recipes.providers.StaticRecipeProvider.StaticRecipeProviderFactory;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
 
 public class RecipeProviderRegistry {
     private static final Set<RecipeProviderFactory<?, ?, ?>> ALL_FACTORIES =
@@ -123,9 +123,9 @@ public class RecipeProviderRegistry {
 
     public static class RecipeProviderMappingArgumentsResult {
         private final Class<? extends RecipeProvider<?, ?>> recipeProviderType;
-        private final List<MappingArgument> mappingArguments;
+        private final List<AbstractMappingArgument> mappingArguments;
 
-        public RecipeProviderMappingArgumentsResult(Class<? extends RecipeProvider<?, ?>> recipeProviderType, List<MappingArgument> mappingArguments) {
+        public RecipeProviderMappingArgumentsResult(Class<? extends RecipeProvider<?, ?>> recipeProviderType, List<AbstractMappingArgument> mappingArguments) {
             this.recipeProviderType = recipeProviderType;
             this.mappingArguments = mappingArguments;
         }
@@ -134,7 +134,7 @@ public class RecipeProviderRegistry {
             return recipeProviderType;
         }
 
-        public List<MappingArgument> getMappingArguments() {
+        public List<AbstractMappingArgument> getMappingArguments() {
             return mappingArguments;
         }
     }

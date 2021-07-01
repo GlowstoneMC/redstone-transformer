@@ -3,7 +3,8 @@ package net.glowstone.datapack.recipes.providers;
 import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.recipes.inputs.RecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
+import net.glowstone.datapack.utils.mapping.StringMappingArgument;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,7 +25,7 @@ public abstract class SpecialRecipeProvider<RE extends Recipe, RI extends Recipe
     public abstract SpecialRecipeProviderFactory<? extends SpecialRecipeProvider<RE, RI>, RE, RI> getFactory();
 
     public interface SpecialRecipeProviderFactory<P extends RecipeProvider<RE, RI>, RE extends Recipe, RI extends RecipeInput> extends RecipeProviderFactory<P, RE, RI> {
-        List<MappingArgument> providerArguments(String namespace, String key);
+        List<AbstractMappingArgument> providerArguments(String namespace, String key);
         P provider(String namespace, String key);
     }
 
@@ -40,10 +41,10 @@ public abstract class SpecialRecipeProvider<RE extends Recipe, RI extends Recipe
         }
 
         @Override
-        public List<MappingArgument> providerArguments(String namespace, String key) {
+        public List<AbstractMappingArgument> providerArguments(String namespace, String key) {
             return ImmutableList.of(
-                MappingArgument.forString(namespace),
-                MappingArgument.forString(key)
+                new StringMappingArgument(namespace),
+                new StringMappingArgument(key)
             );
         }
 

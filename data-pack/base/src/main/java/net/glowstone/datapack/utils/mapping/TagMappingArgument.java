@@ -3,15 +3,18 @@ package net.glowstone.datapack.utils.mapping;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 
-public class TagInstanceMapping {
-    private final String registry;
-    private final Class<? extends Keyed> type;
-    private final NamespacedKey key;
+public class TagMappingArgument extends AbstractMappingArgument {
+    private static final MappingArgumentType ARGUMENT_TYPE = MappingArgumentType.TAG;
 
-    public TagInstanceMapping(String registry, NamespacedKey key, Class<? extends Keyed> type) {
+    private final String registry;
+    private final NamespacedKey key;
+    private final Class<? extends Keyed> type;
+
+    public TagMappingArgument(String registry, NamespacedKey key1, Class<? extends Keyed> type1) {
+        super(ARGUMENT_TYPE);
         this.registry = registry;
-        this.type = type;
-        this.key = key;
+        this.key = key1;
+        this.type = type1;
     }
 
     public String getRegistry() {

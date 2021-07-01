@@ -6,9 +6,11 @@ import net.glowstone.datapack.loader.model.external.recipe.Item;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.recipes.MaterialTagRecipeChoice;
 import net.glowstone.datapack.recipes.inputs.RecipeInput;
-import net.glowstone.datapack.recipes.providers.RecipeProvider.RecipeProviderFactory;
 import net.glowstone.datapack.utils.NamespaceUtils;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
+import net.glowstone.datapack.utils.mapping.ClassConstructorMappingArgument;
+import net.glowstone.datapack.utils.mapping.EnumMappingArgument;
+import net.glowstone.datapack.utils.mapping.TagMappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -81,22 +83,22 @@ public abstract class AbstractRecipeProvider<RE extends Recipe, RI extends Recip
             });
         }
 
-        protected static MappingArgument generateRecipeChoiceMapping(String namespace, List<Item> items) {
+        protected static AbstractMappingArgument generateRecipeChoiceMapping(String namespace, List<Item> items) {
             return generateFromMaterialTags(namespace, items, (materials, tags) -> {
                 if (tags.size() > 0) {
-                    return MappingArgument.forClassConstructor(
+                    return new ClassConstructorMappingArgument(
                         MaterialTagRecipeChoice.class,
                         Streams
                             .concat(
-                                materials.stream().map(MappingArgument::forEnum),
-                                tags.stream().map((t) -> MappingArgument.forTag(Tag.REGISTRY_ITEMS, t, Material.class))
+                                materials.stream().map(EnumMappingArgument::new),
+                                tags.stream().map((t) -> new TagMappingArgument(Tag.REGISTRY_ITEMS, t, Material.class))
                             )
                             .collect(Collectors.toList())
                     );
                 } else {
-                    return MappingArgument.forClassConstructor(
+                    return new ClassConstructorMappingArgument(
                         RecipeChoice.MaterialChoice.class,
-                        materials.stream().map(MappingArgument::forEnum).collect(Collectors.toList())
+                        materials.stream().map(EnumMappingArgument::new).collect(Collectors.toList())
                     );
                 }
             });

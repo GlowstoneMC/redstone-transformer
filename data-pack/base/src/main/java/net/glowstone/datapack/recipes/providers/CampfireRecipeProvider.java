@@ -4,7 +4,12 @@ import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.CampfireCookingRecipe;
 import net.glowstone.datapack.recipes.inputs.CampfireRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
+import net.glowstone.datapack.utils.mapping.EnumMappingArgument;
+import net.glowstone.datapack.utils.mapping.FloatMappingArgument;
+import net.glowstone.datapack.utils.mapping.IntegerMappingArgument;
+import net.glowstone.datapack.utils.mapping.OptionalMappingArgument;
+import net.glowstone.datapack.utils.mapping.StringMappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.CampfireRecipe;
@@ -98,16 +103,16 @@ public class CampfireRecipeProvider extends StaticRecipeProvider<CampfireCooking
         }
 
         @Override
-        public List<MappingArgument> providerArguments(String namespace, String key, CampfireCookingRecipe recipe) {
+        public List<AbstractMappingArgument> providerArguments(String namespace, String key, CampfireCookingRecipe recipe) {
             return ImmutableList.of(
-                MappingArgument.forString(namespace),
-                MappingArgument.forString(key),
-                MappingArgument.forEnum(Material.matchMaterial(recipe.getResult())),
-                MappingArgument.forInteger(1),
-                MappingArgument.forOptional(recipe.getGroup().map(MappingArgument::forString)),
+                new StringMappingArgument(namespace),
+                new StringMappingArgument(key),
+                new EnumMappingArgument(Material.matchMaterial(recipe.getResult())),
+                new IntegerMappingArgument(1),
+                new OptionalMappingArgument(recipe.getGroup().map(StringMappingArgument::new)),
                 generateRecipeChoiceMapping(namespace, recipe.getIngredient()),
-                MappingArgument.forFloat((float)recipe.getExperience()),
-                MappingArgument.forInteger(recipe.getCookingTime())
+                new FloatMappingArgument((float)recipe.getExperience()),
+                new IntegerMappingArgument(recipe.getCookingTime())
             );
         }
 

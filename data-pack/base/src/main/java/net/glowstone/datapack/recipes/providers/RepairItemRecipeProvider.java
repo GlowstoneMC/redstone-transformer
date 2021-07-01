@@ -1,11 +1,8 @@
 package net.glowstone.datapack.recipes.providers;
 
-import com.google.common.collect.ImmutableList;
-import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.special.RepairItemRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.RepairItemRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

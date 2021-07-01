@@ -1,10 +1,8 @@
 package net.glowstone.datapack.recipes.providers;
 
-import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.special.ShieldDecorationRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.ShieldDecorationRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -12,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.BannerMeta;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 

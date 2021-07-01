@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.recipes.inputs.RecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -51,7 +51,7 @@ public abstract class StaticRecipeProvider<RE extends Recipe, RI extends RecipeI
                                                  RB extends org.bukkit.inventory.Recipe> extends RecipeProviderFactory<P, RE, RI> {
         Class<RB> getBukkitType();
         P provider(RB recipe);
-        List<MappingArgument> providerArguments(String namespace, String key, RE recipe);
+        List<AbstractMappingArgument> providerArguments(String namespace, String key, RE recipe);
         P provider(TagManager tagManager, String namespace, String key, RE recipe);
         P providerGeneric(org.bukkit.inventory.Recipe recipe);
     }

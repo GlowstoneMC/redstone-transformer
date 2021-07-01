@@ -1,13 +1,11 @@
 package net.glowstone.datapack.recipes.providers;
 
 import com.destroystokyo.paper.MaterialTags;
-import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.loader.model.external.recipe.special.ArmorDyeRecipe;
 import net.glowstone.datapack.recipes.StaticResultRecipe;
 import net.glowstone.datapack.recipes.inputs.ArmorDyeRecipeInput;
 import net.glowstone.datapack.tags.ExtraMaterialTags;
 import net.glowstone.datapack.utils.DyeUtils;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static net.glowstone.datapack.utils.ItemStackUtils.itemStackIsEmpty;
 

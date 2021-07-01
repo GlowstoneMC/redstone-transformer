@@ -4,7 +4,14 @@ import com.google.common.collect.ImmutableList;
 import net.glowstone.datapack.TagManager;
 import net.glowstone.datapack.loader.model.external.recipe.ShapedRecipe;
 import net.glowstone.datapack.recipes.inputs.ShapedRecipeInput;
-import net.glowstone.datapack.utils.mapping.MappingArgument;
+import net.glowstone.datapack.utils.mapping.AbstractMappingArgument;
+import net.glowstone.datapack.utils.mapping.CharacterMappingArgument;
+import net.glowstone.datapack.utils.mapping.EnumMappingArgument;
+import net.glowstone.datapack.utils.mapping.IntegerMappingArgument;
+import net.glowstone.datapack.utils.mapping.ListMappingArgument;
+import net.glowstone.datapack.utils.mapping.MapMappingArgument;
+import net.glowstone.datapack.utils.mapping.OptionalMappingArgument;
+import net.glowstone.datapack.utils.mapping.StringMappingArgument;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -200,27 +207,27 @@ public class ShapedRecipeProvider extends StaticRecipeProvider<ShapedRecipe, Sha
         }
 
         @Override
-        public List<MappingArgument> providerArguments(String namespace, String key, ShapedRecipe recipe) {
+        public List<AbstractMappingArgument> providerArguments(String namespace, String key, ShapedRecipe recipe) {
             return ImmutableList.of(
-                MappingArgument.forString(namespace),
-                MappingArgument.forString(key),
-                MappingArgument.forEnum(Material.matchMaterial(recipe.getResult().getItem())),
-                MappingArgument.forInteger(recipe.getResult().getCount()),
-                MappingArgument.forOptional(recipe.getGroup().map(MappingArgument::forString)),
-                MappingArgument.forList(
+                new StringMappingArgument(namespace),
+                new StringMappingArgument(key),
+                new EnumMappingArgument(Material.matchMaterial(recipe.getResult().getItem())),
+                new IntegerMappingArgument(recipe.getResult().getCount()),
+                new OptionalMappingArgument(recipe.getGroup().map(StringMappingArgument::new)),
+                new ListMappingArgument(
                     recipe.getPattern()
                         .stream()
-                        .map(MappingArgument::forString)
+                        .map(StringMappingArgument::new)
                         .collect(Collectors.toList())
                 ),
-                MappingArgument.forMap(
+                new MapMappingArgument(
                     Character.class,
                     RecipeChoice.class,
                     recipe.getKey()
                         .entrySet()
                         .stream()
                         .map((entry) -> new AbstractMap.SimpleEntry<>(
-                            MappingArgument.forCharacter(entry.getKey()),
+                            new CharacterMappingArgument(entry.getKey()),
                             generateRecipeChoiceMapping(namespace, entry.getValue())
                         ))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))

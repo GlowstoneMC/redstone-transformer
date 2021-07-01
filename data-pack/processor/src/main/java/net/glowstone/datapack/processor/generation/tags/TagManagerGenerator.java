@@ -1,6 +1,5 @@
 package net.glowstone.datapack.processor.generation.tags;
 
-import com.google.common.collect.Sets;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -13,27 +12,21 @@ import net.glowstone.datapack.AbstractTagManager;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.tag.Tag;
 import net.glowstone.datapack.processor.generation.DataPackItemSourceGenerator;
-import net.glowstone.datapack.processor.generation.MappingArgumentGenerator;
+import net.glowstone.datapack.processor.generation.MappingArgumentGeneratorRegistry;
 import net.glowstone.datapack.tags.mapping.TagMapping;
 import net.glowstone.datapack.utils.NamespaceUtils;
 import net.glowstone.datapack.tags.SubTagTrackingTag;
 import org.bukkit.Keyed;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.EntityType;
 
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TagManagerGenerator implements DataPackItemSourceGenerator {
@@ -131,7 +124,7 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
             "this.addTag($L)",
             tagMapping.providerArguments(registry, namespace, entry.getKey(), entry.getValue())
                 .stream()
-                .map((v) -> MappingArgumentGenerator.mapArgument("this", v))
+                .map((v) -> MappingArgumentGeneratorRegistry.mapArgument("this", v))
                 .collect(CodeBlock.joining(", "))
         );
     }
