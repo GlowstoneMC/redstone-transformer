@@ -13,4 +13,5 @@ public interface StatefulBlockData extends BlockData {
     <T extends Comparable<T>> T getMaxValue(String propName, Class<T> propType);
     boolean hasValue(String propName);
     Map<String, String> getSerializedStateProps();
+    @Override StatefulBlockData clone();
 }

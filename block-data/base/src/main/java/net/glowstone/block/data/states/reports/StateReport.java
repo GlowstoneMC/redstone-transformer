@@ -2,9 +2,11 @@ package net.glowstone.block.data.states.reports;
 
 import java.util.Optional;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 import net.glowstone.block.data.states.values.StateValue;
 
-public abstract class StateReport<T> implements Cloneable {
+public abstract class StateReport<T> {
     private final Class<T> valueType;
     private final T defaultValue;
     private final Set<T> validValues;
@@ -12,7 +14,7 @@ public abstract class StateReport<T> implements Cloneable {
     protected StateReport(Class<T> valueType, T defaultValue, Set<T> validValues) {
         this.valueType = valueType;
         this.defaultValue = defaultValue;
-        this.validValues = validValues;
+        this.validValues = ImmutableSet.copyOf(validValues);
     }
 
     public abstract String stringifyValue(T value);
