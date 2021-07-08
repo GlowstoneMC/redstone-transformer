@@ -14,8 +14,11 @@
     <description>A collection of libraries to generate Bukkit implementations from vanilla server-generated files.</description>
 
     <properties>
-        <minecraft.version>1.15.2</minecraft.version>
+        <minecraft.version>1.16.4</minecraft.version>
         <glowkit.version>-R0.1-SNAPSHOT</glowkit.version>
+        <jackson.version>2.10.1</jackson.version>
+        <java.version>1.8</java.version>
+        <vanilla.package.namespace>net/minecraft/${minecraft.version}</vanilla.package.namespace>
     </properties>
 
     <repositories>
@@ -47,6 +50,74 @@
                 <artifactId>glowkit</artifactId>
                 <version>${minecraft.version}${glowkit.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>28.2-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup</groupId>
+                <artifactId>javapoet</artifactId>
+                <version>1.12.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.8.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.5.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-runner</artifactId>
+                <version>1.5.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>2.23.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.truth</groupId>
+                <artifactId>truth</artifactId>
+                <version>1.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.truth.extensions</groupId>
+                <artifactId>truth-java8-extension</artifactId>
+                <version>1.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>0.9.12</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -58,8 +129,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -91,14 +162,30 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.junit.platform</groupId>
+                            <artifactId>junit-platform-surefire-provider</artifactId>
+                            <version>1.2.0</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <additionalClasspathElements>
+                            <additionalClasspathElement>src/test/java/</additionalClasspathElement>
+                        </additionalClasspathElements>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
     
     <modules>
-        <module>block-data-processor</module>
-        <module>block-data-base</module>
-        <module>block-data-generated</module>
-        <module>block-data-annotations</module>
+        <module>block-data</module>
+        <module>data-pack</module>
+        <module>mojang-vanilla-server-data</module>
     </modules>
 </project>
