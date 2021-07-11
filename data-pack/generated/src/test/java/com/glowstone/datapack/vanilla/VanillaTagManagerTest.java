@@ -1,4 +1,4 @@
-package com.glowstone.datapack.vanilla;
+package net.glowstone.datapack.vanilla;
 
 import net.glowstone.datapack.EmptyTagManager;
 import net.glowstone.datapack.TagManager;

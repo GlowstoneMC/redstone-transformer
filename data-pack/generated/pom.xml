@@ -121,7 +121,7 @@
                             <arguments>
                                 <argument>${vanilla.generated.directory}</argument>
                                 <argument>${datapack.generated.sources.directory}</argument>
-                                <argument>com.glowstone.datapack.vanilla</argument>
+                                <argument>net.glowstone.datapack.vanilla</argument>
                             </arguments>
                         </configuration>
                     </execution>
