@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,8 @@ public class SourceGenerator {
 
     public void generateSources(IngestionResult ingestionResult, BlockReportManager blockReportManager) {
         Set<ManagerBlockDataDetails> managerBlockDataDetails = implementInterfaces(ingestionResult, blockReportManager);
-        implementManager(ingestionResult, managerBlockDataDetails);
+        Set<String> blockManagerClassNames = implementBlockManagers(ingestionResult, managerBlockDataDetails);
+        implementManager(ingestionResult, blockManagerClassNames);
     }
 
     private Set<ManagerBlockDataDetails> implementInterfaces(IngestionResult ingestionResult, BlockReportManager blockReportManager) {
@@ -226,11 +228,8 @@ public class SourceGenerator {
         return managerBlockDataDetails;
     }
 
-    private void implementManager(IngestionResult ingestionResult, Set<ManagerBlockDataDetails> managerBlockDataDetails) {
-        String blockDataImplPackage = ingestionResult.getBlockDataImplPackage();
-        String blockDataManagerPackage = ingestionResult.getBlockDataManagerPackage();
-
-        List<MethodSpec> individualBlockConstructors = new ArrayList<>();
+    private Set<String> implementBlockManagers(IngestionResult ingestionResult, Set<ManagerBlockDataDetails> managerBlockDataDetails) {
+        Map<String, List<MethodSpec>> blockManagersAndConstructors = new HashMap<>();
 
         managerBlockDataDetails.forEach((detail) -> {
             List<CodeBlock> individualBlockDataConstructorBlocks = new ArrayList<>();
@@ -239,7 +238,7 @@ public class SourceGenerator {
                     "BlockDataConstructor.Builder builder= BlockDataConstructor.builder($T.$L, $T::new)",
                     Material.class,
                     detail.getMaterial(),
-                    ClassName.get(blockDataImplPackage, detail.getBlockDataSimpleName())
+                    ClassName.get(ingestionResult.getBlockDataImplPackage(), detail.getBlockDataSimpleName())
                 )
             );
 
@@ -271,14 +270,67 @@ public class SourceGenerator {
                 CodeBlock.of("return builder.build()")
             );
 
-            individualBlockConstructors.add(
-                MethodSpec.methodBuilder(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, detail.getMaterial().toString()))
-                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                    .returns(BlockDataConstructor.class)
-                    .addCode(individualBlockDataConstructorBlocks.stream().collect(CodeBlockStatementCollector.collect()))
-                    .build()
-            );
+            blockManagersAndConstructors
+                .computeIfAbsent(
+                    detail.getBlockDataSimpleName() + "Manager",
+                    (k) -> new ArrayList<>()
+                )
+                .add(
+                    MethodSpec.methodBuilder(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, detail.getMaterial().toString()))
+                        .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
+                        .returns(BlockDataConstructor.class)
+                        .addCode(individualBlockDataConstructorBlocks.stream().collect(CodeBlockStatementCollector.collect()))
+                        .build()
+                );
         });
+
+        ParameterizedTypeName blockDataConstructorsTypeName = ParameterizedTypeName.get(
+            ClassName.get(Set.class),
+            ClassName.get(BlockDataConstructor.class)
+        );
+
+        blockManagersAndConstructors.forEach(
+            (className, individualBlockConstructors) -> {
+                MethodSpec createBlockDataConstructors = MethodSpec.methodBuilder("createBlockDataConstructors")
+                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                    .returns(blockDataConstructorsTypeName)
+                    .addStatement("final $T blockDataConstructors = new $T<>()", blockDataConstructorsTypeName, HashSet.class)
+                    .addCode(
+                        individualBlockConstructors.stream()
+                            .map((method) -> CodeBlock.of("blockDataConstructors.add($N())", method))
+                            .collect(CodeBlockStatementCollector.collect())
+                    )
+                    .addStatement("return $T.unmodifiableSet(blockDataConstructors)", Collections.class)
+                    .build();
+
+                MethodSpec constructor = MethodSpec.constructorBuilder()
+                    .addModifiers(Modifier.PRIVATE)
+                    .build();
+
+                TypeSpec blockDataManagerTypeSpec =  TypeSpec.classBuilder(className)
+                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                    .addMethods(individualBlockConstructors)
+                    .addMethod(createBlockDataConstructors)
+                    .addMethod(constructor)
+                    .build();
+
+                JavaFile blockDataManagerJavaFile = JavaFile.builder(ingestionResult.getBlockDataBlockManagerPackage(), blockDataManagerTypeSpec)
+                    .indent("    ")
+                    .build();
+
+                try {
+                    blockDataManagerJavaFile.writeTo(filer);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            }
+        );
+
+        return blockManagersAndConstructors.keySet();
+    }
+
+    private void implementManager(IngestionResult ingestionResult, Set<String> managerClassNames) {
+        String blockDataManagerPackage = ingestionResult.getBlockDataManagerPackage();
 
         ParameterizedTypeName blockDataConstructorsTypeName = ParameterizedTypeName.get(
             ClassName.get(Set.class),
@@ -290,8 +342,8 @@ public class SourceGenerator {
             .returns(blockDataConstructorsTypeName)
             .addStatement("final $T blockDataConstructors = new $T<>()", blockDataConstructorsTypeName, HashSet.class)
             .addCode(
-                individualBlockConstructors.stream()
-                    .map((method) -> CodeBlock.of("blockDataConstructors.add($N())", method))
+                managerClassNames.stream()
+                    .map((className) -> CodeBlock.of("blockDataConstructors.addAll($T.createBlockDataConstructors())", ClassName.get(ingestionResult.getBlockDataBlockManagerPackage(), className)))
                     .collect(CodeBlockStatementCollector.collect())
             )
             .addStatement("return $T.unmodifiableSet(blockDataConstructors)", Collections.class)
@@ -305,7 +357,6 @@ public class SourceGenerator {
         TypeSpec blockDataManagerTypeSpec =  TypeSpec.classBuilder("BlockDataManager")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(AbstractBlockDataManager.class)
-            .addMethods(individualBlockConstructors)
             .addMethod(createBlockDataConstructors)
             .addMethod(constructor)
             .build();

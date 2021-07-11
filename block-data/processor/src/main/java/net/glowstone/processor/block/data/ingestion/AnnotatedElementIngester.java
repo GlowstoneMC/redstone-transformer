@@ -90,7 +90,8 @@ public class AnnotatedElementIngester {
             Collections.unmodifiableList(propInterfaces),
             Collections.unmodifiableList(propPolyfills),
             processorConfiguration.get().blockDataManagerPackage(),
-            processorConfiguration.get().blockDataImplPackage()
+            processorConfiguration.get().blockDataImplPackage(),
+            processorConfiguration.get().blockDataBlockManagerPackage()
         );
     }
 

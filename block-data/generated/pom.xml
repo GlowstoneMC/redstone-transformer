@@ -33,6 +33,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>block-data-processor</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>mojang-vanilla-server-data</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>

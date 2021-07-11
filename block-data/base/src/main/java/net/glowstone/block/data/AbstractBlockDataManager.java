@@ -69,6 +69,14 @@ public abstract class AbstractBlockDataManager  {
         return blockIdsToBlockData.inverse().get(blockData);
     }
 
+    public StatefulBlockData convertToStatefulBlockData(BlockData blockData) {
+        if (StatefulBlockData.class.isAssignableFrom(blockData.getClass())) {
+            return (StatefulBlockData) blockData;
+        }
+
+        return createBlockData(blockData.getAsString(true));
+    }
+
     public BlockData convertToBlockData(int blockId) {
         return blockIdsToBlockData.get(blockId).clone();
     }
