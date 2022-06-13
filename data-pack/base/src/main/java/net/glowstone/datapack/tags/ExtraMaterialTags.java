@@ -28,7 +28,7 @@ public class ExtraMaterialTags {
         .ensureSize("AIR_VARIANTS", 4);
 
     public static final Tag<Material> BISECTED_BLOCKS = new MaterialSetTag(keyFor("bisected_blocks"))
-        .add(mat -> Bisected.class.isAssignableFrom(mat.getData()));
+        .add(mat -> Bisected.class.isAssignableFrom(mat.data));
 
     public static final Tag<Material> HEADS = new MaterialSetTag(keyFor("heads"))
         .endsWith("_HEAD")
