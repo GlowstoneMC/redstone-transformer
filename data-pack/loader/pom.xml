@@ -28,6 +28,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.glowstone</groupId>
+            <artifactId>mojang-vanilla-server-data</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>

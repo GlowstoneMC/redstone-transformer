@@ -13,10 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DataPackLoaderTest {
     @Test
-    @Disabled
     void loadPacks() throws Exception {
-        // TODO; Must copy vanilla minecraft datapack before running this test.
-
         URL vanillaResource = DataPackLoaderTest.class.getResource("/data-packs/vanilla/pack.mcmeta");
         Path vanillaPath = Paths.get(vanillaResource.toURI()).getParent().getParent();
 

@@ -46,7 +46,7 @@
                                 2. Within the specific version's manifest JSON, copy the URL from downloads.server.url
                                    and use that as the URL below.
                             -->
-                            <url>https://launcher.mojang.com/v1/objects/35139deedbd5182953cf1caa23835da59ca3d7cd/server.jar</url>
+                            <url>https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar</url>
                             <outputDirectory>${project.build.directory}/server</outputDirectory>
                             <outputFileName>minecraft-server-${minecraft.version}.jar</outputFileName>
                         </configuration>
@@ -54,46 +54,42 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>install-file</goal>
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <executable>java</executable>
-                            <workingDirectory>target/server</workingDirectory>
-                            <arguments>
-                                <argument>-cp</argument>
-                                <argument>minecraft-server-${minecraft.version}.jar</argument>
-                                <argument>net.minecraft.data.Main</argument>
-                                <argument>--server</argument>
-                                <argument>--reports</argument>
-                            </arguments>
+                            <file>${project.build.directory}/server/minecraft-server-${minecraft.version}.jar</file>
+                            <groupId>net.minecraft</groupId>
+                            <artifactId>minecraft-server</artifactId>
+                            <version>${minecraft.version}</version>
+                            <packaging>jar</packaging>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
+                        <id>unpack</id>
                         <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
                         <configuration>
-                            <target>
-                                <copy todir="${project.build.directory}/generated-resources/${vanilla.package.namespace}">
-                                    <fileset dir="${project.build.directory}/server/generated">
-                                        <exclude name=".cache/**/*" />
-                                    </fileset>
-                                </copy>
-                            </target>
+                            <artifact>net.minecraft:minecraft-server:${minecraft.version}</artifact>
+                            <outputDirectory>${project.build.directory}/generated-resources/data-packs/vanilla</outputDirectory>
+                            <includes>data/**/*,pack.mcmeta</includes>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
                     </execution>
                 </executions>
