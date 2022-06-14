@@ -23,7 +23,7 @@ public class DataPackProcessorRunner implements Callable<Integer> {
         }
     }
 
-    @Parameters(index = "0", description = "The directory that contains the data packs directories or zip files.")
+    @Parameters(index = "0", description = "The directory that contains the data pack directory or zip file.")
     private Path dataPackPath;
 
     @Parameters(index = "1", description = "The directory to output the class files into.")

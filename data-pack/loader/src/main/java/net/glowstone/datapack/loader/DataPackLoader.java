@@ -121,11 +121,11 @@ public class DataPackLoader {
         }
 
         if (mcMeta == null && !skipMeta) {
-            throw new MalformedDataPackException("Required file 'pack.mcmeta' is missing.");
+            throw new MalformedDataPackException(String.format("Required file 'pack.mcmeta' is missing in %s.", packContents.iterator().next()));
         }
 
         if (namespacedData == null) {
-            throw new MalformedDataPackException("Required directory 'data' is missing.");
+            throw new MalformedDataPackException(String.format("Required directory 'data' is missing in %s.", packContents.iterator().next()));
         }
 
         return new DataPack(mcMeta, namespacedData);

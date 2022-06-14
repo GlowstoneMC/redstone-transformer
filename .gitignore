@@ -12,6 +12,3 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
-
-# Vanilla Data Pack
-data-pack-loader/src/test/resources/data-packs/vanilla/data
