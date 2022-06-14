@@ -131,6 +131,10 @@
                                         <exclude name=".cache/**/*" />
                                     </fileset>
                                 </copy>
+                                <move todir="${project.build.directory}/generated-resources/${vanilla.package.namespace}/data-packs/vanilla/worldgen/biomes">
+                                    <fileset dir="${project.build.directory}/generated-resources/${vanilla.package.namespace}/reports/biomes">
+                                    </fileset>
+                                </move>
                             </target>
                         </configuration>
                     </execution>

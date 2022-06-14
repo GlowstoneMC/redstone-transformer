@@ -32,6 +32,7 @@ import net.glowstone.datapack.loader.model.external.predicate.Predicate;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.loader.model.external.structures.Structure;
 import net.glowstone.datapack.loader.model.external.tag.Tag;
+import net.glowstone.datapack.loader.model.external.worldgen.WorldGen;
 
 public class DataPackLoader {
     private final ObjectMapper objectMapper;
@@ -141,7 +142,8 @@ public class DataPackLoader {
                 loadTags(namespacePath, "items"),
                 loadTags(namespacePath, "entity_types"),
                 loadTags(namespacePath, "fluids"),
-                loadTags(namespacePath, "functions")
+                loadTags(namespacePath, "functions"),
+                loadWorldGen(namespacePath)
             );
 
             return new SimpleImmutableEntry<>(namespaceName, data);
@@ -230,6 +232,10 @@ public class DataPackLoader {
         return structures;
     }
 
+    private WorldGen loadWorldGen(Path namespacePath) throws IOException {
+        return WorldGen.loadWorldGenWithName(namespacePath, this);
+    }
+
     private Map<String, Tag> loadTags(Path namespacePath, String tagGroup) throws IOException {
         Map<String, Tag> tags = new HashMap<>();
 
@@ -241,7 +247,7 @@ public class DataPackLoader {
         return tags;
     }
 
-    private Iterable<Entry<String, Path>> iterateResourceFiles(Path parentDir, String extension) {
+    public Iterable<Entry<String, Path>> iterateResourceFiles(Path parentDir, String extension) {
         if (Files.isDirectory(parentDir)) {
             return () -> {
                 try {
@@ -261,5 +267,9 @@ public class DataPackLoader {
             };
         }
         return Collections.emptyList();
+    }
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 }

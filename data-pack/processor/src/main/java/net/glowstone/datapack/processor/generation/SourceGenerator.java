@@ -4,8 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.DataPack;
+import net.glowstone.datapack.loader.model.external.worldgen.WorldGen;
 import net.glowstone.datapack.processor.generation.recipes.RecipeManagerGenerator;
 import net.glowstone.datapack.processor.generation.tags.TagManagerGenerator;
+import net.glowstone.datapack.processor.generation.worldgen.biomes.BiomeManagerGenerator;
 
 import java.nio.file.Path;
 import java.util.Collections;
@@ -29,7 +31,8 @@ public class SourceGenerator {
                 Collections.emptyMap(),
                 Collections.emptyMap(),
                 Collections.emptyMap(),
-                Collections.emptyMap()
+                Collections.emptyMap(),
+                new WorldGen(Collections.emptyMap())
             )
         )
         .build();
@@ -40,7 +43,8 @@ public class SourceGenerator {
         List<DataPackItemSourceGenerator> generators =
             ImmutableList.of(
                 new TagManagerGenerator(),
-                new RecipeManagerGenerator()
+                new RecipeManagerGenerator(),
+                new BiomeManagerGenerator()
             );
 
         Map<String, Data> mergedData = mergeMaps(
@@ -57,7 +61,8 @@ public class SourceGenerator {
                 mergeMaps(a.getItemTags(), b.getItemTags()),
                 mergeMaps(a.getEntityTypeTags(), b.getEntityTypeTags()),
                 mergeMaps(a.getFluidTags(), b.getFluidTags()),
-                mergeMaps(a.getFunctionTags(), b.getFunctionTags())
+                mergeMaps(a.getFunctionTags(), b.getFunctionTags()),
+                new WorldGen(mergeMaps(a.getWorldGen().getBiomes(), b.getWorldGen().getBiomes()))
             )
         );
 
