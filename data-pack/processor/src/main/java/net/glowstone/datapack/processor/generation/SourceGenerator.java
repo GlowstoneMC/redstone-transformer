@@ -2,10 +2,8 @@ package net.glowstone.datapack.processor.generation;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import net.glowstone.datapack.loader.model.external.Data;
 import net.glowstone.datapack.loader.model.external.DataPack;
-import net.glowstone.datapack.loader.model.external.tag.Tag;
 import net.glowstone.datapack.processor.generation.recipes.RecipeManagerGenerator;
 import net.glowstone.datapack.processor.generation.tags.TagManagerGenerator;
 

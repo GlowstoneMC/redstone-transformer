@@ -45,10 +45,6 @@ public class DataPackLoader {
     }
 
     public Map<String, DataPack> loadPacks(Path dataPacksDirectory) throws IOException {
-        return loadPacks(dataPacksDirectory, false);
-    }
-
-    public Map<String, DataPack> loadPacks(Path dataPacksDirectory, boolean skipMeta) throws IOException {
         FileSystem fs = dataPacksDirectory.getFileSystem();
 
         if (!Files.isDirectory(dataPacksDirectory)) {
@@ -57,7 +53,7 @@ public class DataPackLoader {
 
         try {
             return Files.list(dataPacksDirectory)
-                .map((dataPackPath) -> loadDataPackWithName(dataPackPath, skipMeta))
+                .map(this::loadDataPackWithName)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
@@ -71,16 +67,16 @@ public class DataPackLoader {
         }
     }
 
-    public Optional<DataPack> loadPack(Path dataPackPath, boolean skipMeta) {
-        return loadDataPackWithName(dataPackPath, skipMeta)
+    public Optional<DataPack> loadPack(Path dataPackPath) {
+        return loadDataPackWithName(dataPackPath)
             .map(Entry::getValue);
     }
 
-    private Optional<Entry<String, DataPack>> loadDataPackWithName(Path dataPackPath, boolean skipMeta) {
+    private Optional<Entry<String, DataPack>> loadDataPackWithName(Path dataPackPath) {
         try {
             if (Files.isDirectory(dataPackPath)) {
                 String dataPackName = dataPackPath.getFileName().toString();
-                DataPack dataPack = loadDataPackResources(Files.list(dataPackPath).collect(Collectors.toList()), skipMeta);
+                DataPack dataPack = loadDataPackResources(Files.list(dataPackPath).collect(Collectors.toList()));
                 return Optional.of(new SimpleImmutableEntry<>(dataPackName, dataPack));
             }
 
@@ -88,7 +84,7 @@ public class DataPackLoader {
                 String dataPackName = dataPackPath.getFileName().toString();
                 dataPackName = dataPackName.substring(0, dataPackName.length() - 4);
                 FileSystem zipFs = FileSystems.newFileSystem(dataPackPath, getClass().getClassLoader());
-                DataPack dataPack = loadDataPackResources(zipFs.getRootDirectories(), skipMeta);
+                DataPack dataPack = loadDataPackResources(zipFs.getRootDirectories());
                 return Optional.of(new SimpleImmutableEntry<>(dataPackName, dataPack));
             }
 
@@ -98,7 +94,7 @@ public class DataPackLoader {
         }
     }
 
-    private DataPack loadDataPackResources(Iterable<Path> packContents, boolean skipMeta) throws IOException {
+    private DataPack loadDataPackResources(Iterable<Path> packContents) throws IOException {
         McMeta mcMeta = null;
         Map<String, Data> namespacedData = null;
 
@@ -120,12 +116,12 @@ public class DataPackLoader {
             }
         }
 
-        if (mcMeta == null && !skipMeta) {
-            throw new MalformedDataPackException(String.format("Required file 'pack.mcmeta' is missing in %s.", packContents.iterator().next()));
+        if (mcMeta == null) {
+            throw new MalformedDataPackException(String.format("Required file 'pack.mcmeta' is missing in %s.", packContents.iterator().next().getParent()));
         }
 
         if (namespacedData == null) {
-            throw new MalformedDataPackException(String.format("Required directory 'data' is missing in %s.", packContents.iterator().next()));
+            throw new MalformedDataPackException(String.format("Required directory 'data' is missing in %s.", packContents.iterator().next().getParent()));
         }
 
         return new DataPack(mcMeta, namespacedData);

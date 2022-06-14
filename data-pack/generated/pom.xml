@@ -16,7 +16,7 @@
 
     <properties>
         <vanilla.unpack.directory>${project.build.directory}/mojang-vanilla-server-data</vanilla.unpack.directory>
-        <vanilla.generated.directory>${vanilla.unpack.directory}/${vanilla.package.namespace}/data-packs/vanilla</vanilla.generated.directory>
+        <vanilla.generated.directory>${vanilla.unpack.directory}/${vanilla.package.namespace}/data-packs</vanilla.generated.directory>
         <datapack.generated.sources.directory>${project.build.directory}/generated-sources/datapack</datapack.generated.sources.directory>
     </properties>
 
@@ -136,7 +136,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
-                        <vanilla.generated.directory>${vanilla.generated.directory}</vanilla.generated.directory>
+                        <vanilla.generated.directory>${vanilla.generated.directory}/vanilla</vanilla.generated.directory>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

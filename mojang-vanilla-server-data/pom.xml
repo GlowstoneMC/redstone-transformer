@@ -88,7 +88,6 @@
                             <artifact>net.minecraft:minecraft-server:${minecraft.version}</artifact>
                             <outputDirectory>${project.build.directory}/generated-resources/${vanilla.package.namespace}/data-packs/vanilla</outputDirectory>
                             <includes>data/**/*,pack.mcmeta</includes>
-                            <overWrite>true</overWrite>
                         </configuration>
                     </execution>
                 </executions>

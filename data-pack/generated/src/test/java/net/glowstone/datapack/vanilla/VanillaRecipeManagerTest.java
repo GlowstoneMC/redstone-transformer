@@ -71,7 +71,7 @@ public class VanillaRecipeManagerTest {
         Path dataPackPath = Paths.get(System.getProperty("vanilla.generated.directory"));
 
         DataPackLoader dataPackLoader = new DataPackLoader();
-        Optional<DataPack> dataPack = dataPackLoader.loadPack(dataPackPath, true);
+        Optional<DataPack> dataPack = dataPackLoader.loadPack(dataPackPath);
 
         assertThat(dataPack).isPresent();
 

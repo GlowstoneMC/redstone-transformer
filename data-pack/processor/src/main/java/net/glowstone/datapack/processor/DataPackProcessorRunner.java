@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
-@Command(name = "DataPackProcessor", description = "Generates Bukkit classes from a data pack.", mixinStandardHelpOptions = true)
+@Command(name = "DataPackProcessor", description = "Generates Bukkit classes from data packs.", mixinStandardHelpOptions = true)
 public class DataPackProcessorRunner implements Callable<Integer> {
     public static void main(String[] args) {
         int exitCode = new CommandLine(new DataPackProcessorRunner()).execute(args);
@@ -23,7 +23,7 @@ public class DataPackProcessorRunner implements Callable<Integer> {
         }
     }
 
-    @Parameters(index = "0", description = "The directory that contains the data pack directory or zip file.")
+    @Parameters(index = "0", description = "The directory that contains the data packs' directories/zip files.")
     private Path dataPackPath;
 
     @Parameters(index = "1", description = "The directory to output the class files into.")
@@ -36,14 +36,14 @@ public class DataPackProcessorRunner implements Callable<Integer> {
     public Integer call() throws IOException {
         DataPackLoader loader = new DataPackLoader();
 
-        Optional<DataPack> dataPack = loader.loadPack(dataPackPath, true);
+        Map<String, DataPack> dataPacks = loader.loadPacks(dataPackPath);
 
-        if (!dataPack.isPresent()) {
-            throw new IllegalArgumentException("Could not load data pack.");
+        if (dataPacks.size() != 1) {
+            throw new IllegalArgumentException("Expected 1 data pack.");
         }
 
         SourceGenerator sourceGenerator = new SourceGenerator();
-        sourceGenerator.generateSources(generatedClassPath, generatedClassNamespace, dataPack.get());
+        dataPacks.forEach((key, pack) -> sourceGenerator.generateSources(generatedClassPath, generatedClassNamespace, pack));
 
         return 0;
     }

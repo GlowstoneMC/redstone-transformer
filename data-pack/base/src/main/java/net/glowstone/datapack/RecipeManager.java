@@ -46,7 +46,7 @@ public interface RecipeManager {
     /**
      * Loads all recipes from the given data pack.
      * @param dataPack The data pack object, successfully loaded using
-     * {@link net.glowstone.datapack.loader.DataPackLoader#loadPack(Path, boolean)}.
+     * {@link net.glowstone.datapack.loader.DataPackLoader#loadPack(Path)}.
      */
     void loadFromDataPack(DataPack dataPack);
 

@@ -16,16 +16,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class DataPackLoaderTest {
     @Test
     void loadPacks() throws Exception {
-        URL vanillaResource = getClass().getResource(String.format("/%s/data-packs/vanilla/pack.mcmeta", System.getProperty("vanilla.package.namespace")));
-        URI uri = vanillaResource.toURI();
+        URL dataPacksURL = getClass().getResource(String.format("/%s/data-packs", System.getProperty("vanilla.package.namespace")));
+        URI dataPacksURI = dataPacksURL.toURI();
         // Create filesystem
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
-        FileSystems.newFileSystem(uri, env);
+        try {
+            FileSystems.newFileSystem(dataPacksURI, env);
+        } catch (Exception ignored) {
+        }
         // Query filesystem
-        Path vanillaPath = Paths.get(vanillaResource.toURI()).getParent().getParent();
+        Path dataPacksPath = Paths.get(dataPacksURI);
 
-        Map<String, DataPack> dataPacks = new DataPackLoader().loadPacks(vanillaPath);
+        Map<String, DataPack> dataPacks = new DataPackLoader().loadPacks(dataPacksPath);
 
         assertEquals(1, dataPacks.size());
     }
