@@ -13,6 +13,7 @@ import org.bukkit.block.Biome;
 
 import javax.lang.model.element.Modifier;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 public class BiomeManagerGenerator implements DataPackItemSourceGenerator {
@@ -33,21 +34,17 @@ public class BiomeManagerGenerator implements DataPackItemSourceGenerator {
                 .methodBuilder("addDefaults")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PROTECTED)
-                .addCode()
                 .build();
     }
 
     private List<AbstractMappingArgument> getBiomeArguments(Biome biome, int id, BiomeDef biomeDef) {
-        ImmutableList.of(
-
-        )
+        return Collections.emptyList();
     }
 
     private CodeBlock createBiomeBlock(Biome biome, int id, BiomeDef biomeDef) {
         return CodeBlock.of(
                 "this.addBiome($L)",
                 new EnumMappingArgument(biome),
-                new IntegerMappingArgument(id),
-                new );
+                new IntegerMappingArgument(id));
     }
 }

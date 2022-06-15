@@ -43,8 +43,8 @@ public class SourceGenerator {
         List<DataPackItemSourceGenerator> generators =
             ImmutableList.of(
                 new TagManagerGenerator(),
-                new RecipeManagerGenerator(),
-                new BiomeManagerGenerator()
+                new RecipeManagerGenerator()
+                //new BiomeManagerGenerator()
             );
 
         Map<String, Data> mergedData = mergeMaps(
