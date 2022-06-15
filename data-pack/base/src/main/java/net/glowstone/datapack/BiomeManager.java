@@ -1,5 +1,6 @@
 package net.glowstone.datapack;
 
+import net.glowstone.datapack.loader.model.external.worldgen.biome.BiomeDef;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
 
@@ -8,15 +9,5 @@ public interface BiomeManager {
 
     Biome getBiome(int id);
 
-    boolean addBiome(NamespacedKey biome, int id);
-
-    boolean removeBiome(NamespacedKey biome);
-
-    boolean removeBiome(int id);
-
-    void reset();
-
-    void clear();
-
-
+    BiomeDef getBiomeDef(Biome biome);
 }

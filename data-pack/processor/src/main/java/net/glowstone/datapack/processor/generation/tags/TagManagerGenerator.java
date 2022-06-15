@@ -30,19 +30,6 @@ import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 public class TagManagerGenerator implements DataPackItemSourceGenerator {
-    private static final ParameterizedTypeName NAMESPACED_KEYED_SET_MAP = createNamespacedSetMap(WildcardTypeName.subtypeOf(Keyed.class));
-
-    private static ParameterizedTypeName createNamespacedSetMap(TypeName valueType) {
-        return ParameterizedTypeName.get(
-            ClassName.get(Map.class),
-            ClassName.get(NamespacedKey.class),
-            ParameterizedTypeName.get(
-                ClassName.get(SubTagTrackingTag.class),
-                valueType
-            )
-        );
-    }
-
     private final CodeBlock.Builder tagCodeBlocks = CodeBlock.builder();
 
     @Override
@@ -57,11 +44,6 @@ public class TagManagerGenerator implements DataPackItemSourceGenerator {
 
     @Override
     public void generateManager(Path generatedClassPath, String generatedClassNamespace) {
-        ParameterizedTypeName returnType = ParameterizedTypeName.get(
-            ClassName.get(Map.class),
-            ClassName.get(String.class),
-            NAMESPACED_KEYED_SET_MAP
-        );
         MethodSpec defaultTags = MethodSpec
             .methodBuilder("addDefaultTagValues")
             .addAnnotation(Override.class)

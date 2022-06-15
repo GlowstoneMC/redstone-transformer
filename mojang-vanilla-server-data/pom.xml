@@ -51,6 +51,17 @@
                             <outputFileName>minecraft-server-${minecraft.version}.jar</outputFileName>
                         </configuration>
                     </execution>
+                    <execution>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <url>https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/pc/${minecraft.version}/biomes.json</url>
+                            <outputDirectory>${project.build.directory}/generated-resources/${vanilla.package.namespace}/reports</outputDirectory>
+                            <outputFileName>biomes.json</outputFileName>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

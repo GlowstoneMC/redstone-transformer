@@ -1,20 +1,22 @@
 package net.glowstone.datapack;
 
 import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+import com.google.common.collect.EnumHashBiMap;
 import net.glowstone.datapack.loader.model.external.worldgen.biome.BiomeDef;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
 
-public class AbstractBiomeManager implements BiomeManager {
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class AbstractBiomeManager implements BiomeManager {
 
     private final BiMap<Biome, Integer> biomeBiMap;
-    private final BiMap<Biome, Class<? extends BiomeDef>> biomeDataBiMap;
+    private final Map<Biome, BiomeDef> biomeDefMap;
 
     public AbstractBiomeManager() {
-        this.biomeBiMap = HashBiMap.create();
-        this.biomeDataBiMap = HashBiMap.create();
-        loadDefaul
+        this.biomeBiMap = EnumHashBiMap.create(Biome.class);
+        this.biomeDefMap = new HashMap<>();
+        addDefaults();
     }
 
     @Override
@@ -28,37 +30,14 @@ public class AbstractBiomeManager implements BiomeManager {
     }
 
     @Override
-    public boolean addBiome(NamespacedKey biome, int id) {
-        return false;
+    public BiomeDef getBiomeDef(Biome biome) {
+        return biomeDefMap.get(biome);
     }
 
-    @Override
-    public boolean removeBiome(NamespacedKey biome) {
-        return false;
+    protected void addBiome(Biome biome, int id, BiomeDef biomeDef) {
+        biomeBiMap.put(biome, id);
+        biomeDefMap.put(biome, biomeDef);
     }
 
-    @Override
-    public boolean removeBiome(int id) {
-        return false;
-    }
-
-    protected abstract List<> defaultBiomeDefs();
-
-    @Override
-    public void reset() {
-
-    }
-
-    @Override
-    public void clear() {
-
-    }
-
-    private void loadDefaultRecipes() {
-        defaultBiomeDefs()
-                .forEach((provider) -> {
-                    this.recipesByKey.put(provider.getKey(), provider);
-                    this.recipesByInputType.put(provider.getFactory().getInputClass(), provider);
-                });
-    }
+    protected abstract void addDefaults();
 }
