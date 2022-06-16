@@ -1,14 +1,18 @@
 package net.glowstone.block.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
@@ -93,13 +97,20 @@ public class BlockDataConstructor {
         defaultValues.retainAll(defaultProps.entrySet());
         nonDefaultValues.removeAll(defaultProps.entrySet());
 
-        return Collections2.permutations(defaultValues).stream()
-            .map((permutatedProps) -> {
-                return Streams.concat(permutatedProps.stream(), nonDefaultValues.stream())
-                    .collect(ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue));
-            })
-            .distinct()
-            .collect(ImmutableMap.toImmutableMap(Function.identity(), (e) -> instance));
+        Collection<List<Entry<String, String>>> permutations = new ArrayList<>(Collections2.permutations(defaultValues));
+
+        // If we are the default, then also add the unspecified, empty case
+        if (nonDefaultValues.isEmpty()) {
+            permutations.add(Collections.emptyList());
+        }
+
+        return permutations.stream()
+                           .map((permutatedProps) -> {
+                               return Streams.concat(permutatedProps.stream(), nonDefaultValues.stream())
+                                             .collect(ImmutableMap.toImmutableMap(Entry::getKey, Entry::getValue));
+                           })
+                           .distinct()
+                           .collect(ImmutableMap.toImmutableMap(Function.identity(), (e) -> instance));
     }
 
     public static Builder builder(Material material, ConstructorFunction blockDataConstructor) {
