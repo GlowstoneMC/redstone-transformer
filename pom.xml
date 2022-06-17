@@ -16,7 +16,7 @@
     <properties>
         <minecraft.version>1.19</minecraft.version>
         <glowkit.version>-R0.1-SNAPSHOT</glowkit.version>
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
         <java.version>17</java.version>
         <vanilla.package.namespace>net/minecraft/${minecraft.version}</vanilla.package.namespace>
     </properties>
