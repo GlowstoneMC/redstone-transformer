@@ -16,7 +16,7 @@
     <properties>
         <minecraft.version>1.19</minecraft.version>
         <glowkit.version>-R0.1-SNAPSHOT</glowkit.version>
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.13.3</jackson.version>
         <java.version>17</java.version>
         <vanilla.package.namespace>net/minecraft/${minecraft.version}</vanilla.package.namespace>
     </properties>
@@ -63,7 +63,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>28.2-jre</version>
+                <version>31.0.1-jre</version>
             </dependency>
             <dependency>
                 <groupId>com.squareup</groupId>
@@ -85,19 +85,19 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.5.2</version>
+                <version>5.7.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-runner</artifactId>
-                <version>1.5.2</version>
+                <version>1.7.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>2.23.0</version>
+                <version>3.3.3</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -149,7 +149,7 @@
                                 <goal>jar</goal>
                             </goals>
                             <configuration>
-                                <source>8</source>
+                                <source>${java.version}</source>
                             </configuration>
                         </execution>
                     </executions>
