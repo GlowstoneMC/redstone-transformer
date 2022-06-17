@@ -5,6 +5,7 @@ import net.glowstone.block.data.states.reports.BisectedHalfStateReport;
 import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
 import net.glowstone.processor.block.data.annotations.PropertyAssociation;
 import org.bukkit.block.data.Bisected;
+import org.jetbrains.annotations.NotNull;
 
 @AssociatedWithProps(
     props = {
@@ -27,7 +28,7 @@ public interface GlowBisected extends StatefulBlockData, Bisected {
     }
 
     @Override
-    default void setHalf(Bisected.Half half) {
+    default void setHalf(@NotNull Half half) {
         setValue(Constants.PROP_NAME, Constants.STATE_TYPE, half);
     }
 }

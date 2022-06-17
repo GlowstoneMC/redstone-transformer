@@ -6,7 +6,7 @@
 
     <groupId>net.glowstone</groupId>
     <artifactId>redstone-transformer</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Redstone Transformer - Parent POM</name>
@@ -14,10 +14,10 @@
     <description>A collection of libraries to generate Bukkit implementations from vanilla server-generated files.</description>
 
     <properties>
-        <minecraft.version>1.16.5</minecraft.version>
+        <minecraft.version>1.19</minecraft.version>
         <glowkit.version>-R0.1-SNAPSHOT</glowkit.version>
         <jackson.version>2.10.1</jackson.version>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <vanilla.package.namespace>net/minecraft/${minecraft.version}</vanilla.package.namespace>
     </properties>
 
