@@ -24,11 +24,11 @@ public interface GlowBigDripleaf extends StatefulBlockData, BigDripleaf {
 
     @Override
     default BigDripleaf.Tilt getTilt() {
-        return getValue(GlowBigDripleaf.Constants.PROP_NAME, GlowBigDripleaf.Constants.STATE_TYPE);
+        return getValue(Constants.PROP_NAME, Constants.STATE_TYPE);
     }
 
     @Override
     default void setTilt(@NotNull Tilt tilt) {
-        setValue(GlowBigDripleaf.Constants.PROP_NAME, GlowBigDripleaf.Constants.STATE_TYPE, tilt);
+        setValue(Constants.PROP_NAME, Constants.STATE_TYPE, tilt);
     }
 }

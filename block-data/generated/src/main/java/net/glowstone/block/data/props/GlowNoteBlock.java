@@ -2,7 +2,6 @@ package net.glowstone.block.data.props;
 
 import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.InstrumentStateReport;
-import net.glowstone.block.data.states.reports.IntegerStateReport;
 import net.glowstone.block.data.states.reports.NoteStateReport;
 import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
 import net.glowstone.processor.block.data.annotations.PropertyAssociation;

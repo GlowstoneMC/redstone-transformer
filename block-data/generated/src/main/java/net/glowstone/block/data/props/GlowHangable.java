@@ -4,19 +4,20 @@ import net.glowstone.block.data.states.StatefulBlockData;
 import net.glowstone.block.data.states.reports.BooleanStateReport;
 import net.glowstone.processor.block.data.annotations.AssociatedWithProps;
 import net.glowstone.processor.block.data.annotations.PropertyAssociation;
+import org.bukkit.block.data.Hangable;
 import org.bukkit.block.data.type.Campfire;
 import org.bukkit.block.data.type.Lantern;
 
 @AssociatedWithProps(
     props = {
         @PropertyAssociation(
-            propName = GlowLantern.Constants.PROP_NAME,
+            propName = GlowHangable.Constants.PROP_NAME,
             reportType = BooleanStateReport.class
         )
     },
-    interfaceClass = Lantern.class
+    interfaceClass = Hangable.class
 )
-public interface GlowLantern extends StatefulBlockData, Lantern {
+public interface GlowHangable extends StatefulBlockData, Hangable {
     class Constants {
         public static final String PROP_NAME = "hanging";
         public static final Class<Boolean> STATE_TYPE = Boolean.class;

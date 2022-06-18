@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -17,11 +18,13 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +36,8 @@ import java.util.stream.Stream;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.type.TypeMirror;
+
 import net.glowstone.block.data.AbstractBlockDataManager;
 import net.glowstone.block.data.BlockDataConstructor;
 import net.glowstone.block.data.states.AbstractStatefulBlockData;
@@ -48,6 +53,14 @@ import org.bukkit.block.data.BlockData;
 
 public class SourceGenerator {
     private final Filer filer;
+    /**
+     * We do validation for Materials which do not match their props.
+     * Sometimes, the API itself is wrong, so we add them here after we report to API, until the API gets fixed.
+     */
+    private static final Set<Material> KNOWN_UNMATCHED_MATERIALS = EnumSet.of(
+                    Material.BARREL,
+                    Material.SCULK_VEIN
+    );
 
     public SourceGenerator(ProcessingEnvironment processingEnv) {
         this.filer = processingEnv.getFiler();
@@ -72,6 +85,9 @@ public class SourceGenerator {
             });
         });
 
+        Map<String, Collection<String>> unmappedProps = new HashMap<>();
+        List<String> unmatchedPropsMessages = new ArrayList<>();
+
         blockReportManager.getBlockNameToProps().forEach((blockName, blockProps) -> {
             int defaultStateId = blockProps.getDefaultState();
             BlockReportManager.InternalBlockState defaultState = blockReportManager.getBlockIdToBlockState().get(defaultStateId);
@@ -80,7 +96,8 @@ public class SourceGenerator {
                 .collect(Collectors.toMap(Map.Entry::getKey, (e) -> e.getValue().getProperties()));
 
             Set<String> propNames = new HashSet<>(blockProps.getValidProps().keySet());
-            List<PropInterfaceData> propInterfaces = new ArrayList<>();
+            Set<String> propsWithCandidates = new HashSet<>();
+            List<PropInterfaceData> candidatePropInterfaces = new ArrayList<>();
 
             allPropInterfaces.forEach((propInterface) -> {
                 Map<Boolean, Set<String>> propNamesByRequired = propInterface.getPropReportMappings().stream()
@@ -101,29 +118,73 @@ public class SourceGenerator {
                             }
                         });
                     if (valid) {
-                        propNames.removeAll(allPropNames);
-                        propInterfaces.add(propInterface);
+                        //propNames.removeAll(allPropNames);
+                        propsWithCandidates.addAll(allPropNames);
+                        candidatePropInterfaces.add(propInterface);
                     }
                 }
             });
 
+            propNames.removeAll(propsWithCandidates);
+
             if (!propNames.isEmpty()) {
-                throw new IllegalStateException("Unmapped properties found for " + blockName + ": " + String.join(", ", propNames));
+                unmappedProps.put(blockName, propNames);
+                return;
             }
 
             Material material = Material.matchMaterial(blockName);
 
+            // Some Materials use a composing interface, which provides no data of their own,
+            // but combine other data together for that material, since a material can only be associated
+            // with a single data class
+            TypeName composingType = null;
+
             String blockDataClassName;
             if (BlockData.class.isAssignableFrom(material.data)) {
                 blockDataClassName = "Glow" + material.data.getSimpleName() + "BlockData";
+                boolean isMatching = true;
+                boolean hasBaseInterface = false;
+                Set<Class<?>> materialInterfaces = candidatePropInterfaces.stream().map(PropInterfaceData::getInterfaceClass).collect(Collectors.toSet());
+                for (PropInterfaceData propInterfaceData : candidatePropInterfaces) {
+                    Class<?> interfaceClass = propInterfaceData.getInterfaceClass();
+                    if (material.data.equals(interfaceClass)) {
+                        hasBaseInterface = true;
+                    }
+                    if (interfaceClass.isAssignableFrom(material.data)) {
+                        materialInterfaces.remove(interfaceClass);
+                    } else {
+                        isMatching = false;
+                    }
+                }
+
+                if (!hasBaseInterface) {
+                    composingType = ClassName.get(material.data);
+                }
+
+                if (!isMatching && !KNOWN_UNMATCHED_MATERIALS.contains(material)) {
+                    unmatchedPropsMessages.add(
+                            blockName + ": \nMaterial Interface: "
+                            + material.data.getSimpleName()
+                            + "\nNon-matching prop interfaces: "
+                            + materialInterfaces.stream()
+                                            .map(Class::getSimpleName)
+                                            .sorted()
+                                            .collect(Collectors.joining(", "))
+                    );
+                    return;
+                }
             } else {
-                List<String> interfaceNames = propInterfaces.stream()
+                List<String> interfaceNames = candidatePropInterfaces.stream()
                     .map((data) -> data.getInterfaceClass().getSimpleName())
                     .sorted()
                     .collect(Collectors.toList());
 
                 if (interfaceNames.isEmpty()) {
                     interfaceNames.add("Stateless");
+                } else {
+                    // We don't know if this is a valid case yet. Doesn't happen so far.
+                    // If this ever throws, investigate if it's a valid case, and then see how to handle it.
+                    throw new IllegalStateException("MaterialData for " + blockName +": " + String.join(", ", interfaceNames));
                 }
 
                 blockDataClassName = interfaceNames.stream()
@@ -131,7 +192,7 @@ public class SourceGenerator {
             }
 
             if (!createdBlockDataClasses.contains(blockDataClassName)) {
-                List<TypeName> extendedInterfaces = propInterfaces.stream()
+                List<TypeName> extendedInterfaces = candidatePropInterfaces.stream()
                     .flatMap((propInterfaceData) -> {
                         if (polyfillData.containsKey(propInterfaceData.getInterfaceClass())) {
                             Collection<PropPolyfillData> polyfills = polyfillData.get(propInterfaceData.getInterfaceClass());
@@ -151,6 +212,9 @@ public class SourceGenerator {
                     .sorted(Comparator.comparing(TypeName::toString))
                     .distinct()
                     .collect(Collectors.toCollection(ArrayList::new));
+                if (composingType != null) {
+                    extendedInterfaces.add(composingType);
+                }
 
                 ClassName generatedClassName = ClassName.get(blockDataImplPackage, blockDataClassName);
                 ParameterizedTypeName mapStringStateValueTypeName = ParameterizedTypeName.get(
@@ -209,7 +273,7 @@ public class SourceGenerator {
                 material,
                 blockDataClassName,
                 blockIds,
-                propInterfaces.stream()
+                candidatePropInterfaces.stream()
                     .flatMap((propInterface) -> propInterface.getPropReportMappings().stream()
                         .filter((mapping) -> blockProps.getValidProps().containsKey(mapping.getPropName()))
                         .map((mapping) ->
@@ -224,6 +288,30 @@ public class SourceGenerator {
                     .collect(Collectors.toSet())
             ));
         });
+
+        StringBuilder propErrors = new StringBuilder();
+
+        if (!unmappedProps.isEmpty()) {
+            propErrors.append("\nUnmapped properties found for:\n");
+            for (Map.Entry<String, Collection<String>> blockProps : unmappedProps.entrySet()) {
+                String blockName = blockProps.getKey();
+                Collection<String> propNames = blockProps.getValue();
+                propErrors
+                        .append("\t")
+                        .append(blockName)
+                        .append(": ")
+                        .append(String.join(", ", propNames))
+                        .append("\n");
+            }
+        }
+        if (!unmatchedPropsMessages.isEmpty()) {
+            propErrors.append("Material data class does not match prop interfaces for:\n\n")
+                      .append(String.join("\n\n", unmatchedPropsMessages));
+        }
+
+        if (propErrors.length() > 0) {
+            throw new IllegalStateException(propErrors.toString());
+        }
 
         return managerBlockDataDetails;
     }
