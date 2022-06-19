@@ -12,6 +12,14 @@ import com.google.common.base.Preconditions;
 import java.util.Optional;
 
 public class Item {
+
+    public static String getItem(JsonNode itemNode) throws JsonMappingException {
+        if (itemNode.isTextual()) {
+            return itemNode.textValue();
+        } else {
+            throw new JsonMappingException(null, "Cannot create Item, 'item' property is not textual.");
+        }
+    }
     @JsonCreator
     public static Item fromJson(JsonNode rootNode) throws JsonMappingException {
         if (rootNode.isTextual()) {
@@ -22,17 +30,14 @@ public class Item {
             Optional<String> item = Optional.empty();
             Optional<String> tag = Optional.empty();
 
-            if (objectNode.has("items")) {
+            if (objectNode.has("item")) {
+                item = Optional.of(getItem(objectNode.get("item")));
+            } else if (objectNode.has("items")) {
                 JsonNode itemsNode = objectNode.get("items");
                 if (itemsNode.isArray()) {
                     ArrayNode arrayNode = objectNode.withArray("items");
                     if (arrayNode.size() == 1) {
-                        JsonNode itemNode = arrayNode.get(0);
-                        if (itemNode.isTextual()) {
-                            item = Optional.of(itemNode.textValue());
-                        } else {
-                            throw new JsonMappingException(null, "Cannot create Item, 'item' property is not textual.");
-                        }
+                        item = Optional.of(getItem(objectNode.get("item")));
                     } else {
                         throw new JsonMappingException(null, "Cannot create Item, 'items' property does not have single item.");
                     }
@@ -62,8 +67,6 @@ public class Item {
     public Item(
         Optional<String> item,
         Optional<String> tag) {
-        System.out.println(item);
-        System.out.println(tag);
         Preconditions.checkArgument(
             (item.isPresent() && !tag.isPresent()) || (!item.isPresent() && tag.isPresent()),
             "Either item or tag must be specified, but not both."

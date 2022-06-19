@@ -116,12 +116,14 @@ public class DataPackLoader {
             }
         }
 
-        if (mcMeta == null) {
-            throw new MalformedDataPackException(String.format("Required file 'pack.mcmeta' is missing in %s.", packContents.iterator().next().getParent()));
+        Path dataPackFolder = packContents.iterator().next().getParent();
+        // TODO: bleh, since 20w45a, there is no more pack.mcmeta D:
+        if (mcMeta == null && !dataPackFolder.getFileName().toString().equals("vanilla")) {
+            throw new MalformedDataPackException(String.format("Required file 'pack.mcmeta' is missing in %s.", dataPackFolder));
         }
 
         if (namespacedData == null) {
-            throw new MalformedDataPackException(String.format("Required directory 'data' is missing in %s.", packContents.iterator().next().getParent()));
+            throw new MalformedDataPackException(String.format("Required directory 'data' is missing in %s.", dataPackFolder));
         }
 
         return new DataPack(mcMeta, namespacedData);
@@ -131,9 +133,9 @@ public class DataPackLoader {
         try {
             String namespaceName = namespacePath.getFileName().toString();
             Data data = new Data(
-                loadAdvancements(namespacePath),
+                Collections.emptyMap()/*loadAdvancements(namespacePath)*/,
                 loadFunctions(namespacePath),
-                loadLootTables(namespacePath),
+                Collections.emptyMap()/*loadLootTables(namespacePath)*/,
                 loadPredicates(namespacePath),
                 loadRecipes(namespacePath),
                 loadStructures(namespacePath),
