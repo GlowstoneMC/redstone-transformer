@@ -47,4 +47,14 @@ public interface GlowLeaves extends StatefulBlockData, Leaves {
     default void setDistance(int distance) {
         setValue(Constants.DISTANCE_PROP_NAME, Constants.DISTANCE_STATE_TYPE, distance);
     }
+
+    @Override
+    default int getMaximumDistance() {
+        return getMaxValue(Constants.DISTANCE_PROP_NAME, Constants.DISTANCE_STATE_TYPE);
+    }
+
+    @Override
+    default int getMinimumDistance() {
+        return getMinValue(Constants.DISTANCE_PROP_NAME, Constants.DISTANCE_STATE_TYPE);
+    }
 }

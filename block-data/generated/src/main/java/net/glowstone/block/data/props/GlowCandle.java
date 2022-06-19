@@ -33,11 +33,11 @@ public interface GlowCandle extends StatefulBlockData, Candle {
 
     @Override
     default int getMinimumCandles() {
-        return getMinValue(GlowSeaPickle.Constants.PROP_NAME, GlowSeaPickle.Constants.STATE_TYPE);
+        return getMinValue(Constants.PROP_NAME, Constants.STATE_TYPE);
     }
 
     @Override
     default int getMaximumCandles() {
-        return getMaxValue(GlowSeaPickle.Constants.PROP_NAME, GlowSeaPickle.Constants.STATE_TYPE);
+        return getMaxValue(Constants.PROP_NAME, Constants.STATE_TYPE);
     }
 }

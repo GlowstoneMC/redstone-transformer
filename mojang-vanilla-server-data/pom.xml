@@ -54,6 +54,28 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>target/server</workingDirectory>
+                            <arguments>
+                                <argument>-DbundlerMainClass=net.minecraft.data.Main</argument>
+                                <argument>-jar</argument>
+                                <argument>minecraft-server-${minecraft.version}.jar</argument>
+                                <argument>--reports</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>3.0.0-M1</version>
@@ -64,7 +86,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <file>${project.build.directory}/server/minecraft-server-${minecraft.version}.jar</file>
+                            <file>${project.build.directory}/server/versions/${minecraft.version}/server-${minecraft.version}.jar</file>
                             <groupId>net.minecraft</groupId>
                             <artifactId>minecraft-server</artifactId>
                             <version>${minecraft.version}</version>
@@ -88,28 +110,6 @@
                             <artifact>net.minecraft:minecraft-server:${minecraft.version}</artifact>
                             <outputDirectory>${project.build.directory}/generated-resources/${vanilla.package.namespace}/data-packs/vanilla</outputDirectory>
                             <includes>data/**/*,pack.mcmeta</includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <executable>java</executable>
-                            <workingDirectory>target/server</workingDirectory>
-                            <arguments>
-                                <argument>-DbundlerMainClass=net.minecraft.data.Main</argument>
-                                <argument>-jar</argument>
-                                <argument>minecraft-server-${minecraft.version}.jar</argument>
-                                <argument>--reports</argument>
-                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

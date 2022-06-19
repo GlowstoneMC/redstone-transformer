@@ -33,6 +33,6 @@ public interface GlowAnaloguePowerable extends StatefulBlockData, AnaloguePowera
 
     @Override
     default int getMaximumPower() {
-        return getMaxValue(GlowAgeable.Constants.PROP_NAME, GlowAgeable.Constants.STATE_TYPE);
+        return getMaxValue(Constants.PROP_NAME, Constants.STATE_TYPE);
     }
 }

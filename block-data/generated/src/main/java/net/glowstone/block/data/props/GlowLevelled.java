@@ -32,7 +32,12 @@ public interface GlowLevelled extends StatefulBlockData, Levelled {
     }
 
     @Override
+    default int getMinimumLevel() {
+        return getMinValue(Constants.PROP_NAME, Constants.STATE_TYPE);
+    }
+
+    @Override
     default int getMaximumLevel() {
-        return getMaxValue(GlowAgeable.Constants.PROP_NAME, GlowAgeable.Constants.STATE_TYPE);
+        return getMaxValue(Constants.PROP_NAME, Constants.STATE_TYPE);
     }
 }

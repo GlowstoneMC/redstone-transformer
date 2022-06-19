@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
@@ -21,12 +22,22 @@ public class Item {
             Optional<String> item = Optional.empty();
             Optional<String> tag = Optional.empty();
 
-            if (objectNode.has("item")) {
-                JsonNode itemNode = objectNode.get("item");
-                if (itemNode.isTextual()) {
-                    item = Optional.of(itemNode.textValue());
+            if (objectNode.has("items")) {
+                JsonNode itemsNode = objectNode.get("items");
+                if (itemsNode.isArray()) {
+                    ArrayNode arrayNode = objectNode.withArray("items");
+                    if (arrayNode.size() == 1) {
+                        JsonNode itemNode = arrayNode.get(0);
+                        if (itemNode.isTextual()) {
+                            item = Optional.of(itemNode.textValue());
+                        } else {
+                            throw new JsonMappingException(null, "Cannot create Item, 'item' property is not textual.");
+                        }
+                    } else {
+                        throw new JsonMappingException(null, "Cannot create Item, 'items' property does not have single item.");
+                    }
                 } else {
-                    throw new JsonMappingException(null, "Cannot create Item, 'item' property is not text.");
+                    throw new JsonMappingException(null, "Cannot create Item, 'items' property is not an array.");
                 }
             }
 
@@ -51,6 +62,8 @@ public class Item {
     public Item(
         Optional<String> item,
         Optional<String> tag) {
+        System.out.println(item);
+        System.out.println(tag);
         Preconditions.checkArgument(
             (item.isPresent() && !tag.isPresent()) || (!item.isPresent() && tag.isPresent()),
             "Either item or tag must be specified, but not both."
