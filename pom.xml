@@ -195,7 +195,7 @@
     
     <modules>
         <module>block-data</module>
-        <!--<module>data-pack</module>-->
+        <module>data-pack</module>
         <module>mojang-vanilla-server-data</module>
     </modules>
 </project>
