@@ -18,8 +18,9 @@ public class ExtraMaterialTags {
 
     public static final Tag<Material> WOODS = new MaterialSetTag(keyFor("woods"))
         .endsWith("_WOOD")
+        .endsWith("_HYPHAE")
         .notStartsWith("STRIPPED_")
-        .ensureSize("WOODS", 6);
+        .ensureSize("WOODS", 9);
 
     public static final Tag<Material> AIR_VARIANTS = new MaterialSetTag(keyFor("air_variants"))
         .endsWith("_AIR")
