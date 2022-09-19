@@ -10,9 +10,14 @@ import com.google.common.collect.ImmutableMap;
 import net.glowstone.block.data.states.reports.ComparableStateReport;
 import net.glowstone.block.data.states.reports.StateReport;
 import net.glowstone.block.data.states.values.StateValue;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SoundGroup;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockSupport;
 import org.bukkit.block.data.BlockData;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     protected final Material material;
@@ -130,9 +135,34 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
         return Objects.hash(material, stateValues);
     }
 
+    // TODO: Needs to be implemented.
     @Override
-    public SoundGroup getSoundGroup() {
-        return null;
+    public @NotNull SoundGroup getSoundGroup() {
+        throw new UnsupportedOperationException();
+    }
+
+    // TODO: Needs to be implemented.
+    @Override
+    public boolean isRandomlyTicked() {
+        throw new UnsupportedOperationException();
+    }
+
+    // TODO: Needs to be implemented.
+    @Override
+    public boolean isSupported(@NotNull Block block) {
+        throw new UnsupportedOperationException();
+    }
+
+    // TODO: Needs to be implemented.
+    @Override
+    public boolean isSupported(@NotNull Location location) {
+        throw new UnsupportedOperationException();
+    }
+
+    // TODO: Needs to be implemented.
+    @Override
+    public boolean isFaceSturdy(@NotNull BlockFace blockFace, @NotNull BlockSupport blockSupport) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
