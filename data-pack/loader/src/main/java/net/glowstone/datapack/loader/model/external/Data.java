@@ -8,6 +8,7 @@ import net.glowstone.datapack.loader.model.external.predicate.Predicate;
 import net.glowstone.datapack.loader.model.external.recipe.Recipe;
 import net.glowstone.datapack.loader.model.external.structures.Structure;
 import net.glowstone.datapack.loader.model.external.tag.Tag;
+import net.glowstone.datapack.loader.model.external.worldgen.WorldGen;
 
 public class Data {
     private final Map<String, Advancement> advancements;
@@ -21,19 +22,21 @@ public class Data {
     private final Map<String, Tag> entityTypeTags;
     private final Map<String, Tag> fluidTags;
     private final Map<String, Tag> functionTags;
+    private final WorldGen worldGen;
 
     public Data(
-        Map<String, Advancement> advancements,
-        Map<String, Function> functions,
-        Map<String, LootTable> lootTables,
-        Map<String, Predicate> predicates,
-        Map<String, Recipe> recipes,
-        Map<String, Structure> structures,
-        Map<String, Tag> blockTags,
-        Map<String, Tag> itemTags,
-        Map<String, Tag> entityTypeTags,
-        Map<String, Tag> fluidTags,
-        Map<String, Tag> functionTags) {
+            Map<String, Advancement> advancements,
+            Map<String, Function> functions,
+            Map<String, LootTable> lootTables,
+            Map<String, Predicate> predicates,
+            Map<String, Recipe> recipes,
+            Map<String, Structure> structures,
+            Map<String, Tag> blockTags,
+            Map<String, Tag> itemTags,
+            Map<String, Tag> entityTypeTags,
+            Map<String, Tag> fluidTags,
+            Map<String, Tag> functionTags,
+            WorldGen worldGen) {
         this.advancements = advancements;
         this.functions = functions;
         this.lootTables = lootTables;
@@ -45,6 +48,7 @@ public class Data {
         this.entityTypeTags = entityTypeTags;
         this.fluidTags = fluidTags;
         this.functionTags = functionTags;
+        this.worldGen = worldGen;
     }
 
     public Map<String, Advancement> getAdvancements() {
@@ -89,5 +93,9 @@ public class Data {
 
     public Map<String, Tag> getFunctionTags() {
         return functionTags;
+    }
+
+    public WorldGen getWorldGen() {
+        return worldGen;
     }
 }

@@ -32,6 +32,7 @@
                 <version>1.5.0</version>
                 <executions>
                     <execution>
+                        <id>server</id>
                         <goals>
                             <goal>wget</goal>
                         </goals>
@@ -49,6 +50,18 @@
                             <url>https://piston-data.mojang.com/v1/objects/e00c4052dac1d59a1188b2aa9d5a87113aaf1122/server.jar</url>
                             <outputDirectory>${project.build.directory}/server</outputDirectory>
                             <outputFileName>minecraft-server-${minecraft.version}.jar</outputFileName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>biomes</id>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <url>https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/pc/${minecraft.version}/biomes.json</url>
+                            <outputDirectory>${project.build.directory}/generated-resources/${vanilla.package.namespace}/reports</outputDirectory>
+                            <outputFileName>biomes.json</outputFileName>
                         </configuration>
                     </execution>
                 </executions>
@@ -131,6 +144,10 @@
                                         <exclude name=".cache/**/*" />
                                     </fileset>
                                 </copy>
+                                <move todir="${project.build.directory}/generated-resources/${vanilla.package.namespace}/data-packs/vanilla/worldgen/biomes">
+                                    <fileset dir="${project.build.directory}/generated-resources/${vanilla.package.namespace}/reports/biomes">
+                                    </fileset>
+                                </move>
                             </target>
                         </configuration>
                     </execution>

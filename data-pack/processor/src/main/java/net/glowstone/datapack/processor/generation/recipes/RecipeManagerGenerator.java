@@ -79,7 +79,9 @@ public class RecipeManagerGenerator implements DataPackItemSourceGenerator {
             )
         );
 
-        MethodSpec defaultRecipesMethod = MethodSpec.methodBuilder("defaultRecipes")
+        MethodSpec defaultRecipesMethod = MethodSpec
+            .methodBuilder("defaultRecipes")
+            .addAnnotation(Override.class)
             .addModifiers(Modifier.PROTECTED)
             .returns(recipeListType)
             .addStatement(
