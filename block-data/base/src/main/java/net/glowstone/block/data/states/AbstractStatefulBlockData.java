@@ -1,11 +1,5 @@
 package net.glowstone.block.data.states;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableMap;
 import net.glowstone.block.data.states.reports.ComparableStateReport;
 import net.glowstone.block.data.states.reports.StateReport;
@@ -17,7 +11,14 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockSupport;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class AbstractStatefulBlockData implements StatefulBlockData {
     protected final Material material;
@@ -183,5 +184,10 @@ public abstract class AbstractStatefulBlockData implements StatefulBlockData {
             throw new IllegalStateException("State report for " + propName + " is not comparable!");
         }
         return (ComparableStateReport<T>) stateReport;
+    }
+
+    @Override
+    public boolean isPreferredTool(@NotNull ItemStack tool) {
+        throw new UnsupportedOperationException();
     }
 }

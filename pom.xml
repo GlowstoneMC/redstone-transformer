@@ -14,7 +14,7 @@
     <description>A collection of libraries to generate Bukkit implementations from vanilla server-generated files.</description>
 
     <properties>
-        <minecraft.version>1.19</minecraft.version>
+        <minecraft.version>1.19.3</minecraft.version>
         <glowkit.version>-R0.1-SNAPSHOT</glowkit.version>
         <jackson.version>2.13.3</jackson.version>
         <java.version>17</java.version>
