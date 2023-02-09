@@ -35,5 +35,5 @@ public class ExtraMaterialTags {
         .endsWith("_HEAD")
         .notEndsWith("_WALL_HEAD")
         .not(Material.PISTON_HEAD)
-        .ensureSize("HEADS", 4);
+        .ensureSize("HEADS", 5);
 }
