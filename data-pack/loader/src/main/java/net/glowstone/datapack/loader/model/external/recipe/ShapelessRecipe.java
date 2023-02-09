@@ -13,14 +13,17 @@ public class ShapelessRecipe implements GroupableRecipe {
     private final Optional<String> group;
     private final List<List<Item>> ingredients;
     private final CraftingResult result;
+    private final Optional<String> category;
 
     public ShapelessRecipe(
         @JsonProperty("group") Optional<String> group,
         @JsonProperty("ingredients") @JsonFormat(with = Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) List<List<Item>> ingredients,
-        @JsonProperty("result") CraftingResult result) {
+        @JsonProperty("result") CraftingResult result,
+        @JsonProperty("category") Optional<String> category) {
         this.group = group;
         this.ingredients = ingredients;
         this.result = result;
+        this.category = category;
     }
 
     public Optional<String> getGroup() {

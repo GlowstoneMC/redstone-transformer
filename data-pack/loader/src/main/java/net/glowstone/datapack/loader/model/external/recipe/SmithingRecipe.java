@@ -1,12 +1,8 @@
 package net.glowstone.datapack.loader.model.external.recipe;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Feature;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 import java.util.Optional;
-
 public class SmithingRecipe implements GroupableRecipe {
     public static final String TYPE_ID = "minecraft:smithing";
 
@@ -14,16 +10,19 @@ public class SmithingRecipe implements GroupableRecipe {
     private final Item base;
     private final Item addition;
     private final Item result;
+    private final Optional<String> category;
 
     public SmithingRecipe(
         @JsonProperty("group") Optional<String> group,
         @JsonProperty("base") Item base,
         @JsonProperty("addition") Item addition,
-        @JsonProperty("result") Item result) {
+        @JsonProperty("result") Item result,
+        @JsonProperty("category") Optional<String> category) {
         this.group = group;
         this.base = base;
         this.addition = addition;
         this.result = result;
+        this.category = category;
     }
 
     @Override
