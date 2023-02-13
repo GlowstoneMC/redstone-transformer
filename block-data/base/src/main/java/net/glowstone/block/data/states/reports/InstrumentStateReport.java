@@ -2,10 +2,11 @@ package net.glowstone.block.data.states.reports;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import org.bukkit.Instrument;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.bukkit.Instrument;
 
 public class InstrumentStateReport extends StateReport<Instrument> {
     private static final BiMap<String, Instrument> nameToValueMap = ImmutableBiMap.<String, Instrument>builder()
@@ -25,6 +26,13 @@ public class InstrumentStateReport extends StateReport<Instrument> {
         .put("bit", Instrument.BIT)
         .put("banjo", Instrument.BANJO)
         .put("pling", Instrument.PLING)
+        .put("wither_skeleton", Instrument.WITHER_SKELETON)
+        .put("custom_head", Instrument.CUSTOM_HEAD)
+        .put("dragon", Instrument.DRAGON)
+        .put("skeleton", Instrument.SKELETON)
+        .put("piglin", Instrument.PIGLIN)
+        .put("zombie", Instrument.ZOMBIE)
+        .put("creeper", Instrument.CREEPER)
         .build();
 
     private static Instrument parseValueImpl(String value) {

@@ -15,16 +15,20 @@ public class ShapedRecipe implements GroupableRecipe {
     private final List<String> pattern;
     private final Map<Character, List<Item>> key;
     private final CraftingResult result;
+    private final Optional<String> category;
 
     public ShapedRecipe(
         @JsonProperty("group") Optional<String> group,
         @JsonProperty("pattern") @JsonFormat(with = Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) List<String> pattern,
         @JsonProperty("key") Map<Character, List<Item>> key,
-        @JsonProperty("result") CraftingResult result) {
+        @JsonProperty("result") CraftingResult result,
+        @JsonProperty("category") Optional<String> category){
         this.group = group;
         this.pattern = pattern;
         this.key = key;
         this.result = result;
+        this.category = category;
+
     }
 
     @Override

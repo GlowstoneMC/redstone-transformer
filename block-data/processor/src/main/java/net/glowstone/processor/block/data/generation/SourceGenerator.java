@@ -4,7 +4,6 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -14,11 +13,26 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
+import net.glowstone.block.data.AbstractBlockDataManager;
+import net.glowstone.block.data.BlockDataConstructor;
+import net.glowstone.block.data.states.AbstractStatefulBlockData;
+import net.glowstone.block.data.states.reports.StateReport;
+import net.glowstone.block.data.states.values.StateValue;
+import net.glowstone.processor.block.data.ingestion.IngestionResult;
+import net.glowstone.processor.block.data.ingestion.PropInterfaceData;
+import net.glowstone.processor.block.data.ingestion.PropPolyfillData;
+import net.glowstone.processor.block.data.ingestion.PropReportMapping;
+import net.glowstone.processor.block.data.report.BlockReportManager;
+import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
+
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.Modifier;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,23 +47,6 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.Modifier;
-import javax.lang.model.type.TypeMirror;
-
-import net.glowstone.block.data.AbstractBlockDataManager;
-import net.glowstone.block.data.BlockDataConstructor;
-import net.glowstone.block.data.states.AbstractStatefulBlockData;
-import net.glowstone.block.data.states.reports.StateReport;
-import net.glowstone.block.data.states.values.StateValue;
-import net.glowstone.processor.block.data.ingestion.PropInterfaceData;
-import net.glowstone.processor.block.data.ingestion.PropPolyfillData;
-import net.glowstone.processor.block.data.ingestion.PropReportMapping;
-import net.glowstone.processor.block.data.ingestion.IngestionResult;
-import net.glowstone.processor.block.data.report.BlockReportManager;
-import org.bukkit.Material;
-import org.bukkit.block.data.BlockData;
 
 public class SourceGenerator {
     private final Filer filer;
@@ -460,7 +457,7 @@ public class SourceGenerator {
         }
     }
 
-    private static boolean canInstantiateReport(Class<? extends StateReport<?>> stateReportType, String defaultValue, String[] validValues) {
+    private static boolean canInstantiateReport(Class<? extends StateReport<?>> stateReportType, String defaultValue, String[] validValues) throws InvocationTargetException {
         Constructor<? extends StateReport<?>> constructor;
         try {
             constructor = stateReportType.getConstructor(String.class, String[].class);

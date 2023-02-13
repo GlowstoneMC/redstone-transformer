@@ -14,16 +14,19 @@ public class StonecuttingRecipe implements GroupableRecipe {
     private final List<Item> ingredient;
     private final String result;
     private final int count;
+    private Optional<String> category;
 
     public StonecuttingRecipe(
         @JsonProperty("group") Optional<String> group,
         @JsonProperty("ingredient") @JsonFormat(with = Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) List<Item> ingredient,
         @JsonProperty("result") String result,
-        @JsonProperty("count") int count) {
+        @JsonProperty("count") int count,
+        @JsonProperty("category") Optional<String> category) {
         this.group = group;
         this.ingredient = ingredient;
         this.result = result;
         this.count = count;
+        this.category = category;
     }
 
     @Override

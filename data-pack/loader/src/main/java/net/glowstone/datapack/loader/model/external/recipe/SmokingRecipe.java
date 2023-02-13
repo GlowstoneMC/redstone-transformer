@@ -15,18 +15,21 @@ public class SmokingRecipe implements CookingRecipe {
     private final String result;
     private final double experience;
     private final int cookingTime;
+    private final Optional<String> category;
 
     public SmokingRecipe(
         @JsonProperty("group") Optional<String> group,
         @JsonProperty("ingredient") @JsonFormat(with = Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) List<Item> ingredient,
         @JsonProperty("result") String result,
         @JsonProperty("experience") double experience,
-        @JsonProperty("cookingtime") int cookingTime) {
+        @JsonProperty("cookingtime") int cookingTime,
+        @JsonProperty("category") Optional<String> category) {
         this.group = group;
         this.ingredient = ingredient;
         this.result = result;
         this.experience = experience;
         this.cookingTime = cookingTime;
+        this.category = category;
     }
 
     @Override

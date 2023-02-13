@@ -8,6 +8,7 @@ import net.glowstone.processor.block.data.annotations.PropertyAssociation;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.block.data.type.NoteBlock;
+import org.jetbrains.annotations.NotNull;
 
 @AssociatedWithProps(
     props = {
@@ -31,22 +32,23 @@ public interface GlowNoteBlock extends StatefulBlockData, NoteBlock {
     }
 
     @Override
-    default Instrument getInstrument() {
+    default @NotNull Instrument getInstrument() {
         return getValue(Constants.INSTRUMENT_PROP_NAME, Constants.INSTRUMENT_STATE_TYPE);
     }
 
     @Override
-    default void setInstrument(Instrument instrument) {
+    default void setInstrument(@NotNull Instrument instrument) {
         setValue(Constants.INSTRUMENT_PROP_NAME, Constants.INSTRUMENT_STATE_TYPE, instrument);
     }
 
     @Override
-    default Note getNote() {
+    default @NotNull Note getNote() {
         return getValue(Constants.NOTE_PROP_NAME, Constants.NOTE_STATE_TYPE);
     }
 
     @Override
-    default void setNote(Note note) {
+    default void setNote(@NotNull Note note) {
         setValue(Constants.NOTE_PROP_NAME, Constants.NOTE_STATE_TYPE, note);
     }
+
 }

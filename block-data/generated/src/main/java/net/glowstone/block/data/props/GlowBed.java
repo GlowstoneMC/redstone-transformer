@@ -42,4 +42,9 @@ public interface GlowBed extends StatefulBlockData, Bed {
     default boolean isOccupied() {
         return getValue(Constants.OCCUPIED_PROP_NAME, Constants.OCCUPIED_STATE_TYPE);
     }
+
+    @Override
+    default void setOccupied(boolean occupied){
+        setValue(Constants.OCCUPIED_PROP_NAME, Constants.OCCUPIED_STATE_TYPE, occupied);
+    }
 }

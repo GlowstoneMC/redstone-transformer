@@ -46,7 +46,7 @@
                                 2. Within the specific version's manifest JSON, copy the URL from downloads.server.url
                                    and use that as the URL below.
                             -->
-                            <url>https://piston-data.mojang.com/v1/objects/e00c4052dac1d59a1188b2aa9d5a87113aaf1122/server.jar</url>
+                            <url>https://piston-data.mojang.com/v1/objects/c9df48efed58511cdd0213c56b9013a7b5c9ac1f/server.jar</url>
                             <outputDirectory>${project.build.directory}/server</outputDirectory>
                             <outputFileName>minecraft-server-${minecraft.version}.jar</outputFileName>
                         </configuration>
